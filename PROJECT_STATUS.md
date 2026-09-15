@@ -1,19 +1,18 @@
 # Project Framework and Coordination Status
 
-Last framework confirmation: 2026-08-21
+Last framework confirmation: 2026-09-15
 
 ## Canonical source directory
 
-All future Agent 1 and Agent 2 work must read and update only this directory:
+The shared canonical source is:
 
 ```text
-outputs\NCKU_Open_Model_Drug_Discovery_Assistant
+https://github.com/bao-kai/ncku-drug-discovery-agent1
 ```
 
-The older copy under `work\NCKU_LLM_Drug_Discovery_Assistant` is not the
-canonical development source. Do not implement new Agent 1 or Agent 2 changes
-there.
-
+The current local checkout is `D:\NCKU_Drug_Discovery`. Source code, tests,
+and documentation must be updated through this repository. `outputs/` contains
+generated artifacts, not a second source tree. Older copies are historical only.
 ## Confirmed scope
 
 Only Agent 1 and Agent 2 are in the current project scope. Later mechanism and

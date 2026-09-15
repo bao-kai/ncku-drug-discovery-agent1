@@ -25,3 +25,7 @@ Agent1_Weekly_Progress_*/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Generated binary reports
+*.pptx
+*.docx

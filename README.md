@@ -28,6 +28,9 @@ Before changing Agent 1, read:
 - [Improvement backlog](docs/IMPROVEMENT_BACKLOG.md)
 - [Research-team decisions](docs/DECISIONS_REQUIRED.md)
 - [Acceptance criteria](docs/ACCEPTANCE_CRITERIA.md)
+- [Current problems and solutions](docs/CURRENT_PROBLEMS_AND_SOLUTIONS.md)
+- [User guide](docs/USER_GUIDE.md)
+- [Model configuration and replacement](docs/MODEL_CONFIGURATION.md)
 
 The GitHub repository is the shared canonical source. Generated files under
 `outputs/` are run artifacts and Planner diagnostics, not source code.

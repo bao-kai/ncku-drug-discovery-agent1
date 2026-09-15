@@ -1,0 +1,108 @@
+{
+  "schema_version": "2.0",
+  "manifest_id": "123e4567-e89b-12d3-a456-426614174000",
+  "original_question": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）目前有哪些已知的治療標的？",
+  "research_objective": "找出並排序 PDAC 相關治療標的，同時保留關聯證據與限制。",
+  "entities": [
+    {
+      "entity_ref": "disease_pdac",
+      "entity_type": "disease",
+      "mention": "胰臟癌",
+      "entity_id": null,
+      "canonical_name": null,
+      "resolution_status": "unresolved"
+    }
+  ],
+  "plan_steps": [
+    {
+      "step_id": "resolve_disease",
+      "operation": "resolve_disease",
+      "description": "解析疾病名稱並取得標準化 ID",
+      "depends_on": [],
+      "entity_refs": [
+        "disease_pdac"
+      ],
+      "sources": [
+        "open_targets"
+      ],
+      "outputs": [
+        "disease_id"
+      ],
+      "filters": {},
+      "ranking": null,
+      "aggregation": null,
+      "safeguards": [
+        "provenance_pagination_truncation"
+      ]
+    },
+    {
+      "step_id": "discover_targets",
+      "operation": "discover_targets",
+      "description": "從 Open Targets 取得 PDAC 相關治療標的",
+      "depends_on": [
+        "resolve_disease"
+      ],
+      "entity_refs": [
+        "disease_pdac"
+      ],
+      "sources": [
+        "open_targets"
+      ],
+      "outputs": [
+        "target_list"
+      ],
+      "filters": {
+        "disease_id": "EFO_0004812"
+      },
+      "ranking": {
+        "overall_association_score": "desc"
+      },
+      "aggregation": null,
+      "safeguards": [
+        "association_score_not_probability",
+        "provenance_pagination_truncation"
+      ]
+    },
+    {
+      "step_id": "rank_targets",
+      "operation": "rank_targets",
+      "description": "根據關聯強度排序治療標的",
+      "depends_on": [
+        "discover_targets"
+      ],
+      "entity_refs": [
+        "disease_pdac"
+      ],
+      "sources": [],
+      "outputs": [
+        "ranked_target_list"
+      ],
+      "filters": {},
+      "ranking": {
+        "overall_association_score": "desc"
+      },
+      "aggregation": null,
+      "safeguards": [
+        "provenance_pagination_truncation"
+      ]
+    }
+  ],
+  "evidence_requirements": [
+    "disease_target_association",
+    "target_tractability"
+  ],
+  "completion_criteria": [
+    "至少取得 5 個 PDAC 治療標的",
+    "每個標的包含關聯分數與證據來源"
+  ],
+  "global_safeguards": [
+    "association_score_not_probability",
+    "provenance_pagination_truncation"
+  ],
+  "characteristics": {
+    "primary": "single_hop",
+    "secondary": []
+  },
+  "created_before_retrieval": true,
+  "generated_at": "2026-08-21T14:50:29.212878Z"
+}

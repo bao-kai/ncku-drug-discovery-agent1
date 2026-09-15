@@ -1,0 +1,930 @@
+{
+  "schema_version": "1.0",
+  "question": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）目前有哪些已知的治療標的？",
+  "acceptance_case_id": "pdac_known_targets",
+  "blind_first_attempt": true,
+  "status": "failed",
+  "final_plan": null,
+  "attempts": [
+    {
+      "attempt": 1,
+      "started_at": "2026-08-29T13:19:53.642917Z",
+      "duration_seconds": 390.0941176000051,
+      "schema_valid": true,
+      "semantic_acceptance": {
+        "case_id": "pdac_known_targets",
+        "passed": false,
+        "missing_entities": [],
+        "missing_capabilities": [
+          "rank_targets"
+        ],
+        "missing_operations": [
+          "rank_targets"
+        ],
+        "missing_dependencies": [
+          "discover_targets->rank_targets"
+        ],
+        "missing_sources": [],
+        "missing_safeguards": [
+          "association_score_not_probability",
+          "provenance_pagination_truncation"
+        ],
+        "missing_filters": [],
+        "missing_ranking": [
+          "overall_association_score"
+        ],
+        "missing_aggregation": [],
+        "forbidden_findings": [],
+        "optional_capabilities_present": [],
+        "accepted_capabilities": [
+          "discover_targets",
+          "resolve_disease"
+        ],
+        "actual_operations": [
+          "discover_targets_per_disease",
+          "resolve_disease"
+        ],
+        "unrecognized_operations": []
+      },
+      "candidate_plan": {
+        "schema_version": "2.0",
+        "manifest_id": "200681ac-6eb1-4ffb-a64d-2558eadfbb3a",
+        "original_question": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）目前有哪些已知的治療標的？",
+        "research_objective": "識別與胰臟癌（PDAC）相關的已知治療標的",
+        "entities": [
+          {
+            "entity_ref": "pdac_disease",
+            "entity_type": "disease",
+            "mention": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）",
+            "entity_id": null,
+            "canonical_name": null,
+            "resolution_status": "unresolved"
+          }
+        ],
+        "plan_steps": [
+          {
+            "step_id": "resolve_pdac_disease",
+            "operation": "resolve_disease",
+            "description": "解析「胰臟癌（pancreatic ductal adenocarcinoma, PDAC）」的標準化疾病名稱與識別碼",
+            "depends_on": [],
+            "entity_refs": [
+              "pdac_disease"
+            ],
+            "sources": [
+              "open_targets"
+            ],
+            "outputs": [
+              "resolved_disease_id",
+              "canonical_disease_name"
+            ],
+            "filters": {},
+            "ranking": null,
+            "aggregation": null,
+            "safeguards": [
+              "handle_no_resolution",
+              "capture_resolution_time"
+            ]
+          },
+          {
+            "step_id": "discover_pdac_targets",
+            "operation": "discover_targets_per_disease",
+            "description": "基於解析後的疾病識別碼，發現與胰臟癌相關的治療標的",
+            "depends_on": [
+              "resolve_pdac_disease"
+            ],
+            "entity_refs": [
+              "pdac_disease"
+            ],
+            "sources": [
+              "open_targets",
+              "chembl"
+            ],
+            "outputs": [
+              "target_list",
+              "target_evidence"
+            ],
+            "filters": {
+              "disease_id": "resolved_disease_id"
+            },
+            "ranking": null,
+            "aggregation": null,
+            "safeguards": [
+              "handle_empty_target_list",
+              "capture_evidence_sources"
+            ]
+          }
+        ],
+        "evidence_requirements": [
+          "disease_target_associations",
+          "target_tractability"
+        ],
+        "completion_criteria": [
+          "resolved_disease_id_available",
+          "target_list_generated"
+        ],
+        "global_safeguards": [
+          "preserve_unresolved_evidence",
+          "log_retrieval_success_failure"
+        ],
+        "characteristics": {
+          "primary": "single_hop",
+          "secondary": []
+        },
+        "created_before_retrieval": true,
+        "generated_at": "2026-08-29T13:26:23.736804Z"
+      },
+      "raw_candidate_payload": {
+        "schema_version": "2.0",
+        "manifest_id": "200681ac-6eb1-4ffb-a64d-2558eadfbb3a",
+        "original_question": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）目前有哪些已知的治療標的？",
+        "research_objective": "識別與胰臟癌（PDAC）相關的已知治療標的",
+        "entities": [
+          {
+            "entity_ref": "pdac_disease",
+            "entity_type": "disease",
+            "mention": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）",
+            "entity_id": null,
+            "canonical_name": null,
+            "resolution_status": "unresolved"
+          }
+        ],
+        "plan_steps": [
+          {
+            "step_id": "resolve_pdac_disease",
+            "operation": "resolve_disease",
+            "description": "解析「胰臟癌（pancreatic ductal adenocarcinoma, PDAC）」的標準化疾病名稱與識別碼",
+            "depends_on": [],
+            "entity_refs": [
+              "pdac_disease"
+            ],
+            "sources": [
+              "open_targets"
+            ],
+            "outputs": [
+              "resolved_disease_id",
+              "canonical_disease_name"
+            ],
+            "filters": {},
+            "ranking": null,
+            "aggregation": null,
+            "safeguards": [
+              "handle_no_resolution",
+              "capture_resolution_time"
+            ]
+          },
+          {
+            "step_id": "discover_pdac_targets",
+            "operation": "discover_targets_per_disease",
+            "description": "基於解析後的疾病識別碼，發現與胰臟癌相關的治療標的",
+            "depends_on": [
+              "resolve_pdac_disease"
+            ],
+            "entity_refs": [
+              "pdac_disease"
+            ],
+            "sources": [
+              "open_targets",
+              "chembl"
+            ],
+            "outputs": [
+              "target_list",
+              "target_evidence"
+            ],
+            "filters": {
+              "disease_id": "resolved_disease_id"
+            },
+            "ranking": null,
+            "aggregation": null,
+            "safeguards": [
+              "handle_empty_target_list",
+              "capture_evidence_sources"
+            ]
+          }
+        ],
+        "evidence_requirements": [
+          "disease_target_associations",
+          "target_tractability"
+        ],
+        "completion_criteria": [
+          "resolved_disease_id_available",
+          "target_list_generated"
+        ],
+        "global_safeguards": [
+          "preserve_unresolved_evidence",
+          "log_retrieval_success_failure"
+        ],
+        "characteristics": {
+          "primary": "single_hop",
+          "secondary": []
+        },
+        "created_before_retrieval": true,
+        "generated_at": "2023-11-05T14:30:00Z"
+      },
+      "repair_feedback_sent_next": {
+        "missing": [
+          {
+            "area": "research_capability",
+            "problem": "缺少必要項目：rank_targets",
+            "required_correction": "補上 rank_targets 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "dependency",
+            "problem": "缺少必要項目：discover_targets->rank_targets",
+            "required_correction": "補上 discover_targets->rank_targets 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "safeguard",
+            "problem": "缺少必要項目：association_score_not_probability",
+            "required_correction": "補上 association_score_not_probability 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "safeguard",
+            "problem": "缺少必要項目：provenance_pagination_truncation",
+            "required_correction": "補上 provenance_pagination_truncation 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "ranking",
+            "problem": "缺少必要項目：overall_association_score",
+            "required_correction": "補上 overall_association_score 的研究語意並保持整體 Plan 一致。"
+          }
+        ],
+        "incorrect": [],
+        "preserve": [
+          {
+            "area": "accepted_capability",
+            "item": "discover_targets",
+            "instruction": "此能力已通過；修復其他缺項時不得刪除或改壞。"
+          },
+          {
+            "area": "accepted_capability",
+            "item": "resolve_disease",
+            "instruction": "此能力已通過；修復其他缺項時不得刪除或改壞。"
+          }
+        ]
+      },
+      "errors": [
+        "plan failed hidden semantic acceptance"
+      ],
+      "corrected_model_claims": [],
+      "regressed_components": [],
+      "input_tokens": null,
+      "output_tokens": null,
+      "total_tokens": null,
+      "model_total_duration_ns": null,
+      "model_eval_duration_ns": null,
+      "model_eval_count": null,
+      "evidence_collection_started": false,
+      "executed_retrieval_tools": []
+    },
+    {
+      "attempt": 2,
+      "started_at": "2026-08-29T13:26:23.744448Z",
+      "duration_seconds": 156.97338459998718,
+      "schema_valid": true,
+      "semantic_acceptance": {
+        "case_id": "pdac_known_targets",
+        "passed": false,
+        "missing_entities": [],
+        "missing_capabilities": [],
+        "missing_operations": [],
+        "missing_dependencies": [],
+        "missing_sources": [],
+        "missing_safeguards": [],
+        "missing_filters": [],
+        "missing_ranking": [
+          "overall_association_score"
+        ],
+        "missing_aggregation": [],
+        "forbidden_findings": [],
+        "optional_capabilities_present": [],
+        "accepted_capabilities": [
+          "discover_targets",
+          "rank_targets",
+          "resolve_disease"
+        ],
+        "actual_operations": [
+          "discover_targets_per_disease",
+          "rank_targets",
+          "resolve_disease"
+        ],
+        "unrecognized_operations": []
+      },
+      "candidate_plan": {
+        "schema_version": "2.0",
+        "manifest_id": "bce8d074-0d2f-4261-a770-542b48fe5d33",
+        "original_question": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）目前有哪些已知的治療標的？",
+        "research_objective": "識別與胰臟癌（PDAC）相關的已知治療標的",
+        "entities": [
+          {
+            "entity_ref": "pdac_disease",
+            "entity_type": "disease",
+            "mention": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）",
+            "entity_id": null,
+            "canonical_name": null,
+            "resolution_status": "unresolved"
+          }
+        ],
+        "plan_steps": [
+          {
+            "step_id": "resolve_pdac_disease",
+            "operation": "resolve_disease",
+            "description": "解析「胰臟癌（pancreatic ductal adenocarcinoma, PDAC）」的標準化疾病名稱與識別碼",
+            "depends_on": [],
+            "entity_refs": [
+              "pdac_disease"
+            ],
+            "sources": [
+              "open_targets"
+            ],
+            "outputs": [
+              "resolved_disease_id",
+              "canonical_disease_name"
+            ],
+            "filters": {},
+            "ranking": null,
+            "aggregation": null,
+            "safeguards": [
+              "handle_no_resolution",
+              "capture_resolution_time"
+            ]
+          },
+          {
+            "step_id": "discover_pdac_targets",
+            "operation": "discover_targets_per_disease",
+            "description": "基於解析後的疾病識別碼，發現與胰臟癌相關的治療標的",
+            "depends_on": [
+              "resolve_pdac_disease"
+            ],
+            "entity_refs": [
+              "pdac_disease"
+            ],
+            "sources": [
+              "open_targets",
+              "chembl"
+            ],
+            "outputs": [
+              "target_list",
+              "target_evidence"
+            ],
+            "filters": {
+              "disease_id": "resolved_disease_id"
+            },
+            "ranking": null,
+            "aggregation": null,
+            "safeguards": [
+              "handle_empty_target_list",
+              "capture_evidence_sources"
+            ]
+          },
+          {
+            "step_id": "rank_pdac_targets",
+            "operation": "rank_targets",
+            "description": "根據關聯證據強度與可開發性指標，對發現的治療標的進行排序",
+            "depends_on": [
+              "discover_pdac_targets"
+            ],
+            "entity_refs": [
+              "pdac_disease"
+            ],
+            "sources": [
+              "open_targets",
+              "chembl"
+            ],
+            "outputs": [
+              "ranked_target_list",
+              "association_scores"
+            ],
+            "filters": {
+              "disease_id": "resolved_disease_id"
+            },
+            "ranking": {
+              "criteria": [
+                "overall_association_score",
+                "tractability"
+              ]
+            },
+            "aggregation": null,
+            "safeguards": [
+              "association_score_not_probability",
+              "provenance_pagination_truncation"
+            ]
+          }
+        ],
+        "evidence_requirements": [
+          "disease_target_associations",
+          "target_tractability",
+          "association_evidence_strength"
+        ],
+        "completion_criteria": [
+          "resolved_disease_id_available",
+          "target_list_generated",
+          "ranked_target_list_ready"
+        ],
+        "global_safeguards": [
+          "preserve_unresolved_evidence",
+          "log_retrieval_success_failure",
+          "association_score_not_probability",
+          "provenance_pagination_truncation"
+        ],
+        "characteristics": {
+          "primary": "single_hop",
+          "secondary": []
+        },
+        "created_before_retrieval": true,
+        "generated_at": "2026-08-29T13:29:00.718253Z"
+      },
+      "raw_candidate_payload": {
+        "schema_version": "2.0",
+        "manifest_id": "bce8d074-0d2f-4261-a770-542b48fe5d33",
+        "original_question": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）目前有哪些已知的治療標的？",
+        "research_objective": "識別與胰臟癌（PDAC）相關的已知治療標的",
+        "entities": [
+          {
+            "entity_ref": "pdac_disease",
+            "entity_type": "disease",
+            "mention": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）",
+            "entity_id": null,
+            "canonical_name": null,
+            "resolution_status": "unresolved"
+          }
+        ],
+        "plan_steps": [
+          {
+            "step_id": "resolve_pdac_disease",
+            "operation": "resolve_disease",
+            "description": "解析「胰臟癌（pancreatic ductal adenocarcinoma, PDAC）」的標準化疾病名稱與識別碼",
+            "depends_on": [],
+            "entity_refs": [
+              "pdac_disease"
+            ],
+            "sources": [
+              "open_targets"
+            ],
+            "outputs": [
+              "resolved_disease_id",
+              "canonical_disease_name"
+            ],
+            "filters": {},
+            "ranking": null,
+            "aggregation": null,
+            "safeguards": [
+              "handle_no_resolution",
+              "capture_resolution_time"
+            ]
+          },
+          {
+            "step_id": "discover_pdac_targets",
+            "operation": "discover_targets_per_disease",
+            "description": "基於解析後的疾病識別碼，發現與胰臟癌相關的治療標的",
+            "depends_on": [
+              "resolve_pdac_disease"
+            ],
+            "entity_refs": [
+              "pdac_disease"
+            ],
+            "sources": [
+              "open_targets",
+              "chembl"
+            ],
+            "outputs": [
+              "target_list",
+              "target_evidence"
+            ],
+            "filters": {
+              "disease_id": "resolved_disease_id"
+            },
+            "ranking": null,
+            "aggregation": null,
+            "safeguards": [
+              "handle_empty_target_list",
+              "capture_evidence_sources"
+            ]
+          },
+          {
+            "step_id": "rank_pdac_targets",
+            "operation": "rank_targets",
+            "description": "根據關聯證據強度與可開發性指標，對發現的治療標的進行排序",
+            "depends_on": [
+              "discover_pdac_targets"
+            ],
+            "entity_refs": [
+              "pdac_disease"
+            ],
+            "sources": [
+              "open_targets",
+              "chembl"
+            ],
+            "outputs": [
+              "ranked_target_list",
+              "association_scores"
+            ],
+            "filters": {
+              "disease_id": "resolved_disease_id"
+            },
+            "ranking": {
+              "criteria": [
+                "overall_association_score",
+                "tractability"
+              ]
+            },
+            "aggregation": null,
+            "safeguards": [
+              "association_score_not_probability",
+              "provenance_pagination_truncation"
+            ]
+          }
+        ],
+        "evidence_requirements": [
+          "disease_target_associations",
+          "target_tractability",
+          "association_evidence_strength"
+        ],
+        "completion_criteria": [
+          "resolved_disease_id_available",
+          "target_list_generated",
+          "ranked_target_list_ready"
+        ],
+        "global_safeguards": [
+          "preserve_unresolved_evidence",
+          "log_retrieval_success_failure",
+          "association_score_not_probability",
+          "provenance_pagination_truncation"
+        ],
+        "characteristics": {
+          "primary": "single_hop",
+          "secondary": []
+        },
+        "created_before_retrieval": true,
+        "generated_at": "2026-08-29T13:26:23.736804Z"
+      },
+      "repair_feedback_sent_next": {
+        "missing": [
+          {
+            "area": "ranking",
+            "problem": "缺少必要項目：overall_association_score",
+            "required_correction": "補上 overall_association_score 的研究語意並保持整體 Plan 一致。"
+          }
+        ],
+        "incorrect": [],
+        "preserve": [
+          {
+            "area": "accepted_capability",
+            "item": "discover_targets",
+            "instruction": "此能力已通過；修復其他缺項時不得刪除或改壞。"
+          },
+          {
+            "area": "accepted_capability",
+            "item": "rank_targets",
+            "instruction": "此能力已通過；修復其他缺項時不得刪除或改壞。"
+          },
+          {
+            "area": "accepted_capability",
+            "item": "resolve_disease",
+            "instruction": "此能力已通過；修復其他缺項時不得刪除或改壞。"
+          }
+        ]
+      },
+      "errors": [
+        "plan failed hidden semantic acceptance"
+      ],
+      "corrected_model_claims": [],
+      "regressed_components": [],
+      "input_tokens": null,
+      "output_tokens": null,
+      "total_tokens": null,
+      "model_total_duration_ns": null,
+      "model_eval_duration_ns": null,
+      "model_eval_count": null,
+      "evidence_collection_started": false,
+      "executed_retrieval_tools": []
+    },
+    {
+      "attempt": 3,
+      "started_at": "2026-08-29T13:29:00.719306Z",
+      "duration_seconds": 154.12440939998487,
+      "schema_valid": true,
+      "semantic_acceptance": {
+        "case_id": "pdac_known_targets",
+        "passed": false,
+        "missing_entities": [],
+        "missing_capabilities": [],
+        "missing_operations": [],
+        "missing_dependencies": [],
+        "missing_sources": [],
+        "missing_safeguards": [],
+        "missing_filters": [],
+        "missing_ranking": [
+          "overall_association_score"
+        ],
+        "missing_aggregation": [],
+        "forbidden_findings": [],
+        "optional_capabilities_present": [],
+        "accepted_capabilities": [
+          "discover_targets",
+          "rank_targets",
+          "resolve_disease"
+        ],
+        "actual_operations": [
+          "discover_targets_per_disease",
+          "rank_targets",
+          "resolve_disease"
+        ],
+        "unrecognized_operations": []
+      },
+      "candidate_plan": {
+        "schema_version": "2.0",
+        "manifest_id": "bce8d074-0d2f-4261-a770-542b48fe5d33",
+        "original_question": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）目前有哪些已知的治療標的？",
+        "research_objective": "識別與胰臟癌（PDAC）相關的已知治療標的",
+        "entities": [
+          {
+            "entity_ref": "pdac_disease",
+            "entity_type": "disease",
+            "mention": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）",
+            "entity_id": null,
+            "canonical_name": null,
+            "resolution_status": "unresolved"
+          }
+        ],
+        "plan_steps": [
+          {
+            "step_id": "resolve_pdac_disease",
+            "operation": "resolve_disease",
+            "description": "解析「胰臟癌（pancreatic ductal adenocarcinoma, PDAC）」的標準化疾病名稱與識別碼",
+            "depends_on": [],
+            "entity_refs": [
+              "pdac_disease"
+            ],
+            "sources": [
+              "open_targets"
+            ],
+            "outputs": [
+              "resolved_disease_id",
+              "canonical_disease_name"
+            ],
+            "filters": {},
+            "ranking": null,
+            "aggregation": null,
+            "safeguards": [
+              "handle_no_resolution",
+              "capture_resolution_time"
+            ]
+          },
+          {
+            "step_id": "discover_pdac_targets",
+            "operation": "discover_targets_per_disease",
+            "description": "基於解析後的疾病識別碼，發現與胰臟癌相關的治療標的",
+            "depends_on": [
+              "resolve_pdac_disease"
+            ],
+            "entity_refs": [
+              "pdac_disease"
+            ],
+            "sources": [
+              "open_targets",
+              "chembl"
+            ],
+            "outputs": [
+              "target_list",
+              "target_evidence"
+            ],
+            "filters": {
+              "disease_id": "resolved_disease_id"
+            },
+            "ranking": null,
+            "aggregation": null,
+            "safeguards": [
+              "handle_empty_target_list",
+              "capture_evidence_sources"
+            ]
+          },
+          {
+            "step_id": "rank_pdac_targets",
+            "operation": "rank_targets",
+            "description": "根據關聯證據強度（overall_association_score）與可開發性指標（tractability），對發現的治療標的進行排序",
+            "depends_on": [
+              "discover_pdac_targets"
+            ],
+            "entity_refs": [
+              "pdac_disease"
+            ],
+            "sources": [
+              "open_targets",
+              "chembl"
+            ],
+            "outputs": [
+              "ranked_target_list",
+              "association_scores"
+            ],
+            "filters": {
+              "disease_id": "resolved_disease_id"
+            },
+            "ranking": {
+              "criteria": [
+                "overall_association_score",
+                "tractability"
+              ]
+            },
+            "aggregation": null,
+            "safeguards": [
+              "association_score_not_probability",
+              "provenance_pagination_truncation"
+            ]
+          }
+        ],
+        "evidence_requirements": [
+          "disease_target_associations",
+          "target_tractability",
+          "association_evidence_strength"
+        ],
+        "completion_criteria": [
+          "resolved_disease_id_available",
+          "target_list_generated",
+          "ranked_target_list_ready"
+        ],
+        "global_safeguards": [
+          "preserve_unresolved_evidence",
+          "log_retrieval_success_failure",
+          "association_score_not_probability",
+          "provenance_pagination_truncation"
+        ],
+        "characteristics": {
+          "primary": "single_hop",
+          "secondary": []
+        },
+        "created_before_retrieval": true,
+        "generated_at": "2026-08-29T13:31:34.843353Z"
+      },
+      "raw_candidate_payload": {
+        "schema_version": "2.0",
+        "manifest_id": "bce8d074-0d2f-4261-a770-542b48fe5d33",
+        "original_question": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）目前有哪些已知的治療標的？",
+        "research_objective": "識別與胰臟癌（PDAC）相關的已知治療標的",
+        "entities": [
+          {
+            "entity_ref": "pdac_disease",
+            "entity_type": "disease",
+            "mention": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）",
+            "entity_id": null,
+            "canonical_name": null,
+            "resolution_status": "unresolved"
+          }
+        ],
+        "plan_steps": [
+          {
+            "step_id": "resolve_pdac_disease",
+            "operation": "resolve_disease",
+            "description": "解析「胰臟癌（pancreatic ductal adenocarcinoma, PDAC）」的標準化疾病名稱與識別碼",
+            "depends_on": [],
+            "entity_refs": [
+              "pdac_disease"
+            ],
+            "sources": [
+              "open_targets"
+            ],
+            "outputs": [
+              "resolved_disease_id",
+              "canonical_disease_name"
+            ],
+            "filters": {},
+            "ranking": null,
+            "aggregation": null,
+            "safeguards": [
+              "handle_no_resolution",
+              "capture_resolution_time"
+            ]
+          },
+          {
+            "step_id": "discover_pdac_targets",
+            "operation": "discover_targets_per_disease",
+            "description": "基於解析後的疾病識別碼，發現與胰臟癌相關的治療標的",
+            "depends_on": [
+              "resolve_pdac_disease"
+            ],
+            "entity_refs": [
+              "pdac_disease"
+            ],
+            "sources": [
+              "open_targets",
+              "chembl"
+            ],
+            "outputs": [
+              "target_list",
+              "target_evidence"
+            ],
+            "filters": {
+              "disease_id": "resolved_disease_id"
+            },
+            "ranking": null,
+            "aggregation": null,
+            "safeguards": [
+              "handle_empty_target_list",
+              "capture_evidence_sources"
+            ]
+          },
+          {
+            "step_id": "rank_pdac_targets",
+            "operation": "rank_targets",
+            "description": "根據關聯證據強度（overall_association_score）與可開發性指標（tractability），對發現的治療標的進行排序",
+            "depends_on": [
+              "discover_pdac_targets"
+            ],
+            "entity_refs": [
+              "pdac_disease"
+            ],
+            "sources": [
+              "open_targets",
+              "chembl"
+            ],
+            "outputs": [
+              "ranked_target_list",
+              "association_scores"
+            ],
+            "filters": {
+              "disease_id": "resolved_disease_id"
+            },
+            "ranking": {
+              "criteria": [
+                "overall_association_score",
+                "tractability"
+              ]
+            },
+            "aggregation": null,
+            "safeguards": [
+              "association_score_not_probability",
+              "provenance_pagination_truncation"
+            ]
+          }
+        ],
+        "evidence_requirements": [
+          "disease_target_associations",
+          "target_tractability",
+          "association_evidence_strength"
+        ],
+        "completion_criteria": [
+          "resolved_disease_id_available",
+          "target_list_generated",
+          "ranked_target_list_ready"
+        ],
+        "global_safeguards": [
+          "preserve_unresolved_evidence",
+          "log_retrieval_success_failure",
+          "association_score_not_probability",
+          "provenance_pagination_truncation"
+        ],
+        "characteristics": {
+          "primary": "single_hop",
+          "secondary": []
+        },
+        "created_before_retrieval": true,
+        "generated_at": "2026-08-29T13:29:00.718253Z"
+      },
+      "repair_feedback_sent_next": {
+        "missing": [
+          {
+            "area": "ranking",
+            "problem": "缺少必要項目：overall_association_score",
+            "required_correction": "補上 overall_association_score 的研究語意並保持整體 Plan 一致。"
+          }
+        ],
+        "incorrect": [],
+        "preserve": [
+          {
+            "area": "accepted_capability",
+            "item": "discover_targets",
+            "instruction": "此能力已通過；修復其他缺項時不得刪除或改壞。"
+          },
+          {
+            "area": "accepted_capability",
+            "item": "rank_targets",
+            "instruction": "此能力已通過；修復其他缺項時不得刪除或改壞。"
+          },
+          {
+            "area": "accepted_capability",
+            "item": "resolve_disease",
+            "instruction": "此能力已通過；修復其他缺項時不得刪除或改壞。"
+          }
+        ]
+      },
+      "errors": [
+        "plan failed hidden semantic acceptance"
+      ],
+      "corrected_model_claims": [],
+      "regressed_components": [],
+      "input_tokens": null,
+      "output_tokens": null,
+      "total_tokens": null,
+      "model_total_duration_ns": null,
+      "model_eval_duration_ns": null,
+      "model_eval_count": null,
+      "evidence_collection_started": false,
+      "executed_retrieval_tools": []
+    }
+  ],
+  "first_attempt_passed": false,
+  "repair_count": 2,
+  "total_duration_seconds": 701.2019221000082,
+  "evidence_collection_started": false,
+  "executed_retrieval_tools": [],
+  "generated_at": "2026-08-29T13:31:34.844937Z"
+}

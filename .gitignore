@@ -1,0 +1,27 @@
+.env
+.venv/
+__pycache__/
+.pytest_cache/
+.pytest_full/
+.pytest_runtime/
+*.pyc
+
+# Local installers and generated build dependencies
+.installers/
+.ppt_build/
+ppt_build/
+node_modules/
+
+# Rendered and packaged deliverables are rebuilt from source
+deliverables/
+manual_render/
+Agent1_Weekly_Progress_*/
+
+# Generated presentation inspection artifacts
+*.inspect.ndjson
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

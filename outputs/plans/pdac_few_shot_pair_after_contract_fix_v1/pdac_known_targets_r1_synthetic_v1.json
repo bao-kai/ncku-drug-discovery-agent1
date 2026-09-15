@@ -1,0 +1,555 @@
+{
+  "schema_version": "1.1",
+  "question": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）目前有哪些已知的治療標的？",
+  "acceptance_case_id": "pdac_known_targets",
+  "few_shot_mode": "synthetic_v1",
+  "operation_catalog_mode": "full",
+  "blind_first_attempt": true,
+  "status": "failed",
+  "final_plan": null,
+  "attempts": [
+    {
+      "attempt": 1,
+      "started_at": "2026-09-05T16:30:28.533344Z",
+      "duration_seconds": 311.8777281999355,
+      "schema_valid": true,
+      "semantic_acceptance": {
+        "case_id": "pdac_known_targets",
+        "passed": false,
+        "missing_entities": [],
+        "missing_capabilities": [
+          "resolve_disease",
+          "retrieve_target_drugs",
+          "retrieve_tractability"
+        ],
+        "missing_operations": [
+          "resolve_disease",
+          "retrieve_target_drugs",
+          "retrieve_tractability"
+        ],
+        "missing_dependencies": [
+          "resolve_disease->discover_targets",
+          "discover_targets->retrieve_target_drugs",
+          "discover_targets->retrieve_tractability",
+          "retrieve_target_drugs->stratify_target_evidence_layers",
+          "retrieve_tractability->stratify_target_evidence_layers"
+        ],
+        "missing_sources": [],
+        "missing_safeguards": [
+          "association_does_not_imply_efficacy",
+          "tractability_not_efficacy"
+        ],
+        "missing_filters": [],
+        "missing_ranking": [
+          "overall_association_score"
+        ],
+        "missing_aggregation": [
+          "target_translation_layer"
+        ],
+        "forbidden_findings": [],
+        "optional_capabilities_present": [],
+        "accepted_capabilities": [
+          "discover_targets",
+          "rank_targets",
+          "stratify_target_evidence_layers"
+        ],
+        "actual_operations": [
+          "discover_targets_per_disease",
+          "rank_targets",
+          "resolve_diseases",
+          "stratify_target_evidence_layers"
+        ],
+        "unrecognized_operations": [],
+        "proposed_operations": []
+      },
+      "candidate_plan": {
+        "schema_version": "2.0",
+        "manifest_id": "9dbf004d-5b03-40a6-8d3a-050ad18ae561",
+        "original_question": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）目前有哪些已知的治療標的？",
+        "research_objective": "識別與胰臟癌（PDAC）相關的治療標的，並區分其證據層級與轉譯支持狀態",
+        "entities": [
+          {
+            "entity_ref": "d1",
+            "entity_type": "disease",
+            "mention": "胰臟癌",
+            "entity_id": null,
+            "canonical_name": null,
+            "resolution_status": "unresolved"
+          },
+          {
+            "entity_ref": "d2",
+            "entity_type": "disease",
+            "mention": "pancreatic ductal adenocarcinoma",
+            "entity_id": null,
+            "canonical_name": null,
+            "resolution_status": "unresolved"
+          }
+        ],
+        "plan_steps": [
+          {
+            "step_id": "s1",
+            "operation": "resolve_diseases",
+            "operation_status": "approved",
+            "proposed_operation_name": null,
+            "proposal_reason": null,
+            "description": "解析疾病名稱為標準實體，保留歧義與未解析狀態",
+            "depends_on": [],
+            "entity_refs": [
+              "d1",
+              "d2"
+            ],
+            "sources": [
+              "open_targets"
+            ],
+            "outputs": [
+              "resolved_disease_ids"
+            ],
+            "filters": {},
+            "ranking": null,
+            "aggregation": null,
+            "safeguards": [
+              "provenance_pagination_truncation"
+            ]
+          },
+          {
+            "step_id": "s2",
+            "operation": "discover_targets_per_disease",
+            "operation_status": "approved",
+            "proposed_operation_name": null,
+            "proposal_reason": null,
+            "description": "取得與解析後疾病 ID 相關的治療標的與證據層級",
+            "depends_on": [
+              "s1"
+            ],
+            "entity_refs": [
+              "d1",
+              "d2"
+            ],
+            "sources": [
+              "open_targets"
+            ],
+            "outputs": [
+              "disease_target_pairs"
+            ],
+            "filters": {
+              "evidence_type": "therapeutic_target"
+            },
+            "ranking": null,
+            "aggregation": null,
+            "safeguards": []
+          },
+          {
+            "step_id": "s3",
+            "operation": "stratify_target_evidence_layers",
+            "operation_status": "approved",
+            "proposed_operation_name": null,
+            "proposal_reason": null,
+            "description": "分層輸出具有疾病關聯證據與轉譯支持（如已知藥物作用）的標的",
+            "depends_on": [
+              "s2"
+            ],
+            "entity_refs": [],
+            "sources": [
+              "chembl",
+              "clinicaltrials_gov"
+            ],
+            "outputs": [
+              "stratified_targets"
+            ],
+            "filters": {},
+            "ranking": null,
+            "aggregation": {
+              "evidence_layer_comparison": "preserve_evidence_stratification"
+            },
+            "safeguards": []
+          },
+          {
+            "step_id": "s4",
+            "operation": "rank_targets",
+            "operation_status": "approved",
+            "proposed_operation_name": null,
+            "proposal_reason": null,
+            "description": "依證據強度與轉譯支持程度排序標的",
+            "depends_on": [
+              "s3"
+            ],
+            "entity_refs": [],
+            "sources": [],
+            "outputs": [
+              "ranked_targets"
+            ],
+            "filters": {},
+            "ranking": {
+              "primary_metric": "evidence_layer_strength",
+              "direction": "descending",
+              "secondary_metrics": [
+                "drug_approval_status"
+              ]
+            },
+            "aggregation": null,
+            "safeguards": []
+          }
+        ],
+        "evidence_requirements": [
+          "保留每個標的的證據來源、查詢日期與資料缺口狀態"
+        ],
+        "completion_criteria": [
+          "完成疾病解析與標的發現；未解析或缺資料時明列限制，不捏造結論"
+        ],
+        "global_safeguards": [
+          "provenance_pagination_truncation",
+          "missing_not_negative",
+          "association_score_not_probability",
+          "evidence_layer_stratification_preserved"
+        ],
+        "characteristics": {
+          "primary": "multi_hop",
+          "secondary": [
+            "evidence_directed",
+            "filter_and_rank"
+          ]
+        },
+        "created_before_retrieval": true,
+        "generated_at": "2026-09-05T16:35:40.410443Z"
+      },
+      "raw_candidate_payload": {
+        "schema_version": "2.0",
+        "manifest_id": "9dbf004d-5b03-40a6-8d3a-050ad18ae561",
+        "original_question": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）目前有哪些已知的治療標的？",
+        "research_objective": "識別與胰臟癌（PDAC）相關的治療標的，並區分其證據層級與轉譯支持狀態",
+        "entities": [
+          {
+            "entity_ref": "d1",
+            "entity_type": "disease",
+            "mention": "胰臟癌",
+            "entity_id": null,
+            "canonical_name": null,
+            "resolution_status": "unresolved"
+          },
+          {
+            "entity_ref": "d2",
+            "entity_type": "disease",
+            "mention": "pancreatic ductal adenocarcinoma",
+            "entity_id": null,
+            "canonical_name": null,
+            "resolution_status": "unresolved"
+          }
+        ],
+        "plan_steps": [
+          {
+            "step_id": "s1",
+            "operation": "resolve_diseases",
+            "operation_status": "approved",
+            "proposed_operation_name": null,
+            "proposal_reason": null,
+            "description": "解析疾病名稱為標準實體，保留歧義與未解析狀態",
+            "depends_on": [],
+            "entity_refs": [
+              "d1",
+              "d2"
+            ],
+            "sources": [
+              "open_targets"
+            ],
+            "outputs": [
+              "resolved_disease_ids"
+            ],
+            "filters": {},
+            "ranking": null,
+            "aggregation": null,
+            "safeguards": [
+              "provenance_pagination_truncation"
+            ]
+          },
+          {
+            "step_id": "s2",
+            "operation": "discover_targets_per_disease",
+            "operation_status": "approved",
+            "proposed_operation_name": null,
+            "proposal_reason": null,
+            "description": "取得與解析後疾病 ID 相關的治療標的與證據層級",
+            "depends_on": [
+              "s1"
+            ],
+            "entity_refs": [
+              "d1",
+              "d2"
+            ],
+            "sources": [
+              "open_targets"
+            ],
+            "outputs": [
+              "disease_target_pairs"
+            ],
+            "filters": {
+              "evidence_type": "therapeutic_target"
+            },
+            "ranking": null,
+            "aggregation": null,
+            "safeguards": []
+          },
+          {
+            "step_id": "s3",
+            "operation": "stratify_target_evidence_layers",
+            "operation_status": "approved",
+            "proposed_operation_name": null,
+            "proposal_reason": null,
+            "description": "分層輸出具有疾病關聯證據與轉譯支持（如已知藥物作用）的標的",
+            "depends_on": [
+              "s2"
+            ],
+            "entity_refs": [],
+            "sources": [
+              "chembl",
+              "clinicaltrials_gov"
+            ],
+            "outputs": [
+              "stratified_targets"
+            ],
+            "filters": {},
+            "ranking": null,
+            "aggregation": {
+              "evidence_layer_comparison": "preserve_evidence_stratification"
+            },
+            "safeguards": []
+          },
+          {
+            "step_id": "s4",
+            "operation": "rank_targets",
+            "operation_status": "approved",
+            "proposed_operation_name": null,
+            "proposal_reason": null,
+            "description": "依證據強度與轉譯支持程度排序標的",
+            "depends_on": [
+              "s3"
+            ],
+            "entity_refs": [],
+            "sources": [],
+            "outputs": [
+              "ranked_targets"
+            ],
+            "filters": {},
+            "ranking": {
+              "primary_metric": "evidence_layer_strength",
+              "direction": "descending",
+              "secondary_metrics": [
+                "drug_approval_status"
+              ]
+            },
+            "aggregation": null,
+            "safeguards": []
+          }
+        ],
+        "evidence_requirements": [
+          "保留每個標的的證據來源、查詢日期與資料缺口狀態"
+        ],
+        "completion_criteria": [
+          "完成疾病解析與標的發現；未解析或缺資料時明列限制，不捏造結論"
+        ],
+        "global_safeguards": [
+          "provenance_pagination_truncation",
+          "missing_not_negative",
+          "association_score_not_probability",
+          "evidence_layer_stratification_preserved"
+        ],
+        "characteristics": {
+          "primary": "multi_hop",
+          "secondary": [
+            "evidence_directed",
+            "filter_and_rank"
+          ]
+        },
+        "created_before_retrieval": true,
+        "generated_at": "2026-09-05T16:35:40.408333Z"
+      },
+      "model_calls": [
+        {
+          "call_index": 1,
+          "run_id": "01a07268-3ab9-7793-8a4b-ce965187888b",
+          "parent_run_id": "01a07268-3ab7-7330-8a6a-01c480afa5a6",
+          "started_at": "2026-09-05T16:30:28.536764Z",
+          "finished_at": "2026-09-05T16:35:40.408333Z",
+          "duration_seconds": 311.871569,
+          "status": "completed",
+          "input_messages": [
+            {
+              "content": "\nYou are the Research Planner inside Agent 1. You have no tools and must never\nretrieve evidence. Convert the user's complete natural-language research\nquestion into QueryManifestV2.\n\nPlan from the requested research objective, not from a six-class classifier.\nThe characteristics field is descriptive metadata only. A question may cross\ncategories or fit them imperfectly.\n\nRequirements:\n- Preserve original_question exactly.\n- Extract every explicitly named disease, target, drug, tissue, and mechanism.\n  Do not invent identifiers. Without verified context, use resolution_status\n  'unresolved' and leave entity_id/canonical_name null.\n- Create concrete, ordered operations. Use depends_on to form a valid DAG and\n  entity_refs to show which entities each step uses.\n- `entity_refs` may contain only `entity_ref` values declared in the top-level\n  entities list. Never put a prior step's output name in entity_refs. Use\n  depends_on for step-to-step data flow and outputs only to name produced data.\n- Plan entity resolution before operations that require normalized IDs.\n- Assign only sources genuinely needed by each step: open_targets for disease,\n  target, association, tractability and integrated evidence; europe_pmc for\n  literature; clinicaltrials_gov for trials, status and posted results; chembl\n  for compounds, target mapping, assays, bioactivity and mechanisms.\n- When the user asks for therapeutic targets, do not equate every\n  disease-associated target with a therapeutic target. Plan separate evidence\n  collection for disease association and for translational support such as\n  known drug evidence or tractability, then stratify the results so those\n  evidence layers remain distinguishable.\n- Encode thresholds in filters and joins/comparisons/counts/grouping in\n  aggregation. When ordering is needed, ranking must use exactly:\n  {\"primary_metric\": \"snake_case_metric\", \"direction\": \"ascending|descending\",\n  \"secondary_metrics\": [\"optional_metric\"]}. Do not use criteria, sort,\n  sort_by, rank_by, or order_by.\n- Preserve provenance, retrieval time, pagination, truncation, and per-source\n  success/error state in safeguards.\n- Missing evidence remains unknown, not negative. Association scores are not\n  probabilities, association does not prove efficacy or indication, and\n  approval requires an explicit approval source.\n- This phase creates a plan only. Never claim evidence was retrieved or that a\n  scientific conclusion is established.\n- `characteristics` is metadata with exactly this shape:\n  {\"primary\": \"one_allowed_enum_value\", \"secondary\": [\"zero_or_more_other_allowed_values\"]}.\n  `primary` must be one of single_hop, multi_hop, evidence_directed,\n  filter_and_rank, comparison_and_aggregation, or safety_and_negative_knowledge.\n  Do not replace this shape with arbitrary boolean flags.\n- Do not generate `generated_at`; Python supplies authoritative runtime time.\n\nBefore choosing an operation, check the provided OPERATION_TABLE. If the needed\ncapability matches a canonical operation or reviewed equivalent, use the\ncanonical operation. If no equivalent exists, do not invent an approved\noperation: use operation='proposed_new_operation', operation_status='proposed',\nand provide proposed_operation_name and proposal_reason for human review.\n\nUse concise stable snake_case English operation/key/safeguard identifiers;\nnever put prose sentences in operation, key, or safeguard identifier fields.\nWrite descriptions and criteria in clear Traditional Chinese.\n",
+              "additional_kwargs": {},
+              "response_metadata": {},
+              "type": "system",
+              "name": null,
+              "id": null
+            },
+            {
+              "content": "使用者原始問題：\n胰臟癌（pancreatic ductal adenocarcinoma, PDAC）目前有哪些已知的治療標的？\n\n\nAgent 1 standard operation catalog with capability boundaries (choose only what\nthe question needs):\n- canonical=aggregate_category_distribution; equivalents=none; meaning=輸入已分類紀錄，計算各類別數量或比例；不用來建立證據層級。\n- canonical=aggregate_failed_programs; equivalents=none; meaning=依藥物計畫與終止原因彙整失敗紀錄；缺少結果不等於失敗。\n- canonical=calculate_coverage_rates; equivalents=none; meaning=使用已定義的分子與分母計算覆蓋率，不自行改變分母。\n- canonical=classify_kinase_targets; equivalents=none; meaning=將已解析標的依家族註記判定為 kinase 或非 kinase。\n- canonical=classify_mechanism_categories; equivalents=none; meaning=依預先定義規則將藥物機制或 modality 分類，組合療法須遵守多標籤政策。\n- canonical=classify_termination_reasons; equivalents=none; meaning=將明確的試驗或計畫終止原因分類為安全性、療效或其他。\n- canonical=compare_association_evidence; equivalents=none; meaning=以相同維度並列比較多個 disease-target 關聯證據，不建立未定義的綜合分數。\n- canonical=compare_disease_rates; equivalents=none; meaning=比較各疾病已計算的比率，必須使用一致分母定義。\n- canonical=compare_evidence_types; equivalents=none; meaning=比較不同證據類型的分布或貢獻，不把紀錄數直接當 datasource score。\n- canonical=compare_pdac_rank; equivalents=none; meaning=檢查 PDAC 在已排序疾病中的相對位置，不重新查詢疾病清單。\n- canonical=compare_targets; equivalents=none; meaning=依一致比較維度並列多個標的的證據，不把缺失值視為零。\n- canonical=define_coverage_denominators; equivalents=none; meaning=在計算覆蓋率前明確定義符合資格的總體、分子與分母。\n- canonical=discover_targets; equivalents=['discover_targets_per_disease', 'retrieve_disease_targets', 'search_associated_targets', 'target_retrieval']; meaning=輸入已解析疾病，取得 disease-associated targets；僅表示疾病關聯，不等同治療有效或可成藥。\n- canonical=discover_targets_per_disease; equivalents=none; meaning=對多個已解析疾病分別取得 associated targets，保留各疾病獨立結果。\n- canonical=filter_first_in_class_candidates; equivalents=none; meaning=依強證據與來源限定的無已知藥物條件篩選候選，不宣稱絕對不存在藥物。\n- canonical=filter_phase2_not_pdac_approved; equivalents=none; meaning=保留 Phase 2+ 且未在已查來源確認 PDAC 核准的藥物或標的。\n- canonical=filter_supported_without_clinical_drug; equivalents=none; meaning=保留有指定證據且在已查來源與日期未發現臨床藥物的標的。\n- canonical=filter_targets; equivalents=none; meaning=依 Plan 明列的可執行條件篩選標的；不得以含糊的『足夠證據』代替門檻。\n- canonical=integrate_safety_and_expression; equivalents=none; meaning=並列整合安全性、終止與正常組織表現，保持事實與風險推論分離。\n- canonical=intersect_targets; equivalents=none; meaning=計算各疾病 target 集合交集，保留每個 target 在各疾病的原始證據。\n- canonical=join_cross_indication_paths; equivalents=none; meaning=連接 disease-drug-target-other disease 路徑，不把關聯誤稱核准適應症。\n- canonical=join_disease_target_drug; equivalents=none; meaning=連接 disease-target 與 target-drug 邊並保留來源；不推論藥物對疾病有效。\n- canonical=normalize_comparison_dimensions; equivalents=none; meaning=在比較前統一證據類別、缺失值與分母定義。\n- canonical=rank_candidates; equivalents=none; meaning=以明列的主要與次要指標排序候選，ranking 必須使用固定 schema。\n- canonical=rank_datasource_contributions; equivalents=none; meaning=依 datasource score 或明定貢獻指標排序來源，不依紀錄數替代。\n- canonical=rank_diseases; equivalents=none; meaning=依明列的 disease-target 關聯指標排序疾病。\n- canonical=rank_mechanism_categories; equivalents=none; meaning=在完成分類與計數後依 category_count 排序機制類別。\n- canonical=rank_opportunities; equivalents=none; meaning=依證據強度與明列警訊排序開發機會，不把排名解釋為成功機率。\n- canonical=rank_targets; equivalents=['prioritize_targets', 'order_targets']; meaning=對已取得的標的使用固定 ranking schema 排序；不負責擷取或分層證據。\n- canonical=resolve_disease; equivalents=['entity_resolution', 'normalize_disease']; meaning=將一個疾病 mention 解析為候選標準實體；Plan 階段不得自行宣稱 ID 已驗證。\n- canonical=resolve_disease_and_drugs; equivalents=none; meaning=分別解析一個疾病與多個藥物 mention，保留歧義。\n- canonical=resolve_disease_target; equivalents=none; meaning=分別解析一個疾病與一個標的，供 exact-pair 查詢使用。\n- canonical=resolve_disease_targets; equivalents=none; meaning=分別解析一個疾病與多個標的，供多個 exact-pair 查詢使用。\n- canonical=resolve_diseases; equivalents=none; meaning=分別解析多個疾病 mention，不合併不同疾病範圍。\n- canonical=resolve_drug; equivalents=['normalize_drug']; meaning=將藥物 mention 解析為候選標準實體，保留鹽型、品牌或成分歧義。\n- canonical=resolve_target; equivalents=['normalize_target']; meaning=將基因或標的 mention 解析為候選標準實體，保留同義詞歧義。\n- canonical=resolve_target_variants; equivalents=none; meaning=解析 target 與特定變異型，變異證據不得回退為未分型 target 證據。\n- canonical=resolve_targets; equivalents=none; meaning=分別解析多個 target mention，不合併不同蛋白或基因。\n- canonical=retrieve_approved_indications; equivalents=none; meaning=取得資料庫記錄的核准適應症；正式核准結論仍需官方來源確認。\n- canonical=retrieve_associated_diseases; equivalents=none; meaning=輸入已解析 target，取得 target-associated diseases 與關聯證據。\n- canonical=retrieve_clinical_stage; equivalents=none; meaning=取得 target-drug 或 drug program 的臨床開發階段；phase 不等於核准。\n- canonical=retrieve_clinical_trials; equivalents=none; meaning=依疾病、藥物或標的條件取得臨床試驗與狀態、日期及來源。\n- canonical=retrieve_datasource_evidence; equivalents=none; meaning=取得 exact pair 的 datasource-level 原始證據與證據類型。\n- canonical=retrieve_datasource_scores; equivalents=none; meaning=取得 exact pair 的 datasource-level scores；score 不等於紀錄數或機率。\n- canonical=retrieve_disease_drugs; equivalents=none; meaning=取得與疾病用途相關的藥物紀錄，並區分核准、試驗與關聯。\n- canonical=retrieve_drug_targets; equivalents=none; meaning=輸入已解析藥物，取得其已知作用標的與 mechanism evidence。\n- canonical=retrieve_evidence_by_type; equivalents=none; meaning=依指定 evidence type 取得可比較的證據並保留 datasource。\n- canonical=retrieve_exact_pair; equivalents=['retrieve_disease_target_pair', 'query_exact_association']; meaning=以已解析 disease ID 與 target ID 直接查詢單一關聯，不用排名窗口代替。\n- canonical=retrieve_exact_pairs; equivalents=['retrieve_disease_target_pairs', 'query_exact_associations']; meaning=對多個已解析 disease-target 配對分別執行 exact-pair 查詢。\n- canonical=retrieve_genetic_and_somatic_evidence; equivalents=none; meaning=取得遺傳與體細胞突變證據並保持兩類可區分。\n- canonical=retrieve_genetic_evidence; equivalents=none; meaning=取得 disease-target genetic evidence；不包含未指定的其他證據類型。\n- canonical=retrieve_interventions; equivalents=none; meaning=從已取得臨床試驗抽取介入措施、組合與角色。\n- canonical=retrieve_mechanisms; equivalents=none; meaning=取得藥物-target 作用機制；不推論疾病療效或核准。\n- canonical=retrieve_mechanisms_and_modalities; equivalents=none; meaning=取得介入措施的 mechanism 與 modality，供一致分類使用。\n- canonical=retrieve_negative_publications; equivalents=none; meaning=查找明確報告負面、安全性或療效失敗的文獻；無文獻不等於成功。\n- canonical=retrieve_normal_tissue_expression; equivalents=none; meaning=取得 target 在正常組織的表現資料；高表現不直接等於毒性。\n- canonical=retrieve_safety_evidence; equivalents=none; meaning=取得 target 或藥物的已知安全性證據與來源，不以機制推測代替事實。\n- canonical=retrieve_target_cancers; equivalents=none; meaning=輸入 target，取得其關聯癌別；關聯不代表治療適應症。\n- canonical=retrieve_target_drugs; equivalents=['retrieve_drugs_for_targets', 'search_target_drugs']; meaning=輸入已解析 target，取得已知 target-drug 關係與證據；不負責 tractability、疾病療效或核准。\n- canonical=retrieve_tractability; equivalents=none; meaning=輸入已解析 target，取得可成藥性與小分子 tractability 證據；不表示已有藥物或療效。\n- canonical=retrieve_trial_status_and_stop_reasons; equivalents=none; meaning=取得試驗狀態及明確停止原因，缺少結果不得推定失敗。\n- canonical=retrieve_trial_terminations; equivalents=none; meaning=取得已終止試驗及原始終止理由，不自行推測原因。\n- canonical=stratify_target_evidence_layers; equivalents=none; meaning=輸入疾病關聯、target-drug 與 tractability 證據，分層輸出疾病相關標的及具轉譯支持標的；不做類別計數。\n\nThis is the authoritative OPERATION_TABLE, not a per-question answer. Reviewed\nequivalents must be replaced by their canonical operation. A genuinely new\noperation must be marked proposed and cannot be executed before human review.\n\n\nPlanning demonstrations (synthetic placeholders, no retrieved facts). Learn the relationship between the question, sources, dependencies and analysis; do not copy entities, timestamps, thresholds, step counts or irrelevant operations. These are examples, not a mandatory workflow or the current question's answer.\n[{\"id\":\"synthetic_pair_sources\",\"rationale\":\"先解析身分，再精確查詢；來源排序必須依賴已取得的來源分數。\",\"plan\":{\"schema_version\":\"2.0\",\"original_question\":\"請規劃查詢疾病甲與標的乙的精確關聯，列出各資料來源分數並依分數排序；不要用文獻篇數代替分數。\",\"research_objective\":\"請規劃查詢疾病甲與標的乙的精確關聯，列出各資料來源分數並依分數排序；不要用文獻篇數代替分數。\",\"entities\":[{\"entity_ref\":\"d1\",\"entity_type\":\"disease\",\"mention\":\"疾病甲\",\"resolution_status\":\"unresolved\"},{\"entity_ref\":\"t1\",\"entity_type\":\"target\",\"mention\":\"標的乙\",\"resolution_status\":\"unresolved\"}],\"plan_steps\":[{\"step_id\":\"s1\",\"operation\":\"resolve_disease_target\",\"description\":\"解析兩個名稱；有歧義先釐清，未解析成功不進行後續查詢。\",\"depends_on\":[],\"outputs\":[\"resolved_pair_ids\"],\"sources\":[\"open_targets\"],\"entity_refs\":[\"d1\",\"t1\"]},{\"step_id\":\"s2\",\"operation\":\"retrieve_exact_pair\",\"description\":\"使用 s1 的疾病與標的 ID 查精確配對，不以疾病標的前幾名清單代替。\",\"depends_on\":[\"s1\"],\"outputs\":[\"pair_association\"],\"sources\":[\"open_targets\"],\"entity_refs\":[\"d1\",\"t1\"]},{\"step_id\":\"s3\",\"operation\":\"retrieve_datasource_scores\",\"description\":\"取得 s2 精確配對的各來源關聯分數，保留缺失狀態。\",\"depends_on\":[\"s2\"],\"outputs\":[\"datasource_scores\"],\"sources\":[\"open_targets\"],\"entity_refs\":[\"d1\",\"t1\"]},{\"step_id\":\"s4\",\"operation\":\"rank_datasource_contributions\",\"description\":\"對 s3 已取得的來源分數排序，不以紀錄數補分數。\",\"depends_on\":[\"s3\"],\"outputs\":[\"ranked_datasources\"],\"sources\":[],\"ranking\":{\"primary_metric\":\"datasource_score\",\"direction\":\"descending\",\"secondary_metrics\":[]},\"aggregation\":{\"datasource_contribution_comparison\":\"preserve_source_scores_and_missingness\"}}],\"evidence_requirements\":[\"保留每個結果的來源、查詢日期與資料缺口\"],\"completion_criteria\":[\"完成問題要求的查詢與分析；未解析或缺資料時明列限制，不捏造結論\"],\"global_safeguards\":[\"provenance_pagination_truncation\",\"missing_not_negative\",\"association_score_not_probability\",\"datasource_score_not_record_count\"],\"characteristics\":{\"primary\":\"evidence_directed\",\"secondary\":[]},\"created_before_retrieval\":true,\"generated_at\":\"2026-09-04T00:00:00Z\"}},{\"id\":\"synthetic_shared_filtered\",\"rationale\":\"兩個疾病各自查詢後才取交集；篩選在排序之前。問題不問治療支持，因此不強加藥物查詢。\",\"plan\":{\"schema_version\":\"2.0\",\"original_question\":\"請規劃找出疾病丙與疾病丁共同的標的，只保留兩邊關聯分數都大於 0.4 的標的，最後依疾病丙的分數排序；不評估療效。\",\"research_objective\":\"請規劃找出疾病丙與疾病丁共同的標的，只保留兩邊關聯分數都大於 0.4 的標的，最後依疾病丙的分數排序；不評估療效。\",\"entities\":[{\"entity_ref\":\"d1\",\"entity_type\":\"disease\",\"mention\":\"疾病丙\",\"resolution_status\":\"unresolved\"},{\"entity_ref\":\"d2\",\"entity_type\":\"disease\",\"mention\":\"疾病丁\",\"resolution_status\":\"unresolved\"}],\"plan_steps\":[{\"step_id\":\"s1\",\"operation\":\"resolve_diseases\",\"description\":\"分別解析兩個疾病名稱，不合併疾病範圍；有歧義先釐清。\",\"depends_on\":[],\"outputs\":[\"resolved_diseases\"],\"sources\":[\"open_targets\"],\"entity_refs\":[\"d1\",\"d2\"]},{\"step_id\":\"s2\",\"operation\":\"discover_targets_per_disease\",\"description\":\"以 s1 的疾病 ID 分別取得標的與分數，保留各自分頁及截斷狀態。\",\"depends_on\":[\"s1\"],\"outputs\":[\"targets_by_disease\"],\"sources\":[\"open_targets\"],\"entity_refs\":[\"d1\",\"d2\"]},{\"step_id\":\"s3\",\"operation\":\"intersect_targets\",\"description\":\"將 s2 兩個集合以標的 ID 取交集，保留各疾病獨立分數。\",\"depends_on\":[\"s2\"],\"outputs\":[\"shared_targets\"],\"sources\":[],\"aggregation\":{\"target_set_intersection\":\"by_target_id\",\"report_scores_per_disease\":true}},{\"step_id\":\"s4\",\"operation\":\"filter_targets\",\"description\":\"篩選 s3 結果，兩邊都須大於使用者指定門檻；缺分數不視為零。\",\"depends_on\":[\"s3\"],\"outputs\":[\"filtered_shared_targets\"],\"sources\":[],\"filters\":{\"association_score_by_disease\":{\"d1\":{\"gt\":0.4},\"d2\":{\"gt\":0.4}},\"missing_score_policy\":\"report_separately\"}},{\"step_id\":\"s5\",\"operation\":\"rank_targets\",\"description\":\"依 s4 中疾病丙的分數排序，不產生未要求的綜合分數。\",\"depends_on\":[\"s4\"],\"outputs\":[\"ranked_shared_targets\"],\"sources\":[],\"ranking\":{\"primary_metric\":\"d1_overall_association_score\",\"direction\":\"descending\",\"secondary_metrics\":[]}}],\"evidence_requirements\":[\"保留每個結果的來源、查詢日期與資料缺口\"],\"completion_criteria\":[\"完成問題要求的查詢與分析；未解析或缺資料時明列限制，不捏造結論\"],\"global_safeguards\":[\"provenance_pagination_truncation\",\"missing_not_negative\",\"association_score_not_probability\",\"association_does_not_imply_efficacy\",\"score_not_comparable_without_context\"],\"characteristics\":{\"primary\":\"multi_hop\",\"secondary\":[]},\"created_before_retrieval\":true,\"generated_at\":\"2026-09-04T00:00:00Z\"}}]",
+              "additional_kwargs": {},
+              "response_metadata": {},
+              "type": "human",
+              "name": null,
+              "id": "99cb909a-1f20-4d28-b067-58ea4d2cf21e"
+            }
+          ],
+          "raw_response": {
+            "generations": [
+              [
+                {
+                  "text": "",
+                  "generation_info": {
+                    "model": "qwen3:14b",
+                    "created_at": "2026-09-05T16:35:40.4072671Z",
+                    "done": true,
+                    "done_reason": "stop",
+                    "total_duration": 309816491700,
+                    "load_duration": 2846100,
+                    "prompt_eval_count": 5231,
+                    "prompt_eval_duration": 2458390000,
+                    "eval_count": 1246,
+                    "eval_duration": 307306833000,
+                    "logprobs": null,
+                    "model_name": "qwen3:14b",
+                    "model_provider": "ollama"
+                  },
+                  "type": "ChatGeneration",
+                  "message": {
+                    "content": "",
+                    "additional_kwargs": {},
+                    "response_metadata": {
+                      "model": "qwen3:14b",
+                      "created_at": "2026-09-05T16:35:40.4072671Z",
+                      "done": true,
+                      "done_reason": "stop",
+                      "total_duration": 309816491700,
+                      "load_duration": 2846100,
+                      "prompt_eval_count": 5231,
+                      "prompt_eval_duration": 2458390000,
+                      "eval_count": 1246,
+                      "eval_duration": 307306833000,
+                      "logprobs": null,
+                      "model_name": "qwen3:14b",
+                      "model_provider": "ollama"
+                    },
+                    "type": "ai",
+                    "name": null,
+                    "id": "lc_run--01a07268-3ab9-7793-8a4b-ce965187888b-0"
+                  }
+                }
+              ]
+            ],
+            "llm_output": null,
+            "run": null,
+            "type": "LLMResult"
+          },
+          "error_type": null,
+          "error_message": null
+        }
+      ],
+      "repair_feedback_sent_next": {
+        "missing": [
+          {
+            "area": "research_capability",
+            "problem": "缺少必要項目：resolve_disease",
+            "required_correction": "補上 resolve_disease 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "research_capability",
+            "problem": "缺少必要項目：retrieve_target_drugs",
+            "required_correction": "補上 retrieve_target_drugs 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "research_capability",
+            "problem": "缺少必要項目：retrieve_tractability",
+            "required_correction": "補上 retrieve_tractability 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "dependency",
+            "problem": "缺少必要項目：resolve_disease->discover_targets",
+            "required_correction": "補上 resolve_disease->discover_targets 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "dependency",
+            "problem": "缺少必要項目：discover_targets->retrieve_target_drugs",
+            "required_correction": "補上 discover_targets->retrieve_target_drugs 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "dependency",
+            "problem": "缺少必要項目：discover_targets->retrieve_tractability",
+            "required_correction": "補上 discover_targets->retrieve_tractability 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "dependency",
+            "problem": "缺少必要項目：retrieve_target_drugs->stratify_target_evidence_layers",
+            "required_correction": "補上 retrieve_target_drugs->stratify_target_evidence_layers 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "dependency",
+            "problem": "缺少必要項目：retrieve_tractability->stratify_target_evidence_layers",
+            "required_correction": "補上 retrieve_tractability->stratify_target_evidence_layers 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "safeguard",
+            "problem": "缺少必要項目：association_does_not_imply_efficacy",
+            "required_correction": "補上 association_does_not_imply_efficacy 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "safeguard",
+            "problem": "缺少必要項目：tractability_not_efficacy",
+            "required_correction": "補上 tractability_not_efficacy 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "ranking",
+            "problem": "缺少必要項目：overall_association_score",
+            "required_correction": "補上 overall_association_score 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "aggregation",
+            "problem": "缺少必要項目：target_translation_layer",
+            "required_correction": "補上 target_translation_layer 的研究語意並保持整體 Plan 一致。"
+          }
+        ],
+        "incorrect": [],
+        "preserve": [
+          {
+            "area": "accepted_capability",
+            "item": "discover_targets",
+            "instruction": "此能力已通過；修復其他缺項時不得刪除或改壞。"
+          },
+          {
+            "area": "accepted_capability",
+            "item": "rank_targets",
+            "instruction": "此能力已通過；修復其他缺項時不得刪除或改壞。"
+          },
+          {
+            "area": "accepted_capability",
+            "item": "stratify_target_evidence_layers",
+            "instruction": "此能力已通過；修復其他缺項時不得刪除或改壞。"
+          }
+        ]
+      },
+      "errors": [
+        "plan failed hidden semantic acceptance"
+      ],
+      "corrected_model_claims": [],
+      "regressed_components": [],
+      "input_tokens": null,
+      "output_tokens": null,
+      "total_tokens": null,
+      "model_total_duration_ns": null,
+      "model_eval_duration_ns": null,
+      "model_eval_count": null,
+      "model_generation_timeout": false,
+      "ollama_stop_requested": false,
+      "ollama_stopping_detected": false,
+      "ollama_stopping_timeout": false,
+      "ollama_cleanup_succeeded": false,
+      "ollama_cleanup_error": null,
+      "evidence_collection_started": false,
+      "executed_retrieval_tools": []
+    }
+  ],
+  "first_attempt_passed": false,
+  "repair_count": 0,
+  "total_duration_seconds": 311.8795080999844,
+  "evidence_collection_started": false,
+  "executed_retrieval_tools": [],
+  "generated_at": "2026-09-05T16:35:40.412961Z"
+}

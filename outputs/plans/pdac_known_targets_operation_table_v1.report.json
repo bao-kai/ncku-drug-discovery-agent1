@@ -1,0 +1,325 @@
+{
+  "schema_version": "1.0",
+  "question": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）目前有哪些已知的治療標的？",
+  "acceptance_case_id": "pdac_known_targets",
+  "blind_first_attempt": true,
+  "status": "failed",
+  "final_plan": null,
+  "attempts": [
+    {
+      "attempt": 1,
+      "started_at": "2026-09-02T11:45:00.937881Z",
+      "duration_seconds": 645.0752658999991,
+      "schema_valid": true,
+      "semantic_acceptance": null,
+      "candidate_plan": null,
+      "raw_candidate_payload": {
+        "schema_version": "2.0",
+        "manifest_id": "21b4f3bd-17a5-4a63-b01a-96786c54a651",
+        "original_question": "Identify known therapeutic targets for pancreatic ductal adenocarcinoma (PDAC)",
+        "research_objective": "Discover validated therapeutic targets for pancreatic ductal adenocarcinoma (PDAC) with evidence of tractability and drug interaction potential",
+        "entities": [
+          {
+            "entity_ref": "disease_pdac",
+            "entity_type": "disease",
+            "mention": "pancreatic ductal adenocarcinoma",
+            "entity_id": null,
+            "canonical_name": null,
+            "resolution_status": "unresolved"
+          }
+        ],
+        "plan_steps": [
+          {
+            "step_id": "resolve_disease",
+            "operation": "resolve_disease",
+            "operation_status": "approved",
+            "proposed_operation_name": null,
+            "proposal_reason": null,
+            "description": "Normalize pancreatic ductal adenocarcinoma mention to standardized disease identifier",
+            "depends_on": [],
+            "entity_refs": [
+              "disease_pdac"
+            ],
+            "sources": [
+              "open_targets"
+            ],
+            "outputs": [
+              "disease_id"
+            ],
+            "filters": {},
+            "ranking": null,
+            "aggregation": null,
+            "safeguards": []
+          },
+          {
+            "step_id": "discover_targets",
+            "operation": "discover_targets_per_disease",
+            "operation_status": "approved",
+            "proposed_operation_name": null,
+            "proposal_reason": null,
+            "description": "Retrieve therapeutic targets associated with resolved PDAC disease ID",
+            "depends_on": [
+              "resolve_disease"
+            ],
+            "entity_refs": [
+              "disease_pdac"
+            ],
+            "sources": [
+              "open_targets",
+              "chembl"
+            ],
+            "outputs": [
+              "target_list"
+            ],
+            "filters": {
+              "association_evidence": "known_drug",
+              "tractability": "high"
+            },
+            "ranking": {
+              "primary_metric": "tractability_score",
+              "direction": "descending",
+              "secondary_metrics": [
+                "drug_interaction_count"
+              ]
+            },
+            "aggregation": {
+              "count": "drug_interaction_count",
+              "group_by": "target_id"
+            },
+            "safeguards": []
+          }
+        ],
+        "evidence_requirements": [
+          "disease_target_association",
+          "target_drug_interaction",
+          "tractability_assessment"
+        ],
+        "completion_criteria": [
+          "minimum_5_tractable_targets_identified",
+          "all_targets_have_verified_chembl_interactions"
+        ],
+        "global_safeguards": [
+          "handle_unresolved_entities_gracefully",
+          "preserve_evidence_provenance",
+          "enforce_data_source_specific_thresholds"
+        ],
+        "characteristics": {
+          "primary": "multi_hop",
+          "secondary": [
+            "evidence_directed",
+            "filter_and_rank"
+          ]
+        },
+        "created_before_retrieval": true,
+        "generated_at": "2023-09-15T14:30:00Z"
+      },
+      "repair_feedback_sent_next": {
+        "missing": [],
+        "incorrect": [
+          {
+            "area": "schema_or_integrity",
+            "problem": "original_question must exactly match user input",
+            "required_correction": "修正指定錯誤並保留原始問題。"
+          }
+        ],
+        "preserve": []
+      },
+      "errors": [
+        "ValueError: original_question must exactly match user input"
+      ],
+      "corrected_model_claims": [],
+      "regressed_components": [],
+      "input_tokens": null,
+      "output_tokens": null,
+      "total_tokens": null,
+      "model_total_duration_ns": null,
+      "model_eval_duration_ns": null,
+      "model_eval_count": null,
+      "model_generation_timeout": false,
+      "ollama_stop_requested": false,
+      "ollama_stopping_detected": false,
+      "ollama_stopping_timeout": false,
+      "ollama_cleanup_succeeded": false,
+      "ollama_cleanup_error": null,
+      "evidence_collection_started": false,
+      "executed_retrieval_tools": []
+    },
+    {
+      "attempt": 2,
+      "started_at": "2026-09-02T11:55:46.014162Z",
+      "duration_seconds": 529.762547600083,
+      "schema_valid": true,
+      "semantic_acceptance": null,
+      "candidate_plan": null,
+      "raw_candidate_payload": {
+        "schema_version": "2.0",
+        "manifest_id": "06443b49-5331-4791-93ae-1c86e00b050d",
+        "original_question": "您目前有哪些已知的治療標靶？",
+        "research_objective": "識別與胰臟癌相關的已知治療標靶",
+        "entities": [
+          {
+            "entity_ref": "disease_001",
+            "entity_type": "disease",
+            "mention": "胰臟癌",
+            "entity_id": null,
+            "canonical_name": null,
+            "resolution_status": "unresolved"
+          }
+        ],
+        "plan_steps": [
+          {
+            "step_id": "resolve_disease_001",
+            "operation": "resolve_disease",
+            "operation_status": "approved",
+            "proposed_operation_name": null,
+            "proposal_reason": null,
+            "description": "將用戶提及的「胰臟癌」映射到標準疾病分類系統",
+            "depends_on": [],
+            "entity_refs": [
+              "disease_001"
+            ],
+            "sources": [
+              "open_targets"
+            ],
+            "outputs": [
+              "resolved_disease_id"
+            ],
+            "filters": {},
+            "ranking": null,
+            "aggregation": null,
+            "safeguards": [
+              "require_at_least_one_candidate_entity"
+            ]
+          },
+          {
+            "step_id": "discover_targets_002",
+            "operation": "discover_therapeutic_targets",
+            "operation_status": "approved",
+            "proposed_operation_name": null,
+            "proposal_reason": null,
+            "description": "基於解析後的疾病ID，從開放標靶資料庫中識別相關治療標靶",
+            "depends_on": [
+              "resolve_disease_001"
+            ],
+            "entity_refs": [
+              "disease_001"
+            ],
+            "sources": [
+              "open_targets"
+            ],
+            "outputs": [
+              "target_list"
+            ],
+            "filters": {
+              "tractability": "high"
+            },
+            "ranking": {
+              "primary_metric": "tractability_score",
+              "direction": "descending",
+              "secondary_metrics": [
+                "number_of_associated_drugs"
+              ]
+            },
+            "aggregation": null,
+            "safeguards": [
+              "require_minimal_tractability_threshold"
+            ]
+          }
+        ],
+        "evidence_requirements": [
+          "open_targets_disease_target_associations",
+          "chembl_drug_target_interactions"
+        ],
+        "completion_criteria": [
+          "resolved_disease_id_available",
+          "target_list_contains_min_3_therapeutic_targets"
+        ],
+        "global_safeguards": [
+          "require_evidence_from_at_least_two_sources",
+          "exclude_unverified_targets"
+        ],
+        "characteristics": {
+          "primary": "multi_hop",
+          "secondary": []
+        },
+        "created_before_retrieval": true,
+        "generated_at": "2023-11-05T14:30:00Z"
+      },
+      "repair_feedback_sent_next": {
+        "missing": [],
+        "incorrect": [
+          {
+            "area": "schema_or_integrity",
+            "problem": "original_question must exactly match user input",
+            "required_correction": "修正指定錯誤並保留原始問題。"
+          }
+        ],
+        "preserve": []
+      },
+      "errors": [
+        "ValueError: original_question must exactly match user input"
+      ],
+      "corrected_model_claims": [],
+      "regressed_components": [],
+      "input_tokens": null,
+      "output_tokens": null,
+      "total_tokens": null,
+      "model_total_duration_ns": null,
+      "model_eval_duration_ns": null,
+      "model_eval_count": null,
+      "model_generation_timeout": false,
+      "ollama_stop_requested": false,
+      "ollama_stopping_detected": false,
+      "ollama_stopping_timeout": false,
+      "ollama_cleanup_succeeded": false,
+      "ollama_cleanup_error": null,
+      "evidence_collection_started": false,
+      "executed_retrieval_tools": []
+    },
+    {
+      "attempt": 3,
+      "started_at": "2026-09-02T12:04:35.778537Z",
+      "duration_seconds": 1243.1677650000202,
+      "schema_valid": false,
+      "semantic_acceptance": null,
+      "candidate_plan": null,
+      "raw_candidate_payload": null,
+      "repair_feedback_sent_next": {
+        "missing": [],
+        "incorrect": [
+          {
+            "area": "schema_or_integrity",
+            "problem": "model attempt exceeded 1200.0 seconds",
+            "required_correction": "修正指定錯誤並保留原始問題。"
+          }
+        ],
+        "preserve": []
+      },
+      "errors": [
+        "ModelAttemptTimeout: model attempt exceeded 1200.0 seconds"
+      ],
+      "corrected_model_claims": [],
+      "regressed_components": [],
+      "input_tokens": null,
+      "output_tokens": null,
+      "total_tokens": null,
+      "model_total_duration_ns": null,
+      "model_eval_duration_ns": null,
+      "model_eval_count": null,
+      "model_generation_timeout": true,
+      "ollama_stop_requested": true,
+      "ollama_stopping_detected": true,
+      "ollama_stopping_timeout": false,
+      "ollama_cleanup_succeeded": true,
+      "ollama_cleanup_error": null,
+      "evidence_collection_started": false,
+      "executed_retrieval_tools": []
+    }
+  ],
+  "first_attempt_passed": false,
+  "repair_count": 2,
+  "total_duration_seconds": 2418.0099863000214,
+  "evidence_collection_started": false,
+  "executed_retrieval_tools": [],
+  "generated_at": "2026-09-02T12:25:18.947034Z"
+}

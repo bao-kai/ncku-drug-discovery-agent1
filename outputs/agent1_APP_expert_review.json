@@ -1,0 +1,749 @@
+{
+  "producer": "agent1",
+  "run_id": "4165339d-6cdf-4c85-86bc-5874955800eb",
+  "generated_at": "2026-08-13T12:36:59.170707Z",
+  "expert_review_view": {
+    "schema_version": "1.0",
+    "purpose": "Human-readable inventory for domain experts to decide future database classification. It does not replace raw evidence.",
+    "disease": "exocrine pancreatic carcinoma",
+    "disease_id": "MONDO_0005192",
+    "target": "KRAS",
+    "target_id": "ENSG00000133703",
+    "datasource_reviews": [
+      {
+        "datasource_id": "clinical_precedence",
+        "datasource_explanation": "藥物作用於指定 Target，且曾針對指定疾病進入臨床開發或核准的紀錄。其中可同時包含成功、失敗、停止及結果未明的資料。",
+        "aggregated_score": 0.12074181119230806,
+        "score_interpretation_warning": "此數值是 Open Targets 對多筆證據的聚合分數，不是療效、成功率、因果機率或本專案信心分數。",
+        "total_records": 3,
+        "fetched_records": 3,
+        "complete": true,
+        "raw_schema_field_count": 86,
+        "populated_field_count": 17,
+        "field_profiles": [
+          {
+            "field_name": "clinicalReportId",
+            "plain_language_description": "臨床試驗、監管文件或其他臨床報告識別碼。",
+            "populated_record_count": 3,
+            "populated_percentage": 100.0,
+            "value_type": "string",
+            "example_values": [
+              "nct06024174",
+              "nct05251038",
+              "nct06892054"
+            ]
+          },
+          {
+            "field_name": "clinicalStage",
+            "plain_language_description": "此臨床報告對應的開發階段或核准狀態。",
+            "populated_record_count": 3,
+            "populated_percentage": 100.0,
+            "value_type": "string",
+            "example_values": [
+              "PHASE_1_2",
+              "PHASE_1"
+            ]
+          },
+          {
+            "field_name": "datasourceId",
+            "plain_language_description": "提供此筆證據的 Open Targets 資料來源。",
+            "populated_record_count": 3,
+            "populated_percentage": 100.0,
+            "value_type": "string",
+            "example_values": [
+              "clinical_precedence"
+            ]
+          },
+          {
+            "field_name": "datatypeId",
+            "plain_language_description": "證據所屬的大類，例如 known drug。",
+            "populated_record_count": 3,
+            "populated_percentage": 100.0,
+            "value_type": "string",
+            "example_values": [
+              "clinical"
+            ]
+          },
+          {
+            "field_name": "directionOnTarget",
+            "plain_language_description": "作用於 Target 的方向，例如 LoF 或 GoF。",
+            "populated_record_count": 3,
+            "populated_percentage": 100.0,
+            "value_type": "string",
+            "example_values": [
+              "LoF"
+            ]
+          },
+          {
+            "field_name": "directionOnTrait",
+            "plain_language_description": "對疾病表型的方向，例如 protect 或 risk。",
+            "populated_record_count": 3,
+            "populated_percentage": 100.0,
+            "value_type": "string",
+            "example_values": [
+              "protect"
+            ]
+          },
+          {
+            "field_name": "diseaseFromSource",
+            "plain_language_description": "原始來源使用的疾病名稱。",
+            "populated_record_count": 3,
+            "populated_percentage": 100.0,
+            "value_type": "string",
+            "example_values": [
+              "pancreatic duct adenocarcinoma",
+              "pancreatic cancer",
+              "pancreatic adenocarcinoma"
+            ]
+          },
+          {
+            "field_name": "diseaseFromSourceMappedId",
+            "plain_language_description": "原始疾病名稱正規化後的 ontology ID。",
+            "populated_record_count": 3,
+            "populated_percentage": 100.0,
+            "value_type": "string",
+            "example_values": [
+              "MONDO_0005184",
+              "MONDO_0005192",
+              "MONDO_0006047"
+            ]
+          },
+          {
+            "field_name": "drugFromSource",
+            "plain_language_description": "原始來源使用的藥物或治療名稱。",
+            "populated_record_count": 3,
+            "populated_percentage": 100.0,
+            "value_type": "string",
+            "example_values": [
+              "adagrasib",
+              "sotorasib"
+            ]
+          },
+          {
+            "field_name": "evidenceDate",
+            "plain_language_description": "此筆臨床證據的日期。",
+            "populated_record_count": 3,
+            "populated_percentage": 100.0,
+            "value_type": "string",
+            "example_values": [
+              "2023-11-09",
+              "2022-09-13",
+              "2025-08-08"
+            ]
+          },
+          {
+            "field_name": "id",
+            "plain_language_description": "Open Targets 對此筆證據配置的唯一識別碼。",
+            "populated_record_count": 3,
+            "populated_percentage": 100.0,
+            "value_type": "string",
+            "example_values": [
+              "1bc0ce619076346a798d1a1e4d909f80f19337e3",
+              "f5567b9017fe2ecd7cf20f55ad1540d270d09d6f",
+              "e11dd5f9e614ec0c2f9f28e1f142a57328b65039"
+            ]
+          },
+          {
+            "field_name": "metaTotal",
+            "plain_language_description": "Open Targets 原始 evidence 欄位；用途需由領域專家確認。",
+            "populated_record_count": 3,
+            "populated_percentage": 100.0,
+            "value_type": "number",
+            "example_values": [
+              3
+            ]
+          },
+          {
+            "field_name": "score",
+            "plain_language_description": "此筆證據的 Open Targets 分數；不是療效或成功率。",
+            "populated_record_count": 3,
+            "populated_percentage": 100.0,
+            "value_type": "number",
+            "example_values": [
+              0.15,
+              0.1
+            ]
+          },
+          {
+            "field_name": "studyStartDate",
+            "plain_language_description": "來源記錄的研究開始日期。",
+            "populated_record_count": 3,
+            "populated_percentage": 100.0,
+            "value_type": "string",
+            "example_values": [
+              "2023-11-09",
+              "2022-09-13",
+              "2025-08-08"
+            ]
+          },
+          {
+            "field_name": "targetFromSourceId",
+            "plain_language_description": "原始來源或正規化後的 Target ID。",
+            "populated_record_count": 3,
+            "populated_percentage": 100.0,
+            "value_type": "string",
+            "example_values": [
+              "ENSG00000133703"
+            ]
+          },
+          {
+            "field_name": "trialStopReasonCategories",
+            "plain_language_description": "Open Targets 對停止原因的分類。",
+            "populated_record_count": 2,
+            "populated_percentage": 66.67,
+            "value_type": "list",
+            "example_values": [
+              [
+                "Business_Administrative"
+              ]
+            ]
+          },
+          {
+            "field_name": "trialWhyStopped",
+            "plain_language_description": "試驗提前停止時記錄的原始原因文字。",
+            "populated_record_count": 2,
+            "populated_percentage": 66.67,
+            "value_type": "string",
+            "example_values": [
+              "Business objectives have changed",
+              "Funder Decision"
+            ]
+          }
+        ],
+        "drug_groups": [
+          {
+            "canonical_drug_name": "sotorasib",
+            "source_name_variants": [
+              "sotorasib"
+            ],
+            "evidence_record_count": 2,
+            "clinical_stage_counts": {
+              "PHASE_1": 1,
+              "PHASE_1_2": 1
+            },
+            "highest_clinical_stage": "PHASE_1_2",
+            "evidence_score_counts": {
+              "0.1": 1,
+              "0.15": 1
+            },
+            "report_ids": [
+              "nct05251038",
+              "nct06892054"
+            ],
+            "literature_ids": [],
+            "direction_on_target_counts": {
+              "LoF": 2
+            },
+            "direction_on_trait_counts": {
+              "protect": 2
+            },
+            "stopped_trial_record_count": 1,
+            "negative_stop_record_count": 0,
+            "safety_stop_record_count": 0,
+            "stop_reason_categories": {
+              "Business_Administrative": 1
+            },
+            "stop_reason_examples": [
+              "Funder Decision"
+            ]
+          },
+          {
+            "canonical_drug_name": "adagrasib",
+            "source_name_variants": [
+              "adagrasib"
+            ],
+            "evidence_record_count": 1,
+            "clinical_stage_counts": {
+              "PHASE_1_2": 1
+            },
+            "highest_clinical_stage": "PHASE_1_2",
+            "evidence_score_counts": {
+              "0.15": 1
+            },
+            "report_ids": [
+              "nct06024174"
+            ],
+            "literature_ids": [],
+            "direction_on_target_counts": {
+              "LoF": 1
+            },
+            "direction_on_trait_counts": {
+              "protect": 1
+            },
+            "stopped_trial_record_count": 1,
+            "negative_stop_record_count": 0,
+            "safety_stop_record_count": 0,
+            "stop_reason_categories": {
+              "Business_Administrative": 1
+            },
+            "stop_reason_examples": [
+              "Business objectives have changed"
+            ]
+          }
+        ],
+        "review_questions": [
+          "哪些欄位應成為資料庫固定欄位，哪些只需保留在 raw JSON？",
+          "同一藥物的多筆報告應以藥物、臨床試驗、適應症或文件為主鍵？",
+          "成功、失敗、停止、安全性與結果不明應採用哪些正式分類？",
+          "哪些臨床階段與停止原因需要人工複核？",
+          "哪些來源 ID 應繼續連到 ClinicalTrials.gov、Europe PMC、ChEMBL 或監管文件？"
+        ]
+      }
+    ]
+  },
+  "model_interpretation": {
+    "schema_version": "1.0",
+    "producer": "agent1_evidence_synthesizer",
+    "factual_inventory_summary": [
+      "資料來源類型為 clinical_precedence，包含3筆完整記錄，所有字段均填寫，但 trialStopReasonCategories 和 trialWhyStopped 字段僅填寫2筆。",
+      "藥物分組包含 sotorasib（2筆證據）和 adagrasib（1筆證據），兩者均處於 PHASE_1_2 階段，且均有商業行政原因停止試驗的記錄。",
+      "所有記錄的 directionOnTarget 為 LoF，directionOnTrait 為 protect，疾病名稱映射至 MONDO_0005192。"
+    ],
+    "potentially_supportive_signals": [
+      "所有記錄均顯示 LoF 作用方向與 protect 表型方向，支持 KRAS 為 exocrine pancreatic carcinoma 的潛在治療靶點。"
+    ],
+    "potentially_conflicting_or_negative_signals": [
+      "無明確負面療效或安全性信號，但商業行政原因停止試驗可能影響藥物開發進度。"
+    ],
+    "missing_or_unresolved_information": [
+      "trialStopReasonCategories 和 trialWhyStopped 的填充率僅 66.67%，可能影響試驗停止原因分析。",
+      "literature_ids 字段在所有藥物分組中均為空值，需確認是否應補充文獻連結。"
+    ],
+    "questions_for_domain_experts": [
+      "是否需將 trialStopReasonCategories 的 Business_Administrative 分類納入藥物開發風險評估？",
+      "literature_ids 為空值是否表示缺乏文獻支持，或資料來源未提供相關資訊？",
+      "PHASE_1_2 階段的臨床試驗是否需進一步區分為 Phase 1 或 Phase 2 以提高數據解析度？"
+    ],
+    "interpretation_warning": "Open Targets 分數不可誤解為療效或成功率，僅反映證據聚合強度。"
+  },
+  "agent_1_evidence": {
+    "schema_version": "1.1",
+    "disease_query": "pancreatic cancer",
+    "target_query": "KRAS",
+    "disease_id": "MONDO_0005192",
+    "disease_name": "exocrine pancreatic carcinoma",
+    "target_id": "ENSG00000133703",
+    "target_symbol": "KRAS",
+    "target_name": "KRas proto-oncogene, GTPase",
+    "overall_association_score": 0.8072437720364584,
+    "datasource_scores": [
+      {
+        "datasource_id": "intogen",
+        "score": 0.9190679877429972
+      },
+      {
+        "datasource_id": "cancer_gene_census",
+        "score": 0.8888429022682052
+      },
+      {
+        "datasource_id": "eva",
+        "score": 0.8562304476365666
+      },
+      {
+        "datasource_id": "eva_somatic",
+        "score": 0.6839221473130737
+      },
+      {
+        "datasource_id": "genomics_england",
+        "score": 0.607930797611621
+      },
+      {
+        "datasource_id": "cancer_biomarkers",
+        "score": 0.8274613634158176
+      },
+      {
+        "datasource_id": "crispr",
+        "score": 0.407192068648097
+      },
+      {
+        "datasource_id": "europepmc",
+        "score": 0.9867877929141823
+      },
+      {
+        "datasource_id": "clinical_precedence",
+        "score": 0.12074181119230806
+      }
+    ],
+    "datasource_evidence": [
+      {
+        "datasource_id": "clinical_precedence",
+        "aggregated_score": 0.12074181119230806,
+        "total_evidence_count": 3,
+        "fetched_evidence_count": 3,
+        "truncated": false,
+        "estimated_complete_size_bytes": 6859,
+        "evidence_fields": [
+          "warningMessage",
+          "studyStartDate",
+          "biologicalModelId",
+          "beta",
+          "directionOnTrait",
+          "oddsRatioConfidenceIntervalUpper",
+          "datasourceId",
+          "metaTotal",
+          "betaConfidenceIntervalLower",
+          "biosamplesFromSource",
+          "statisticalTestTail",
+          "targetInModel",
+          "targetRole",
+          "evidenceDate",
+          "log2FoldChangePercentileRank",
+          "ancestryId",
+          "projectId",
+          "publicationFirstAuthor",
+          "releaseDate",
+          "crisprScreenLibrary",
+          "variantRsId",
+          "biologicalModelGeneticBackground",
+          "trialWhyStopped",
+          "assessments",
+          "targetModulation",
+          "cellType",
+          "phenotypicConsequenceLogFoldChange",
+          "projectDescription",
+          "cohortShortName",
+          "trialStopReasonCategories",
+          "targetFromSourceId",
+          "clinicalReportId",
+          "resourceScore",
+          "drugFromSource",
+          "literature",
+          "studySampleSize",
+          "studyId",
+          "cohortPhenotypes",
+          "biologicalModelAllelicComposition",
+          "cohortId",
+          "oddsRatio",
+          "variantAminoacidDescriptions",
+          "interactingTargetFromSourceId",
+          "pValueExponent",
+          "oddsRatioConfidenceIntervalLower",
+          "geneticInteractionType",
+          "cohortDescription",
+          "qualityControls",
+          "interactingTargetRole",
+          "cellLineBackground",
+          "diseaseFromSourceId",
+          "reactionId",
+          "directionOnTarget",
+          "reactionName",
+          "significantDriverMethods",
+          "studyCases",
+          "studyCasesWithQualifyingVariants",
+          "primaryProjectId",
+          "statisticalMethodOverview",
+          "statisticalMethod",
+          "releaseVersion",
+          "primaryProjectHit",
+          "pValueMantissa",
+          "id",
+          "biomarkerName",
+          "betaConfidenceIntervalUpper",
+          "alleleOrigins",
+          "publicationDate",
+          "log2FoldChangeValue",
+          "geneticInteractionScore",
+          "targetFromSource",
+          "score",
+          "clinicalSignificances",
+          "publicationYear",
+          "diseaseFromSource",
+          "allelicRequirements",
+          "studyOverview",
+          "contrast",
+          "ancestry",
+          "clinicalStage",
+          "geneticInteractionFDR",
+          "datatypeId",
+          "confidence",
+          "phenotypicConsequencePValue",
+          "diseaseFromSourceMappedId",
+          "pubMedCentralIds"
+        ],
+        "collection_warnings": [
+          "The API rejected the expanded nested evidence selection; Agent 1 retried with every top-level scalar/enum field. Original error: Open Targets GraphQL error (HTTP 400): Query is too expensive. The response size is likely to be too large. Try requesting smaller page sizes or fewer items"
+        ],
+        "records": [
+          {
+            "warningMessage": null,
+            "studyStartDate": "2023-11-09",
+            "biologicalModelId": null,
+            "beta": null,
+            "directionOnTrait": "protect",
+            "oddsRatioConfidenceIntervalUpper": null,
+            "datasourceId": "clinical_precedence",
+            "metaTotal": 3,
+            "betaConfidenceIntervalLower": null,
+            "biosamplesFromSource": [],
+            "statisticalTestTail": null,
+            "targetInModel": null,
+            "targetRole": null,
+            "evidenceDate": "2023-11-09",
+            "log2FoldChangePercentileRank": null,
+            "ancestryId": null,
+            "projectId": null,
+            "publicationFirstAuthor": null,
+            "releaseDate": null,
+            "crisprScreenLibrary": null,
+            "variantRsId": null,
+            "biologicalModelGeneticBackground": null,
+            "trialWhyStopped": "Business objectives have changed",
+            "assessments": [],
+            "targetModulation": null,
+            "cellType": null,
+            "phenotypicConsequenceLogFoldChange": null,
+            "projectDescription": null,
+            "cohortShortName": null,
+            "trialStopReasonCategories": [
+              "Business_Administrative"
+            ],
+            "targetFromSourceId": "ENSG00000133703",
+            "clinicalReportId": "nct06024174",
+            "resourceScore": null,
+            "drugFromSource": "adagrasib",
+            "literature": [],
+            "studySampleSize": null,
+            "studyId": null,
+            "cohortPhenotypes": [],
+            "biologicalModelAllelicComposition": null,
+            "cohortId": null,
+            "oddsRatio": null,
+            "variantAminoacidDescriptions": [],
+            "interactingTargetFromSourceId": null,
+            "pValueExponent": null,
+            "oddsRatioConfidenceIntervalLower": null,
+            "geneticInteractionType": null,
+            "cohortDescription": null,
+            "qualityControls": [],
+            "interactingTargetRole": null,
+            "cellLineBackground": null,
+            "diseaseFromSourceId": null,
+            "reactionId": null,
+            "directionOnTarget": "LoF",
+            "reactionName": null,
+            "significantDriverMethods": [],
+            "studyCases": null,
+            "studyCasesWithQualifyingVariants": null,
+            "primaryProjectId": null,
+            "statisticalMethodOverview": null,
+            "statisticalMethod": null,
+            "releaseVersion": null,
+            "primaryProjectHit": null,
+            "pValueMantissa": null,
+            "id": "1bc0ce619076346a798d1a1e4d909f80f19337e3",
+            "biomarkerName": null,
+            "betaConfidenceIntervalUpper": null,
+            "alleleOrigins": [],
+            "publicationDate": null,
+            "log2FoldChangeValue": null,
+            "geneticInteractionScore": null,
+            "targetFromSource": null,
+            "score": 0.15,
+            "clinicalSignificances": [],
+            "publicationYear": null,
+            "diseaseFromSource": "pancreatic duct adenocarcinoma",
+            "allelicRequirements": [],
+            "studyOverview": null,
+            "contrast": null,
+            "ancestry": null,
+            "clinicalStage": "PHASE_1_2",
+            "geneticInteractionFDR": null,
+            "datatypeId": "clinical",
+            "confidence": null,
+            "phenotypicConsequencePValue": null,
+            "diseaseFromSourceMappedId": "MONDO_0005184",
+            "pubMedCentralIds": []
+          },
+          {
+            "warningMessage": null,
+            "studyStartDate": "2022-09-13",
+            "biologicalModelId": null,
+            "beta": null,
+            "directionOnTrait": "protect",
+            "oddsRatioConfidenceIntervalUpper": null,
+            "datasourceId": "clinical_precedence",
+            "metaTotal": 3,
+            "betaConfidenceIntervalLower": null,
+            "biosamplesFromSource": [],
+            "statisticalTestTail": null,
+            "targetInModel": null,
+            "targetRole": null,
+            "evidenceDate": "2022-09-13",
+            "log2FoldChangePercentileRank": null,
+            "ancestryId": null,
+            "projectId": null,
+            "publicationFirstAuthor": null,
+            "releaseDate": null,
+            "crisprScreenLibrary": null,
+            "variantRsId": null,
+            "biologicalModelGeneticBackground": null,
+            "trialWhyStopped": "Funder Decision",
+            "assessments": [],
+            "targetModulation": null,
+            "cellType": null,
+            "phenotypicConsequenceLogFoldChange": null,
+            "projectDescription": null,
+            "cohortShortName": null,
+            "trialStopReasonCategories": [
+              "Business_Administrative"
+            ],
+            "targetFromSourceId": "ENSG00000133703",
+            "clinicalReportId": "nct05251038",
+            "resourceScore": null,
+            "drugFromSource": "sotorasib",
+            "literature": [],
+            "studySampleSize": null,
+            "studyId": null,
+            "cohortPhenotypes": [],
+            "biologicalModelAllelicComposition": null,
+            "cohortId": null,
+            "oddsRatio": null,
+            "variantAminoacidDescriptions": [],
+            "interactingTargetFromSourceId": null,
+            "pValueExponent": null,
+            "oddsRatioConfidenceIntervalLower": null,
+            "geneticInteractionType": null,
+            "cohortDescription": null,
+            "qualityControls": [],
+            "interactingTargetRole": null,
+            "cellLineBackground": null,
+            "diseaseFromSourceId": null,
+            "reactionId": null,
+            "directionOnTarget": "LoF",
+            "reactionName": null,
+            "significantDriverMethods": [],
+            "studyCases": null,
+            "studyCasesWithQualifyingVariants": null,
+            "primaryProjectId": null,
+            "statisticalMethodOverview": null,
+            "statisticalMethod": null,
+            "releaseVersion": null,
+            "primaryProjectHit": null,
+            "pValueMantissa": null,
+            "id": "f5567b9017fe2ecd7cf20f55ad1540d270d09d6f",
+            "biomarkerName": null,
+            "betaConfidenceIntervalUpper": null,
+            "alleleOrigins": [],
+            "publicationDate": null,
+            "log2FoldChangeValue": null,
+            "geneticInteractionScore": null,
+            "targetFromSource": null,
+            "score": 0.15,
+            "clinicalSignificances": [],
+            "publicationYear": null,
+            "diseaseFromSource": "pancreatic cancer",
+            "allelicRequirements": [],
+            "studyOverview": null,
+            "contrast": null,
+            "ancestry": null,
+            "clinicalStage": "PHASE_1_2",
+            "geneticInteractionFDR": null,
+            "datatypeId": "clinical",
+            "confidence": null,
+            "phenotypicConsequencePValue": null,
+            "diseaseFromSourceMappedId": "MONDO_0005192",
+            "pubMedCentralIds": []
+          },
+          {
+            "warningMessage": null,
+            "studyStartDate": "2025-08-08",
+            "biologicalModelId": null,
+            "beta": null,
+            "directionOnTrait": "protect",
+            "oddsRatioConfidenceIntervalUpper": null,
+            "datasourceId": "clinical_precedence",
+            "metaTotal": 3,
+            "betaConfidenceIntervalLower": null,
+            "biosamplesFromSource": [],
+            "statisticalTestTail": null,
+            "targetInModel": null,
+            "targetRole": null,
+            "evidenceDate": "2025-08-08",
+            "log2FoldChangePercentileRank": null,
+            "ancestryId": null,
+            "projectId": null,
+            "publicationFirstAuthor": null,
+            "releaseDate": null,
+            "crisprScreenLibrary": null,
+            "variantRsId": null,
+            "biologicalModelGeneticBackground": null,
+            "trialWhyStopped": null,
+            "assessments": [],
+            "targetModulation": null,
+            "cellType": null,
+            "phenotypicConsequenceLogFoldChange": null,
+            "projectDescription": null,
+            "cohortShortName": null,
+            "trialStopReasonCategories": [],
+            "targetFromSourceId": "ENSG00000133703",
+            "clinicalReportId": "nct06892054",
+            "resourceScore": null,
+            "drugFromSource": "sotorasib",
+            "literature": [],
+            "studySampleSize": null,
+            "studyId": null,
+            "cohortPhenotypes": [],
+            "biologicalModelAllelicComposition": null,
+            "cohortId": null,
+            "oddsRatio": null,
+            "variantAminoacidDescriptions": [],
+            "interactingTargetFromSourceId": null,
+            "pValueExponent": null,
+            "oddsRatioConfidenceIntervalLower": null,
+            "geneticInteractionType": null,
+            "cohortDescription": null,
+            "qualityControls": [],
+            "interactingTargetRole": null,
+            "cellLineBackground": null,
+            "diseaseFromSourceId": null,
+            "reactionId": null,
+            "directionOnTarget": "LoF",
+            "reactionName": null,
+            "significantDriverMethods": [],
+            "studyCases": null,
+            "studyCasesWithQualifyingVariants": null,
+            "primaryProjectId": null,
+            "statisticalMethodOverview": null,
+            "statisticalMethod": null,
+            "releaseVersion": null,
+            "primaryProjectHit": null,
+            "pValueMantissa": null,
+            "id": "e11dd5f9e614ec0c2f9f28e1f142a57328b65039",
+            "biomarkerName": null,
+            "betaConfidenceIntervalUpper": null,
+            "alleleOrigins": [],
+            "publicationDate": null,
+            "log2FoldChangeValue": null,
+            "geneticInteractionScore": null,
+            "targetFromSource": null,
+            "score": 0.1,
+            "clinicalSignificances": [],
+            "publicationYear": null,
+            "diseaseFromSource": "pancreatic adenocarcinoma",
+            "allelicRequirements": [],
+            "studyOverview": null,
+            "contrast": null,
+            "ancestry": null,
+            "clinicalStage": "PHASE_1",
+            "geneticInteractionFDR": null,
+            "datatypeId": "clinical",
+            "confidence": null,
+            "phenotypicConsequencePValue": null,
+            "diseaseFromSourceMappedId": "MONDO_0006047",
+            "pubMedCentralIds": []
+          }
+        ]
+      }
+    ],
+    "rank_within_fetched_targets": 1,
+    "fetched_target_count": 100,
+    "source": "Open Targets Platform GraphQL API",
+    "source_url": "https://platform.opentargets.org/",
+    "retrieved_at": "2026-08-13T12:32:18.630156+00:00",
+    "limitations": [
+      "Only the first 100 disease-associated targets were fetched.",
+      "Datasource scores are Open Targets association scores, not clinical confidence scores.",
+      "A missing pair may mean it falls outside the fetched rank window."
+    ]
+  }
+}

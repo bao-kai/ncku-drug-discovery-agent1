@@ -1,0 +1,214 @@
+{
+  "schema_version": "2.0",
+  "manifest_id": "f3c1a5d4-8a9e-4a3b-9c2d-7e1f0e8a7b6c",
+  "original_question": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）目前有哪些已知的治療標的？",
+  "research_objective": "識別與胰臟癌（PDAC）相關的治療標的",
+  "entities": [
+    {
+      "entity_ref": "entity_1",
+      "entity_type": "disease",
+      "mention": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）",
+      "entity_id": null,
+      "canonical_name": null,
+      "resolution_status": "unresolved"
+    }
+  ],
+  "plan_steps": [
+    {
+      "step_id": "resolve_disease_1",
+      "operation": "resolve_disease",
+      "operation_status": "approved",
+      "proposed_operation_name": null,
+      "proposal_reason": null,
+      "description": "解析疾病提及 '胰臟癌（pancreatic ductal adenocarcinoma, PDAC）' 為標準實體",
+      "depends_on": [],
+      "entity_refs": [
+        "entity_1"
+      ],
+      "sources": [
+        "open_targets"
+      ],
+      "outputs": [
+        "resolved_disease_1"
+      ],
+      "filters": {},
+      "ranking": null,
+      "aggregation": null,
+      "safeguards": [
+        "association_does_not_imply_efficacy",
+        "association_score_not_probability",
+        "missing_not_negative",
+        "provenance_pagination_truncation"
+      ]
+    },
+    {
+      "step_id": "discover_targets_1",
+      "operation": "discover_targets",
+      "operation_status": "approved",
+      "proposed_operation_name": null,
+      "proposal_reason": null,
+      "description": "取得與解析後 PDAC 相關的治療標的",
+      "depends_on": [
+        "resolve_disease_1"
+      ],
+      "entity_refs": [
+        "entity_1"
+      ],
+      "sources": [
+        "open_targets"
+      ],
+      "outputs": [
+        "disease_target_association_1",
+        "target_candidates_1"
+      ],
+      "filters": {},
+      "ranking": null,
+      "aggregation": null,
+      "safeguards": [
+        "association_does_not_imply_efficacy",
+        "association_score_not_probability",
+        "missing_not_negative",
+        "provenance_pagination_truncation"
+      ]
+    },
+    {
+      "step_id": "retrieve_target_drugs_1",
+      "operation": "retrieve_target_drugs",
+      "operation_status": "approved",
+      "proposed_operation_name": null,
+      "proposal_reason": null,
+      "description": "取得與 PDAC 相關治療標的的已知藥物與證據",
+      "depends_on": [
+        "discover_targets_1"
+      ],
+      "entity_refs": [
+        "entity_1"
+      ],
+      "sources": [
+        "chembl",
+        "open_targets"
+      ],
+      "outputs": [
+        "target_drug_evidence_1"
+      ],
+      "filters": {},
+      "ranking": null,
+      "aggregation": null,
+      "safeguards": [
+        "missing_not_negative",
+        "provenance_pagination_truncation"
+      ]
+    },
+    {
+      "step_id": "retrieve_tractability_1",
+      "operation": "retrieve_tractability",
+      "operation_status": "approved",
+      "proposed_operation_name": null,
+      "proposal_reason": null,
+      "description": "取得與 PDAC 相關治療標的的可成藥性與小分子 tractability 證據",
+      "depends_on": [
+        "discover_targets_1"
+      ],
+      "entity_refs": [
+        "entity_1"
+      ],
+      "sources": [
+        "chembl",
+        "open_targets"
+      ],
+      "outputs": [
+        "tractability_evidence_1"
+      ],
+      "filters": {},
+      "ranking": null,
+      "aggregation": null,
+      "safeguards": [
+        "missing_not_negative",
+        "provenance_pagination_truncation",
+        "tractability_not_efficacy"
+      ]
+    },
+    {
+      "step_id": "stratify_target_evidence_layers_1",
+      "operation": "stratify_target_evidence_layers",
+      "operation_status": "approved",
+      "proposed_operation_name": null,
+      "proposal_reason": null,
+      "description": "整合疾病關聯、藥物證據與 tractability 證據，分層輸出治療標的",
+      "depends_on": [
+        "discover_targets_1",
+        "retrieve_target_drugs_1",
+        "retrieve_tractability_1"
+      ],
+      "entity_refs": [
+        "entity_1"
+      ],
+      "sources": [],
+      "outputs": [
+        "stratified_target_evidence_1",
+        "target_translation_layer_1"
+      ],
+      "filters": {},
+      "ranking": null,
+      "aggregation": {
+        "target_translation_layer": "reserved"
+      },
+      "safeguards": [
+        "missing_not_negative",
+        "provenance_pagination_truncation"
+      ]
+    },
+    {
+      "step_id": "rank_targets_1",
+      "operation": "rank_targets",
+      "operation_status": "approved",
+      "proposed_operation_name": null,
+      "proposal_reason": null,
+      "description": "依證據強度與明列警訊排序治療標的",
+      "depends_on": [
+        "stratify_target_evidence_layers_1"
+      ],
+      "entity_refs": [],
+      "sources": [],
+      "outputs": [
+        "ranked_targets_1"
+      ],
+      "filters": {},
+      "ranking": {
+        "primary_metric": "overall_association_score",
+        "direction": "descending",
+        "secondary_metrics": []
+      },
+      "aggregation": null,
+      "safeguards": [
+        "association_does_not_imply_efficacy",
+        "missing_not_negative"
+      ]
+    }
+  ],
+  "evidence_requirements": [
+    "disease_target_association",
+    "target_candidates",
+    "tractability_evidence"
+  ],
+  "completion_criteria": [
+    "成功解析 PDAC 為標準實體",
+    "取得至少 5 個 PDAC 相關治療標的",
+    "完成治療標的排序"
+  ],
+  "global_safeguards": [
+    "association_does_not_imply_efficacy",
+    "association_score_not_probability",
+    "missing_not_negative",
+    "provenance_pagination_truncation",
+    "tractability_not_efficacy"
+  ],
+  "characteristics": {
+    "primary": "evidence_directed",
+    "secondary": [
+      "filter_and_rank"
+    ]
+  },
+  "created_before_retrieval": true,
+  "generated_at": "2026-09-13T09:43:19.662770Z"
+}

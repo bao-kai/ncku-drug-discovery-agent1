@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "question": "有哪些藥物作用在 KRAS G12C／G12D 上？各自的作用機制是什麼？",
+  "acceptance_case_id": "kras_variant_drugs",
+  "few_shot_mode": "off",
+  "operation_catalog_mode": "full",
+  "blind_first_attempt": true,
+  "status": "failed",
+  "final_plan": null,
+  "attempts": [
+    {
+      "attempt": 1,
+      "started_at": "2026-09-04T08:40:07.040038Z",
+      "duration_seconds": 1290.571749900002,
+      "schema_valid": false,
+      "semantic_acceptance": null,
+      "candidate_plan": null,
+      "raw_candidate_payload": null,
+      "repair_feedback_sent_next": {
+        "missing": [],
+        "incorrect": [
+          {
+            "area": "schema_or_integrity",
+            "problem": "model attempt exceeded 1200.0 seconds",
+            "required_correction": "修正指定錯誤並保留原始問題。"
+          }
+        ],
+        "preserve": []
+      },
+      "errors": [
+        "ModelAttemptTimeout: model attempt exceeded 1200.0 seconds"
+      ],
+      "corrected_model_claims": [],
+      "regressed_components": [],
+      "input_tokens": null,
+      "output_tokens": null,
+      "total_tokens": null,
+      "model_total_duration_ns": null,
+      "model_eval_duration_ns": null,
+      "model_eval_count": null,
+      "model_generation_timeout": true,
+      "ollama_stop_requested": true,
+      "ollama_stopping_detected": true,
+      "ollama_stopping_timeout": true,
+      "ollama_cleanup_succeeded": false,
+      "ollama_cleanup_error": null,
+      "evidence_collection_started": false,
+      "executed_retrieval_tools": []
+    }
+  ],
+  "first_attempt_passed": false,
+  "repair_count": 0,
+  "total_duration_seconds": 1290.5759149000514,
+  "evidence_collection_started": false,
+  "executed_retrieval_tools": [],
+  "generated_at": "2026-09-04T09:01:37.615727Z"
+}

@@ -1,0 +1,132 @@
+{
+  "schema_version": "2.0",
+  "manifest_id": "4e54869c-74c6-445f-a219-02fde2c08f09",
+  "original_question": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）目前有哪些已知的治療標的？",
+  "research_objective": "識別與胰臟癌（PDAC）相關的已知治療標的（如分子靶點、生物標記物等）",
+  "entities": [
+    {
+      "entity_ref": "pdac_disease",
+      "entity_type": "disease",
+      "mention": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）",
+      "entity_id": "disease_open_targets_pdac",
+      "canonical_name": "pancreatic ductal adenocarcinoma",
+      "resolution_status": "verified"
+    },
+    {
+      "entity_ref": "treatment_targets",
+      "entity_type": "target",
+      "mention": "治療標的",
+      "entity_id": null,
+      "canonical_name": null,
+      "resolution_status": "unresolved"
+    }
+  ],
+  "plan_steps": [
+    {
+      "step_id": "resolve_pdac_disease",
+      "operation": "entity_resolution",
+      "description": "確認胰臟癌（PDAC）在開放目標資料庫中的規範疾病識別碼",
+      "depends_on": [],
+      "entity_refs": [
+        "pdac_disease"
+      ],
+      "sources": [
+        "open_targets"
+      ],
+      "outputs": [
+        "pdac_canonical_name",
+        "pdac_entity_id"
+      ],
+      "filters": {
+        "disease_name": "pancreatic ductal adenocarcinoma"
+      },
+      "ranking": null,
+      "aggregation": null,
+      "safeguards": [
+        "pdac_resolution_success"
+      ]
+    },
+    {
+      "step_id": "retrieve_disease_targets",
+      "operation": "target_retrieval",
+      "description": "從開放目標資料庫取得PDAC相關的分子靶點與治療標的",
+      "depends_on": [
+        "resolve_pdac_disease"
+      ],
+      "entity_refs": [
+        "pdac_disease"
+      ],
+      "sources": [
+        "open_targets"
+      ],
+      "outputs": [
+        "target_list",
+        "association_evidence"
+      ],
+      "filters": {
+        "disease_id": "disease_open_targets_pdac"
+      },
+      "ranking": {
+        "tractability_score": "desc"
+      },
+      "aggregation": {
+        "count": "association_count",
+        "group_by": "target_id"
+      },
+      "safeguards": [
+        "target_retrieval_complete",
+        "evidence_threshold_met"
+      ]
+    },
+    {
+      "step_id": "validate_with_chembl",
+      "operation": "target_validation",
+      "description": "使用Chembl資料庫驗證靶點的藥物開發狀態與生物活性證據",
+      "depends_on": [
+        "retrieve_disease_targets"
+      ],
+      "entity_refs": [
+        "treatment_targets"
+      ],
+      "sources": [
+        "chembl"
+      ],
+      "outputs": [
+        "validated_targets",
+        "compound_evidence"
+      ],
+      "filters": {
+        "bioactivity": {
+          "gte": 5
+        },
+        "target_type": "approved"
+      },
+      "ranking": null,
+      "aggregation": null,
+      "safeguards": [
+        "chembl_data_available"
+      ]
+    }
+  ],
+  "evidence_requirements": [
+    "open_targets_disease_target_association",
+    "chembl_compound_bioactivity"
+  ],
+  "completion_criteria": [
+    "成功解析PDAC疾病實體",
+    "取得至少5個具有臨床證據的治療標的",
+    "驗證靶點在Chembl中的藥物開發狀態"
+  ],
+  "global_safeguards": [
+    "pdac_resolution_success",
+    "target_retrieval_complete",
+    "evidence_threshold_met",
+    "chembl_data_available"
+  ],
+  "characteristics": {
+    "primary": "multi_hop",
+    "secondary": []
+  },
+  "created_before_retrieval": true,
+  "generated_at": "2026-08-21T13:32:14.088496Z"
+}

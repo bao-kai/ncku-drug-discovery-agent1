@@ -1,0 +1,1587 @@
+{
+  "schema_version": "1.1",
+  "question": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）目前有哪些已知的治療標的？",
+  "acceptance_case_id": "pdac_known_targets",
+  "few_shot_mode": "off",
+  "operation_catalog_mode": "full",
+  "repair_mode": "local_patch",
+  "blind_first_attempt": true,
+  "status": "failed",
+  "final_plan": null,
+  "attempts": [
+    {
+      "attempt": 1,
+      "started_at": "2026-09-13T09:44:59.675333Z",
+      "duration_seconds": 357.83496170002036,
+      "schema_valid": true,
+      "generation_mode": "full_plan",
+      "applied_patch": null,
+      "repair_scope": null,
+      "promoted_to_repair_base": true,
+      "semantic_acceptance": {
+        "case_id": "pdac_known_targets",
+        "passed": false,
+        "missing_entities": [],
+        "missing_capabilities": [
+          "retrieve_target_drugs",
+          "retrieve_tractability",
+          "stratify_target_evidence_layers"
+        ],
+        "missing_operations": [
+          "retrieve_target_drugs",
+          "retrieve_tractability",
+          "stratify_target_evidence_layers"
+        ],
+        "missing_dependencies": [
+          "discover_targets->retrieve_target_drugs",
+          "discover_targets->retrieve_tractability",
+          "retrieve_target_drugs->stratify_target_evidence_layers",
+          "retrieve_tractability->stratify_target_evidence_layers",
+          "stratify_target_evidence_layers->rank_targets"
+        ],
+        "missing_sources": [
+          "chembl"
+        ],
+        "missing_safeguards": [
+          "tractability_not_efficacy"
+        ],
+        "missing_filters": [],
+        "missing_ranking": [
+          "overall_association_score"
+        ],
+        "missing_aggregation": [
+          "target_translation_layer"
+        ],
+        "forbidden_findings": [],
+        "optional_capabilities_present": [],
+        "accepted_capabilities": [
+          "discover_targets",
+          "rank_targets",
+          "resolve_disease"
+        ],
+        "actual_operations": [
+          "discover_targets",
+          "rank_targets",
+          "resolve_disease"
+        ],
+        "unrecognized_operations": [],
+        "proposed_operations": []
+      },
+      "operation_rule_evaluation": {
+        "passed": false,
+        "findings": [
+          {
+            "rule_id": "analysis_metric_requires_available_evidence",
+            "severity": "hard_error",
+            "step_id": "rank_targets_1",
+            "operation": "rank_targets",
+            "problem": "rank_targets 使用未核准或尚不可用的分析控制：未登記 metrics：association_evidence_strength, clinical_trial_phase, tractability_evidence_score。",
+            "required_correction": "只使用 operation table 支援的 filter 與 metric registry 已登記且有上游證據的指標；否則標記為待人工審核。",
+            "missing": [
+              "association_evidence_strength",
+              "clinical_trial_phase",
+              "tractability_evidence_score"
+            ]
+          }
+        ]
+      },
+      "candidate_plan": {
+        "schema_version": "2.0",
+        "manifest_id": "f3c1a5d4-8a9e-4a3b-9c2d-7e1f0e8a7b6c",
+        "original_question": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）目前有哪些已知的治療標的？",
+        "research_objective": "識別與胰臟癌（PDAC）相關的治療標的",
+        "entities": [
+          {
+            "entity_ref": "entity_1",
+            "entity_type": "disease",
+            "mention": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）",
+            "entity_id": null,
+            "canonical_name": null,
+            "resolution_status": "unresolved"
+          }
+        ],
+        "plan_steps": [
+          {
+            "step_id": "resolve_disease_1",
+            "operation": "resolve_disease",
+            "operation_status": "approved",
+            "proposed_operation_name": null,
+            "proposal_reason": null,
+            "description": "解析疾病提及 '胰臟癌（pancreatic ductal adenocarcinoma, PDAC）' 為標準實體",
+            "depends_on": [],
+            "entity_refs": [
+              "entity_1"
+            ],
+            "sources": [
+              "open_targets"
+            ],
+            "outputs": [
+              "resolved_disease_1"
+            ],
+            "filters": {},
+            "ranking": null,
+            "aggregation": null,
+            "safeguards": [
+              "association_does_not_imply_efficacy",
+              "association_score_not_probability",
+              "missing_not_negative",
+              "provenance_pagination_truncation"
+            ]
+          },
+          {
+            "step_id": "discover_targets_1",
+            "operation": "discover_targets",
+            "operation_status": "approved",
+            "proposed_operation_name": null,
+            "proposal_reason": null,
+            "description": "取得與解析後 PDAC 相關的治療標的",
+            "depends_on": [
+              "resolve_disease_1"
+            ],
+            "entity_refs": [
+              "entity_1"
+            ],
+            "sources": [
+              "open_targets"
+            ],
+            "outputs": [
+              "disease_target_association_1",
+              "target_candidates_1"
+            ],
+            "filters": {},
+            "ranking": null,
+            "aggregation": null,
+            "safeguards": [
+              "association_does_not_imply_efficacy",
+              "association_score_not_probability",
+              "missing_not_negative",
+              "provenance_pagination_truncation"
+            ]
+          },
+          {
+            "step_id": "rank_targets_1",
+            "operation": "rank_targets",
+            "operation_status": "approved",
+            "proposed_operation_name": null,
+            "proposal_reason": null,
+            "description": "依證據強度與明列警訊排序治療標的",
+            "depends_on": [
+              "discover_targets_1"
+            ],
+            "entity_refs": [
+              "entity_1"
+            ],
+            "sources": [],
+            "outputs": [
+              "ranked_targets_1"
+            ],
+            "filters": {},
+            "ranking": {
+              "primary_metric": "association_evidence_strength",
+              "direction": "descending",
+              "secondary_metrics": [
+                "tractability_evidence_score",
+                "clinical_trial_phase"
+              ]
+            },
+            "aggregation": null,
+            "safeguards": [
+              "association_does_not_imply_efficacy",
+              "missing_not_negative"
+            ]
+          }
+        ],
+        "evidence_requirements": [
+          "disease_target_association",
+          "target_candidates",
+          "tractability_evidence"
+        ],
+        "completion_criteria": [
+          "成功解析 PDAC 為標準實體",
+          "取得至少 5 個 PDAC 相關治療標的",
+          "完成治療標的排序"
+        ],
+        "global_safeguards": [
+          "association_does_not_imply_efficacy",
+          "association_score_not_probability",
+          "missing_not_negative",
+          "provenance_pagination_truncation"
+        ],
+        "characteristics": {
+          "primary": "evidence_directed",
+          "secondary": [
+            "filter_and_rank"
+          ]
+        },
+        "created_before_retrieval": true,
+        "generated_at": "2026-09-13T09:50:57.507914Z"
+      },
+      "raw_candidate_payload": {
+        "schema_version": "2.0",
+        "manifest_id": "f3c1a5d4-8a9e-4a3b-9c2d-7e1f0e8a7b6c",
+        "original_question": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）目前有哪些已知的治療標的？",
+        "research_objective": "識別與胰臟癌（PDAC）相關的治療標的",
+        "entities": [
+          {
+            "entity_ref": "entity_1",
+            "entity_type": "disease",
+            "mention": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）",
+            "entity_id": null,
+            "canonical_name": null,
+            "resolution_status": "unresolved"
+          }
+        ],
+        "plan_steps": [
+          {
+            "step_id": "resolve_disease_1",
+            "operation": "resolve_disease",
+            "operation_status": "approved",
+            "proposed_operation_name": null,
+            "proposal_reason": null,
+            "description": "解析疾病提及 '胰臟癌（pancreatic ductal adenocarcinoma, PDAC）' 為標準實體",
+            "depends_on": [],
+            "entity_refs": [
+              "entity_1"
+            ],
+            "sources": [
+              "open_targets"
+            ],
+            "outputs": [
+              "resolved_disease_1"
+            ],
+            "filters": {},
+            "ranking": null,
+            "aggregation": null,
+            "safeguards": [
+              "association_does_not_imply_efficacy",
+              "association_score_not_probability",
+              "missing_not_negative",
+              "provenance_pagination_truncation"
+            ]
+          },
+          {
+            "step_id": "discover_targets_1",
+            "operation": "discover_targets",
+            "operation_status": "approved",
+            "proposed_operation_name": null,
+            "proposal_reason": null,
+            "description": "取得與解析後 PDAC 相關的治療標的",
+            "depends_on": [
+              "resolve_disease_1"
+            ],
+            "entity_refs": [
+              "entity_1"
+            ],
+            "sources": [
+              "open_targets"
+            ],
+            "outputs": [
+              "disease_target_association_1",
+              "target_candidates_1"
+            ],
+            "filters": {},
+            "ranking": null,
+            "aggregation": null,
+            "safeguards": [
+              "association_does_not_imply_efficacy",
+              "association_score_not_probability",
+              "missing_not_negative",
+              "provenance_pagination_truncation"
+            ]
+          },
+          {
+            "step_id": "rank_targets_1",
+            "operation": "rank_targets",
+            "operation_status": "approved",
+            "proposed_operation_name": null,
+            "proposal_reason": null,
+            "description": "依證據強度與明列警訊排序治療標的",
+            "depends_on": [
+              "discover_targets_1"
+            ],
+            "entity_refs": [
+              "entity_1"
+            ],
+            "sources": [],
+            "outputs": [
+              "ranked_targets_1"
+            ],
+            "filters": {},
+            "ranking": {
+              "primary_metric": "association_evidence_strength",
+              "direction": "descending",
+              "secondary_metrics": [
+                "tractability_evidence_score",
+                "clinical_trial_phase"
+              ]
+            },
+            "aggregation": null,
+            "safeguards": [
+              "association_does_not_imply_efficacy",
+              "missing_not_negative"
+            ]
+          }
+        ],
+        "evidence_requirements": [
+          "disease_target_association",
+          "target_candidates",
+          "tractability_evidence"
+        ],
+        "completion_criteria": [
+          "成功解析 PDAC 為標準實體",
+          "取得至少 5 個 PDAC 相關治療標的",
+          "完成治療標的排序"
+        ],
+        "global_safeguards": [
+          "association_does_not_imply_efficacy",
+          "association_score_not_probability",
+          "missing_not_negative",
+          "provenance_pagination_truncation"
+        ],
+        "characteristics": {
+          "primary": "evidence_directed",
+          "secondary": [
+            "filter_and_rank"
+          ]
+        },
+        "created_before_retrieval": true,
+        "generated_at": "2026-09-13T09:50:57.506332Z"
+      },
+      "model_calls": [
+        {
+          "call_index": 1,
+          "run_id": "01a09a27-e024-7d83-b128-a23de8e09c6f",
+          "parent_run_id": null,
+          "started_at": "2026-09-13T09:44:59.684077Z",
+          "finished_at": "2026-09-13T09:50:57.505274Z",
+          "duration_seconds": 357.821197,
+          "status": "completed",
+          "input_messages": [
+            {
+              "content": "\nYou are the Research Planner inside Agent 1. You have no tools and must never\nretrieve evidence. Convert the user's complete natural-language research\nquestion into QueryManifestV2.\n\nPlan from the requested research objective, not from a six-class classifier.\nThe characteristics field is descriptive metadata only. A question may cross\ncategories or fit them imperfectly.\n\nRequirements:\n- Preserve original_question exactly.\n- Extract every explicitly named disease, target, drug, tissue, and mechanism.\n  Do not invent identifiers. Without verified context, use resolution_status\n  'unresolved' and leave entity_id/canonical_name null.\n- Create concrete, ordered operations. Every step has a unique `step_id`.\n  `depends_on` may contain only earlier `step_id` values, never an output name.\n  Example: if step `resolve_disease_1` outputs `resolved_disease_1`, the next\n  step must use `depends_on: [\"resolve_disease_1\"]`, not\n  `depends_on: [\"resolved_disease_1\"]`.\n  Use entity_refs to show which top-level entities each step uses.\n- `entity_refs` may contain only `entity_ref` values declared in the top-level\n  entities list. Never put a prior step's output name in entity_refs. Use\n  depends_on for step-to-step data flow and outputs only to name produced data.\n- Plan entity resolution before operations that require normalized IDs.\n- Assign only sources genuinely needed by each step: open_targets for disease,\n  target, association, tractability and integrated evidence; europe_pmc for\n  literature; clinicaltrials_gov for trials, status and posted results; chembl\n  for compounds, target mapping, assays, bioactivity and mechanisms.\n- When the user asks for therapeutic targets, do not equate every\n  disease-associated target with a therapeutic target. Plan separate evidence\n  collection for disease association and for translational support such as\n  known drug evidence or tractability, then stratify the results so those\n  evidence layers remain distinguishable.\n- Encode thresholds in filters and joins/comparisons/counts/grouping in\n  aggregation. When ordering is needed, ranking must use exactly:\n  {\"primary_metric\": \"snake_case_metric\", \"direction\": \"ascending|descending\",\n  \"secondary_metrics\": [\"optional_metric\"]}. Do not use criteria, sort,\n  sort_by, rank_by, or order_by.\n- Preserve provenance, retrieval time, pagination, truncation, and per-source\n  success/error state in safeguards.\n- Missing evidence remains unknown, not negative. Association scores are not\n  probabilities, association does not prove efficacy or indication, and\n  approval requires an explicit approval source.\n- This phase creates a plan only. Never claim evidence was retrieved or that a\n  scientific conclusion is established.\n- `characteristics` is metadata with exactly this shape:\n  {\"primary\": \"one_allowed_enum_value\", \"secondary\": [\"zero_or_more_other_allowed_values\"]}.\n  `primary` must be one of single_hop, multi_hop, evidence_directed,\n  filter_and_rank, comparison_and_aggregation, or safety_and_negative_knowledge.\n  Do not replace this shape with arbitrary boolean flags.\n- Do not generate `generated_at`; Python supplies authoritative runtime time.\n\nBefore choosing an operation, check the provided OPERATION_TABLE. If the needed\ncapability matches a canonical operation or reviewed equivalent, use the\ncanonical operation. If no equivalent exists, do not invent an approved\noperation: use operation='proposed_new_operation', operation_status='proposed',\nand provide proposed_operation_name and proposal_reason for human review.\n\nUse concise stable snake_case English operation/key/safeguard identifiers;\nnever put prose sentences in operation, key, or safeguard identifier fields.\nWrite descriptions and criteria in clear Traditional Chinese.\n\nReturn exactly one JSON object matching this schema:\n{\"$defs\": {\"PlannedEntityV2\": {\"description\": \"Entity mentioned by the user and carried into a plan without invention.\", \"properties\": {\"entity_ref\": {\"minLength\": 1, \"title\": \"Entity Ref\", \"type\": \"string\"}, \"entity_type\": {\"enum\": [\"disease\", \"target\", \"drug\", \"tissue\", \"mechanism\"], \"title\": \"Entity Type\", \"type\": \"string\"}, \"mention\": {\"minLength\": 1, \"title\": \"Mention\", \"type\": \"string\"}, \"entity_id\": {\"anyOf\": [{\"type\": \"string\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Entity Id\"}, \"canonical_name\": {\"anyOf\": [{\"type\": \"string\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Canonical Name\"}, \"resolution_status\": {\"enum\": [\"verified\", \"ambiguous\", \"unresolved\"], \"title\": \"Resolution Status\", \"type\": \"string\"}}, \"required\": [\"entity_ref\", \"entity_type\", \"mention\", \"resolution_status\"], \"title\": \"PlannedEntityV2\", \"type\": \"object\"}, \"QueryCharacteristicsV2\": {\"description\": \"Descriptive labels for indexing; they do not determine the plan.\", \"properties\": {\"primary\": {\"enum\": [\"single_hop\", \"multi_hop\", \"evidence_directed\", \"filter_and_rank\", \"comparison_and_aggregation\", \"safety_and_negative_knowledge\"], \"title\": \"Primary\", \"type\": \"string\"}, \"secondary\": {\"items\": {\"enum\": [\"single_hop\", \"multi_hop\", \"evidence_directed\", \"filter_and_rank\", \"comparison_and_aggregation\", \"safety_and_negative_knowledge\"], \"type\": \"string\"}, \"title\": \"Secondary\", \"type\": \"array\"}}, \"required\": [\"primary\"], \"title\": \"QueryCharacteristicsV2\", \"type\": \"object\"}, \"RankingSpecV2\": {\"additionalProperties\": false, \"description\": \"Deterministic ranking contract with conservative legacy normalization.\", \"properties\": {\"primary_metric\": {\"minLength\": 1, \"title\": \"Primary Metric\", \"type\": \"string\"}, \"direction\": {\"enum\": [\"ascending\", \"descending\"], \"title\": \"Direction\", \"type\": \"string\"}, \"secondary_metrics\": {\"items\": {\"type\": \"string\"}, \"title\": \"Secondary Metrics\", \"type\": \"array\"}}, \"required\": [\"primary_metric\", \"direction\"], \"title\": \"RankingSpecV2\", \"type\": \"object\"}, \"ResearchPlanStepV2\": {\"description\": \"One executable or analytical operation in a research plan.\", \"properties\": {\"step_id\": {\"minLength\": 1, \"title\": \"Step Id\", \"type\": \"string\"}, \"operation\": {\"minLength\": 1, \"title\": \"Operation\", \"type\": \"string\"}, \"operation_status\": {\"default\": \"approved\", \"enum\": [\"approved\", \"proposed\"], \"title\": \"Operation Status\", \"type\": \"string\"}, \"proposed_operation_name\": {\"anyOf\": [{\"type\": \"string\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Proposed Operation Name\"}, \"proposal_reason\": {\"anyOf\": [{\"type\": \"string\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Proposal Reason\"}, \"description\": {\"minLength\": 1, \"title\": \"Description\", \"type\": \"string\"}, \"depends_on\": {\"items\": {\"type\": \"string\"}, \"title\": \"Depends On\", \"type\": \"array\"}, \"entity_refs\": {\"items\": {\"type\": \"string\"}, \"title\": \"Entity Refs\", \"type\": \"array\"}, \"sources\": {\"items\": {\"enum\": [\"open_targets\", \"europe_pmc\", \"clinicaltrials_gov\", \"chembl\"], \"type\": \"string\"}, \"title\": \"Sources\", \"type\": \"array\"}, \"outputs\": {\"items\": {\"type\": \"string\"}, \"minItems\": 1, \"title\": \"Outputs\", \"type\": \"array\"}, \"filters\": {\"additionalProperties\": true, \"title\": \"Filters\", \"type\": \"object\"}, \"ranking\": {\"anyOf\": [{\"$ref\": \"#/$defs/RankingSpecV2\"}, {\"type\": \"null\"}], \"default\": null}, \"aggregation\": {\"anyOf\": [{\"additionalProperties\": true, \"type\": \"object\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Aggregation\"}, \"safeguards\": {\"items\": {\"type\": \"string\"}, \"title\": \"Safeguards\", \"type\": \"array\"}}, \"required\": [\"step_id\", \"operation\", \"description\", \"outputs\"], \"title\": \"ResearchPlanStepV2\", \"type\": \"object\"}}, \"description\": \"Plan-first contract for complex natural-language research questions.\", \"properties\": {\"schema_version\": {\"const\": \"2.0\", \"default\": \"2.0\", \"title\": \"Schema Version\", \"type\": \"string\"}, \"manifest_id\": {\"format\": \"uuid\", \"title\": \"Manifest Id\", \"type\": \"string\"}, \"original_question\": {\"minLength\": 1, \"title\": \"Original Question\", \"type\": \"string\"}, \"research_objective\": {\"minLength\": 1, \"title\": \"Research Objective\", \"type\": \"string\"}, \"entities\": {\"items\": {\"$ref\": \"#/$defs/PlannedEntityV2\"}, \"minItems\": 1, \"title\": \"Entities\", \"type\": \"array\"}, \"plan_steps\": {\"items\": {\"$ref\": \"#/$defs/ResearchPlanStepV2\"}, \"minItems\": 1, \"title\": \"Plan Steps\", \"type\": \"array\"}, \"evidence_requirements\": {\"items\": {\"type\": \"string\"}, \"minItems\": 1, \"title\": \"Evidence Requirements\", \"type\": \"array\"}, \"completion_criteria\": {\"items\": {\"type\": \"string\"}, \"minItems\": 1, \"title\": \"Completion Criteria\", \"type\": \"array\"}, \"global_safeguards\": {\"items\": {\"type\": \"string\"}, \"minItems\": 1, \"title\": \"Global Safeguards\", \"type\": \"array\"}, \"characteristics\": {\"$ref\": \"#/$defs/QueryCharacteristicsV2\"}, \"created_before_retrieval\": {\"const\": true, \"default\": true, \"title\": \"Created Before Retrieval\", \"type\": \"boolean\"}, \"generated_at\": {\"format\": \"date-time\", \"title\": \"Generated At\", \"type\": \"string\"}}, \"required\": [\"original_question\", \"research_objective\", \"entities\", \"plan_steps\", \"evidence_requirements\", \"completion_criteria\", \"global_safeguards\", \"characteristics\"], \"title\": \"QueryManifestV2\", \"type\": \"object\"}",
+              "additional_kwargs": {},
+              "response_metadata": {},
+              "type": "system",
+              "name": null,
+              "id": null
+            },
+            {
+              "content": "使用者原始問題：\n胰臟癌（pancreatic ductal adenocarcinoma, PDAC）目前有哪些已知的治療標的？\n\n\nAgent 1 standard operation catalog with capability boundaries (choose only what\nthe question needs):\n- canonical=aggregate_category_distribution; equivalents=none; kind=analysis; reserved_outputs=['category_distribution']; requires_aggregation=true; meaning=輸入已分類紀錄，計算各類別數量或比例；不用來建立證據層級。\n- canonical=aggregate_failed_programs; equivalents=none; kind=analysis; meaning=依藥物計畫與終止原因彙整失敗紀錄；缺少結果不等於失敗。\n- canonical=calculate_coverage_rates; equivalents=none; kind=analysis; meaning=使用已定義的分子與分母計算覆蓋率，不自行改變分母。\n- canonical=classify_kinase_targets; equivalents=none; kind=analysis; meaning=將已解析標的依家族註記判定為 kinase 或非 kinase。\n- canonical=classify_mechanism_categories; equivalents=none; kind=analysis; meaning=依預先定義規則將藥物機制或 modality 分類，組合療法須遵守多標籤政策。\n- canonical=classify_termination_reasons; equivalents=none; kind=analysis; meaning=將明確的試驗或計畫終止原因分類為安全性、療效或其他。\n- canonical=compare_association_evidence; equivalents=none; kind=analysis; meaning=以相同維度並列比較多個 disease-target 關聯證據，不建立未定義的綜合分數。\n- canonical=compare_disease_rates; equivalents=none; kind=analysis; meaning=比較各疾病已計算的比率，必須使用一致分母定義。\n- canonical=compare_evidence_types; equivalents=none; kind=analysis; meaning=比較不同證據類型的分布或貢獻，不把紀錄數直接當 datasource score。\n- canonical=compare_pdac_rank; equivalents=none; kind=analysis; meaning=檢查 PDAC 在已排序疾病中的相對位置，不重新查詢疾病清單。\n- canonical=compare_targets; equivalents=none; kind=analysis; meaning=依一致比較維度並列多個標的的證據，不把缺失值視為零。\n- canonical=define_coverage_denominators; equivalents=none; kind=analysis; meaning=在計算覆蓋率前明確定義符合資格的總體、分子與分母。\n- canonical=discover_targets; equivalents=['discover_targets_per_disease', 'retrieve_disease_targets', 'search_associated_targets', 'target_retrieval']; kind=retrieval; requires_all=['resolved_disease']; provides=['disease_target_association', 'target_candidates']; required_safeguards=['association_does_not_imply_efficacy', 'association_score_not_probability', 'missing_not_negative', 'provenance_pagination_truncation']; meaning=輸入已解析疾病，取得 disease-associated targets；僅表示疾病關聯，不等同治療有效或可成藥。\n- canonical=discover_targets_per_disease; equivalents=none; kind=retrieval; requires_all=['resolved_disease']; provides=['disease_target_association', 'target_candidates']; required_safeguards=['association_does_not_imply_efficacy', 'association_score_not_probability', 'missing_not_negative', 'provenance_pagination_truncation']; meaning=對多個已解析疾病分別取得 associated targets，保留各疾病獨立結果。\n- canonical=filter_first_in_class_candidates; equivalents=none; kind=analysis; meaning=依強證據與來源限定的無已知藥物條件篩選候選，不宣稱絕對不存在藥物。\n- canonical=filter_phase2_not_pdac_approved; equivalents=none; kind=analysis; meaning=保留 Phase 2+ 且未在已查來源確認 PDAC 核准的藥物或標的。\n- canonical=filter_supported_without_clinical_drug; equivalents=none; kind=analysis; meaning=保留有指定證據且在已查來源與日期未發現臨床藥物的標的。\n- canonical=filter_targets; equivalents=none; kind=analysis; meaning=依 Plan 明列的可執行條件篩選標的；不得以含糊的『足夠證據』代替門檻。\n- canonical=integrate_safety_and_expression; equivalents=none; kind=analysis; meaning=並列整合安全性、終止與正常組織表現，保持事實與風險推論分離。\n- canonical=intersect_targets; equivalents=none; kind=analysis; meaning=計算各疾病 target 集合交集，保留每個 target 在各疾病的原始證據。\n- canonical=join_cross_indication_paths; equivalents=none; kind=analysis; meaning=連接 disease-drug-target-other disease 路徑，不把關聯誤稱核准適應症。\n- canonical=join_disease_target_drug; equivalents=none; kind=analysis; meaning=連接 disease-target 與 target-drug 邊並保留來源；不推論藥物對疾病有效。\n- canonical=normalize_comparison_dimensions; equivalents=none; kind=analysis; meaning=在比較前統一證據類別、缺失值與分母定義。\n- canonical=rank_candidates; equivalents=none; kind=analysis; meaning=以明列的主要與次要指標排序候選，ranking 必須使用固定 schema。\n- canonical=rank_datasource_contributions; equivalents=none; kind=analysis; meaning=依 datasource score 或明定貢獻指標排序來源，不依紀錄數替代。\n- canonical=rank_diseases; equivalents=none; kind=analysis; meaning=依明列的 disease-target 關聯指標排序疾病。\n- canonical=rank_mechanism_categories; equivalents=none; kind=analysis; meaning=在完成分類與計數後依 category_count 排序機制類別。\n- canonical=rank_opportunities; equivalents=none; kind=analysis; meaning=依證據強度與明列警訊排序開發機會，不把排名解釋為成功機率。\n- canonical=rank_targets; equivalents=['prioritize_targets', 'order_targets']; kind=analysis; requires_any=['target_candidates', 'stratified_target_evidence']; meaning=對已取得的標的使用固定 ranking schema 排序；不負責擷取或分層證據。\n- canonical=resolve_disease; equivalents=['entity_resolution', 'normalize_disease']; kind=resolution; provides=['resolved_disease']; meaning=將一個疾病 mention 解析為候選標準實體；Plan 階段不得自行宣稱 ID 已驗證。\n- canonical=resolve_disease_and_drugs; equivalents=none; kind=resolution; provides=['resolved_disease', 'resolved_drug']; meaning=分別解析一個疾病與多個藥物 mention，保留歧義。\n- canonical=resolve_disease_target; equivalents=none; kind=resolution; provides=['resolved_disease', 'resolved_target']; meaning=分別解析一個疾病與一個標的，供 exact-pair 查詢使用。\n- canonical=resolve_disease_targets; equivalents=none; kind=resolution; provides=['resolved_disease', 'resolved_target']; meaning=分別解析一個疾病與多個標的，供多個 exact-pair 查詢使用。\n- canonical=resolve_diseases; equivalents=none; kind=resolution; provides=['resolved_disease']; meaning=分別解析多個疾病 mention，不合併不同疾病範圍。\n- canonical=resolve_drug; equivalents=['normalize_drug']; kind=resolution; provides=['resolved_drug']; meaning=將藥物 mention 解析為候選標準實體，保留鹽型、品牌或成分歧義。\n- canonical=resolve_target; equivalents=['normalize_target']; kind=resolution; provides=['resolved_target']; meaning=將基因或標的 mention 解析為候選標準實體，保留同義詞歧義。\n- canonical=resolve_target_variants; equivalents=none; kind=resolution; provides=['resolved_target', 'resolved_target_variants']; required_safeguards=['variant_specificity_required']; meaning=解析 target 與特定變異型，變異證據不得回退為未分型 target 證據。\n- canonical=resolve_targets; equivalents=none; kind=resolution; provides=['resolved_target']; meaning=分別解析多個 target mention，不合併不同蛋白或基因。\n- canonical=retrieve_approved_indications; equivalents=none; kind=retrieval; provides=['approval_evidence']; required_safeguards=['missing_not_negative', 'provenance_pagination_truncation']; meaning=取得資料庫記錄的核准適應症；正式核准結論仍需官方來源確認。\n- canonical=retrieve_associated_diseases; equivalents=none; kind=retrieval; required_safeguards=['missing_not_negative', 'provenance_pagination_truncation']; meaning=輸入已解析 target，取得 target-associated diseases 與關聯證據。\n- canonical=retrieve_clinical_stage; equivalents=none; kind=retrieval; provides=['clinical_stage_evidence']; required_safeguards=['missing_not_negative', 'provenance_pagination_truncation']; meaning=取得 target-drug 或 drug program 的臨床開發階段；phase 不等於核准。\n- canonical=retrieve_clinical_trials; equivalents=none; kind=retrieval; provides=['clinical_trial_evidence']; required_safeguards=['missing_not_negative', 'provenance_pagination_truncation']; meaning=依疾病、藥物或標的條件取得臨床試驗與狀態、日期及來源。\n- canonical=retrieve_datasource_evidence; equivalents=none; kind=retrieval; required_safeguards=['missing_not_negative', 'provenance_pagination_truncation']; meaning=取得 exact pair 的 datasource-level 原始證據與證據類型。\n- canonical=retrieve_datasource_scores; equivalents=none; kind=retrieval; required_safeguards=['missing_not_negative', 'provenance_pagination_truncation']; meaning=取得 exact pair 的 datasource-level scores；score 不等於紀錄數或機率。\n- canonical=retrieve_disease_drugs; equivalents=none; kind=retrieval; required_safeguards=['missing_not_negative', 'provenance_pagination_truncation']; meaning=取得與疾病用途相關的藥物紀錄，並區分核准、試驗與關聯。\n- canonical=retrieve_drug_targets; equivalents=none; kind=retrieval; requires_all=['resolved_drug']; provides=['target_drug_evidence']; required_safeguards=['missing_not_negative', 'provenance_pagination_truncation']; meaning=輸入已解析藥物，取得其已知作用標的與 mechanism evidence。\n- canonical=retrieve_evidence_by_type; equivalents=none; kind=retrieval; required_safeguards=['missing_not_negative', 'provenance_pagination_truncation']; meaning=依指定 evidence type 取得可比較的證據並保留 datasource。\n- canonical=retrieve_exact_pair; equivalents=['retrieve_disease_target_pair', 'query_exact_association']; kind=retrieval; requires_all=['resolved_disease', 'resolved_target']; provides=['disease_target_association']; required_safeguards=['association_does_not_imply_efficacy', 'association_score_not_probability', 'missing_not_negative', 'provenance_pagination_truncation']; meaning=以已解析 disease ID 與 target ID 直接查詢單一關聯，不用排名窗口代替。\n- canonical=retrieve_exact_pairs; equivalents=['retrieve_disease_target_pairs', 'query_exact_associations']; kind=retrieval; requires_all=['resolved_disease', 'resolved_target']; provides=['disease_target_association']; required_safeguards=['association_does_not_imply_efficacy', 'association_score_not_probability', 'missing_not_negative', 'provenance_pagination_truncation']; meaning=對多個已解析 disease-target 配對分別執行 exact-pair 查詢。\n- canonical=retrieve_genetic_and_somatic_evidence; equivalents=none; kind=retrieval; required_safeguards=['missing_not_negative', 'provenance_pagination_truncation']; meaning=取得遺傳與體細胞突變證據並保持兩類可區分。\n- canonical=retrieve_genetic_evidence; equivalents=none; kind=retrieval; required_safeguards=['missing_not_negative', 'provenance_pagination_truncation']; meaning=取得 disease-target genetic evidence；不包含未指定的其他證據類型。\n- canonical=retrieve_interventions; equivalents=none; kind=retrieval; required_safeguards=['missing_not_negative', 'provenance_pagination_truncation']; meaning=從已取得臨床試驗抽取介入措施、組合與角色。\n- canonical=retrieve_mechanisms; equivalents=none; kind=retrieval; required_safeguards=['missing_not_negative', 'provenance_pagination_truncation']; meaning=取得藥物-target 作用機制；不推論疾病療效或核准。\n- canonical=retrieve_mechanisms_and_modalities; equivalents=none; kind=retrieval; required_safeguards=['missing_not_negative', 'provenance_pagination_truncation']; meaning=取得介入措施的 mechanism 與 modality，供一致分類使用。\n- canonical=retrieve_negative_publications; equivalents=none; kind=retrieval; required_safeguards=['missing_not_negative', 'provenance_pagination_truncation']; meaning=查找明確報告負面、安全性或療效失敗的文獻；無文獻不等於成功。\n- canonical=retrieve_normal_tissue_expression; equivalents=none; kind=retrieval; provides=['normal_tissue_expression']; required_safeguards=['missing_not_negative', 'provenance_pagination_truncation']; meaning=取得 target 在正常組織的表現資料；高表現不直接等於毒性。\n- canonical=retrieve_safety_evidence; equivalents=none; kind=retrieval; provides=['safety_evidence']; required_safeguards=['missing_not_negative', 'provenance_pagination_truncation']; meaning=取得 target 或藥物的已知安全性證據與來源，不以機制推測代替事實。\n- canonical=retrieve_target_cancers; equivalents=none; kind=retrieval; required_safeguards=['missing_not_negative', 'provenance_pagination_truncation']; meaning=輸入 target，取得其關聯癌別；關聯不代表治療適應症。\n- canonical=retrieve_target_drugs; equivalents=['retrieve_drugs_for_targets', 'search_target_drugs']; kind=retrieval; requires_any=['resolved_target', 'target_candidates']; provides=['target_drug_evidence']; required_safeguards=['missing_not_negative', 'provenance_pagination_truncation']; meaning=輸入已解析 target，取得已知 target-drug 關係與證據；不負責 tractability、疾病療效或核准。\n- canonical=retrieve_tractability; equivalents=none; kind=retrieval; requires_any=['resolved_target', 'target_candidates']; provides=['tractability_evidence']; required_safeguards=['missing_not_negative', 'provenance_pagination_truncation', 'tractability_not_efficacy']; meaning=輸入已解析 target，取得可成藥性與小分子 tractability 證據；不表示已有藥物或療效。\n- canonical=retrieve_trial_status_and_stop_reasons; equivalents=none; kind=retrieval; required_safeguards=['missing_not_negative', 'provenance_pagination_truncation']; meaning=取得試驗狀態及明確停止原因，缺少結果不得推定失敗。\n- canonical=retrieve_trial_terminations; equivalents=none; kind=retrieval; required_safeguards=['missing_not_negative', 'provenance_pagination_truncation']; meaning=取得已終止試驗及原始終止理由，不自行推測原因。\n- canonical=stratify_target_evidence_layers; equivalents=none; kind=analysis; requires_all=['disease_target_association', 'target_drug_evidence', 'tractability_evidence']; provides=['stratified_target_evidence']; reserved_outputs=['target_translation_layer']; requires_aggregation=true; meaning=輸入疾病關聯、target-drug 與 tractability 證據，分層輸出疾病相關標的及具轉譯支持標的；不做類別計數。\n\nThis is the authoritative OPERATION_TABLE, not a per-question answer. Reviewed\nequivalents must be replaced by their canonical operation. A genuinely new\noperation must be marked proposed and cannot be executed before human review.\n",
+              "additional_kwargs": {},
+              "response_metadata": {},
+              "type": "human",
+              "name": null,
+              "id": null
+            }
+          ],
+          "raw_response": {
+            "generations": [
+              [
+                {
+                  "text": "{\n  \"schema_version\": \"2.0\",\n  \"manifest_id\": \"f3c1a5d4-8a9e-4a3b-9c2d-7e1f0e8a7b6c\",\n  \"original_question\": \"胰臟癌（pancreatic ductal adenocarcinoma, PDAC）目前有哪些已知的治療標的？\",\n  \"research_objective\": \"識別與胰臟癌（PDAC）相關的治療標的\",\n  \"entities\": [\n    {\n      \"entity_ref\": \"entity_1\",\n      \"entity_type\": \"disease\",\n      \"mention\": \"胰臟癌（pancreatic ductal adenocarcinoma, PDAC）\",\n      \"entity_id\": null,\n      \"canonical_name\": null,\n      \"resolution_status\": \"unresolved\"\n    }\n  ],\n  \"plan_steps\": [\n    {\n      \"step_id\": \"resolve_disease_1\",\n      \"operation\": \"resolve_disease\",\n      \"operation_status\": \"approved\",\n      \"description\": \"解析疾病提及 '胰臟癌（pancreatic ductal adenocarcinoma, PDAC）' 為標準實體\",\n      \"depends_on\": [],\n      \"entity_refs\": [\"entity_1\"],\n      \"sources\": [\"open_targets\"],\n      \"outputs\": [\"resolved_disease_1\"],\n      \"safeguards\": [\"association_does_not_imply_efficacy\", \"association_score_not_probability\", \"missing_not_negative\", \"provenance_pagination_truncation\"]\n    },\n    {\n      \"step_id\": \"discover_targets_1\",\n      \"operation\": \"discover_targets\",\n      \"operation_status\": \"approved\",\n      \"description\": \"取得與解析後 PDAC 相關的治療標的\",\n      \"depends_on\": [\"resolve_disease_1\"],\n      \"entity_refs\": [\"entity_1\"],\n      \"sources\": [\"open_targets\"],\n      \"outputs\": [\"disease_target_association_1\", \"target_candidates_1\"],\n      \"safeguards\": [\"association_does_not_imply_efficacy\", \"association_score_not_probability\", \"missing_not_negative\", \"provenance_pagination_truncation\"]\n    },\n    {\n      \"step_id\": \"rank_targets_1\",\n      \"operation\": \"rank_targets\",\n      \"operation_status\": \"approved\",\n      \"description\": \"依證據強度與明列警訊排序治療標的\",\n      \"depends_on\": [\"discover_targets_1\"],\n      \"entity_refs\": [\"entity_1\"],\n      \"sources\": [],\n      \"outputs\": [\"ranked_targets_1\"],\n      \"ranking\": {\n        \"primary_metric\": \"association_evidence_strength\",\n        \"direction\": \"descending\",\n        \"secondary_metrics\": [\"tractability_evidence_score\", \"clinical_trial_phase\"]\n      },\n      \"safeguards\": [\"association_does_not_imply_efficacy\", \"missing_not_negative\"]\n    }\n  ],\n  \"evidence_requirements\": [\n    \"disease_target_association\",\n    \"target_candidates\",\n    \"tractability_evidence\"\n  ],\n  \"completion_criteria\": [\n    \"成功解析 PDAC 為標準實體\",\n    \"取得至少 5 個 PDAC 相關治療標的\",\n    \"完成治療標的排序\"\n  ],\n  \"global_safeguards\": [\n    \"association_does_not_imply_efficacy\",\n    \"association_score_not_probability\",\n    \"missing_not_negative\",\n    \"provenance_pagination_truncation\"\n  ],\n  \"characteristics\": {\n    \"primary\": \"evidence_directed\",\n    \"secondary\": [\"filter_and_rank\"]\n  },\n  \"created_before_retrieval\": true\n}",
+                  "generation_info": {
+                    "model": "qwen3:14b",
+                    "created_at": "2026-09-13T09:50:57.5047496Z",
+                    "done": true,
+                    "done_reason": "stop",
+                    "total_duration": 355779332000,
+                    "load_duration": 2797100,
+                    "prompt_eval_count": 5830,
+                    "prompt_eval_duration": 237422000,
+                    "eval_count": 1475,
+                    "eval_duration": 354995584000,
+                    "logprobs": null,
+                    "model_name": "qwen3:14b",
+                    "model_provider": "ollama"
+                  },
+                  "type": "ChatGeneration",
+                  "message": {
+                    "content": "{\n  \"schema_version\": \"2.0\",\n  \"manifest_id\": \"f3c1a5d4-8a9e-4a3b-9c2d-7e1f0e8a7b6c\",\n  \"original_question\": \"胰臟癌（pancreatic ductal adenocarcinoma, PDAC）目前有哪些已知的治療標的？\",\n  \"research_objective\": \"識別與胰臟癌（PDAC）相關的治療標的\",\n  \"entities\": [\n    {\n      \"entity_ref\": \"entity_1\",\n      \"entity_type\": \"disease\",\n      \"mention\": \"胰臟癌（pancreatic ductal adenocarcinoma, PDAC）\",\n      \"entity_id\": null,\n      \"canonical_name\": null,\n      \"resolution_status\": \"unresolved\"\n    }\n  ],\n  \"plan_steps\": [\n    {\n      \"step_id\": \"resolve_disease_1\",\n      \"operation\": \"resolve_disease\",\n      \"operation_status\": \"approved\",\n      \"description\": \"解析疾病提及 '胰臟癌（pancreatic ductal adenocarcinoma, PDAC）' 為標準實體\",\n      \"depends_on\": [],\n      \"entity_refs\": [\"entity_1\"],\n      \"sources\": [\"open_targets\"],\n      \"outputs\": [\"resolved_disease_1\"],\n      \"safeguards\": [\"association_does_not_imply_efficacy\", \"association_score_not_probability\", \"missing_not_negative\", \"provenance_pagination_truncation\"]\n    },\n    {\n      \"step_id\": \"discover_targets_1\",\n      \"operation\": \"discover_targets\",\n      \"operation_status\": \"approved\",\n      \"description\": \"取得與解析後 PDAC 相關的治療標的\",\n      \"depends_on\": [\"resolve_disease_1\"],\n      \"entity_refs\": [\"entity_1\"],\n      \"sources\": [\"open_targets\"],\n      \"outputs\": [\"disease_target_association_1\", \"target_candidates_1\"],\n      \"safeguards\": [\"association_does_not_imply_efficacy\", \"association_score_not_probability\", \"missing_not_negative\", \"provenance_pagination_truncation\"]\n    },\n    {\n      \"step_id\": \"rank_targets_1\",\n      \"operation\": \"rank_targets\",\n      \"operation_status\": \"approved\",\n      \"description\": \"依證據強度與明列警訊排序治療標的\",\n      \"depends_on\": [\"discover_targets_1\"],\n      \"entity_refs\": [\"entity_1\"],\n      \"sources\": [],\n      \"outputs\": [\"ranked_targets_1\"],\n      \"ranking\": {\n        \"primary_metric\": \"association_evidence_strength\",\n        \"direction\": \"descending\",\n        \"secondary_metrics\": [\"tractability_evidence_score\", \"clinical_trial_phase\"]\n      },\n      \"safeguards\": [\"association_does_not_imply_efficacy\", \"missing_not_negative\"]\n    }\n  ],\n  \"evidence_requirements\": [\n    \"disease_target_association\",\n    \"target_candidates\",\n    \"tractability_evidence\"\n  ],\n  \"completion_criteria\": [\n    \"成功解析 PDAC 為標準實體\",\n    \"取得至少 5 個 PDAC 相關治療標的\",\n    \"完成治療標的排序\"\n  ],\n  \"global_safeguards\": [\n    \"association_does_not_imply_efficacy\",\n    \"association_score_not_probability\",\n    \"missing_not_negative\",\n    \"provenance_pagination_truncation\"\n  ],\n  \"characteristics\": {\n    \"primary\": \"evidence_directed\",\n    \"secondary\": [\"filter_and_rank\"]\n  },\n  \"created_before_retrieval\": true\n}",
+                    "additional_kwargs": {},
+                    "response_metadata": {
+                      "model": "qwen3:14b",
+                      "created_at": "2026-09-13T09:50:57.5047496Z",
+                      "done": true,
+                      "done_reason": "stop",
+                      "total_duration": 355779332000,
+                      "load_duration": 2797100,
+                      "prompt_eval_count": 5830,
+                      "prompt_eval_duration": 237422000,
+                      "eval_count": 1475,
+                      "eval_duration": 354995584000,
+                      "logprobs": null,
+                      "model_name": "qwen3:14b",
+                      "model_provider": "ollama"
+                    },
+                    "type": "ai",
+                    "name": null,
+                    "id": "lc_run--01a09a27-e024-7d83-b128-a23de8e09c6f-0"
+                  }
+                }
+              ]
+            ],
+            "llm_output": null,
+            "run": null,
+            "type": "LLMResult"
+          },
+          "error_type": null,
+          "error_message": null
+        }
+      ],
+      "repair_feedback_sent_next": {
+        "missing": [
+          {
+            "area": "research_capability",
+            "problem": "缺少必要項目：retrieve_target_drugs",
+            "required_correction": "補上 retrieve_target_drugs 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "research_capability",
+            "problem": "缺少必要項目：retrieve_tractability",
+            "required_correction": "補上 retrieve_tractability 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "research_capability",
+            "problem": "缺少必要項目：stratify_target_evidence_layers",
+            "required_correction": "補上 stratify_target_evidence_layers 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "dependency",
+            "problem": "缺少必要項目：discover_targets->retrieve_target_drugs",
+            "required_correction": "補上 discover_targets->retrieve_target_drugs 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "dependency",
+            "problem": "缺少必要項目：discover_targets->retrieve_tractability",
+            "required_correction": "補上 discover_targets->retrieve_tractability 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "dependency",
+            "problem": "缺少必要項目：retrieve_target_drugs->stratify_target_evidence_layers",
+            "required_correction": "補上 retrieve_target_drugs->stratify_target_evidence_layers 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "dependency",
+            "problem": "缺少必要項目：retrieve_tractability->stratify_target_evidence_layers",
+            "required_correction": "補上 retrieve_tractability->stratify_target_evidence_layers 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "source_coverage",
+            "problem": "缺少必要項目：chembl",
+            "required_correction": "補上 chembl 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "safeguard",
+            "problem": "缺少必要項目：tractability_not_efficacy",
+            "required_correction": "補上 tractability_not_efficacy 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "aggregation",
+            "problem": "缺少必要項目：target_translation_layer",
+            "required_correction": "在適當分析步驟的 aggregation 物件中加入頂層 key 'target_translation_layer'；只放在 outputs、description 或巢狀文字不算完成。"
+          }
+        ],
+        "incorrect": [],
+        "preserve": [
+          {
+            "area": "accepted_capability",
+            "item": "discover_targets",
+            "instruction": "此能力已通過；修復其他缺項時不得刪除或改壞。"
+          },
+          {
+            "area": "accepted_capability",
+            "item": "rank_targets",
+            "instruction": "此能力已通過；修復其他缺項時不得刪除或改壞。"
+          },
+          {
+            "area": "accepted_capability",
+            "item": "resolve_disease",
+            "instruction": "此能力已通過；修復其他缺項時不得刪除或改壞。"
+          }
+        ]
+      },
+      "errors": [
+        "plan failed hidden semantic acceptance",
+        "plan failed general operation rules"
+      ],
+      "corrected_model_claims": [],
+      "regressed_components": [],
+      "input_tokens": 5830,
+      "output_tokens": 1475,
+      "total_tokens": 7305,
+      "model_total_duration_ns": 355779332000,
+      "model_eval_duration_ns": 354995584000,
+      "model_eval_count": 1475,
+      "model_generation_timeout": false,
+      "ollama_stop_requested": false,
+      "ollama_stopping_detected": false,
+      "ollama_stopping_timeout": false,
+      "ollama_cleanup_succeeded": false,
+      "ollama_cleanup_error": null,
+      "evidence_collection_started": false,
+      "executed_retrieval_tools": []
+    },
+    {
+      "attempt": 2,
+      "started_at": "2026-09-13T09:50:57.515422Z",
+      "duration_seconds": 961.848554199998,
+      "schema_valid": false,
+      "generation_mode": "local_patch",
+      "applied_patch": null,
+      "repair_scope": {
+        "entity_refs": [],
+        "step_ids": [
+          "discover_targets_1",
+          "resolve_disease_1"
+        ],
+        "new_operations": [
+          "discover_targets",
+          "retrieve_target_drugs",
+          "retrieve_tractability",
+          "stratify_target_evidence_layers"
+        ],
+        "top_level_fields": [
+          "global_safeguards"
+        ],
+        "allow_new_entities": false,
+        "allow_step_order": true
+      },
+      "promoted_to_repair_base": false,
+      "semantic_acceptance": null,
+      "operation_rule_evaluation": null,
+      "candidate_plan": null,
+      "raw_candidate_payload": null,
+      "model_calls": [
+        {
+          "call_index": 1,
+          "run_id": "01a09a2d-55f2-7b23-9a6a-305594c3ee65",
+          "parent_run_id": null,
+          "started_at": "2026-09-13T09:50:57.521951Z",
+          "finished_at": "2026-09-13T10:06:59.363240Z",
+          "duration_seconds": 961.841289,
+          "status": "completed",
+          "input_messages": [
+            {
+              "content": "\nYou repair an existing QueryManifestV2. You have no tools and must never\nretrieve evidence. Return only a QueryManifestPatch, not a complete manifest.\n\nApply only the supplied concrete errors. Preserve every correct entity, step,\ndependency, source, safeguard, and accepted capability. Use remove_* only for\nincorrect items and upsert_* only for new or changed items. An upsert replaces\nthe item with the same entity_ref or step_id; otherwise it appends it. Supply\nstep_order only when adding/removing/reordering steps, and then list every final\nstep_id exactly once. Leave unrelated optional replacement fields null.\n\nDo not include schema_version, manifest_id, original_question, generated_at, or\nother parent-Plan metadata in the patch. Python owns and preserves those fields.\n\nDo not invent verified IDs or research findings. Do not change the original\nquestion. Analysis steps consume upstream results through depends_on and must\nnot attach sources. Top-level entities may only represent entities explicitly\nnamed in the question; generated collections remain step outputs. A repair is\nstill only a Plan and never evidence retrieval.\n\nReturn exactly one JSON object matching this schema:\n{\"$defs\": {\"PlannedEntityV2\": {\"description\": \"Entity mentioned by the user and carried into a plan without invention.\", \"properties\": {\"entity_ref\": {\"minLength\": 1, \"title\": \"Entity Ref\", \"type\": \"string\"}, \"entity_type\": {\"enum\": [\"disease\", \"target\", \"drug\", \"tissue\", \"mechanism\"], \"title\": \"Entity Type\", \"type\": \"string\"}, \"mention\": {\"minLength\": 1, \"title\": \"Mention\", \"type\": \"string\"}, \"entity_id\": {\"anyOf\": [{\"type\": \"string\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Entity Id\"}, \"canonical_name\": {\"anyOf\": [{\"type\": \"string\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Canonical Name\"}, \"resolution_status\": {\"enum\": [\"verified\", \"ambiguous\", \"unresolved\"], \"title\": \"Resolution Status\", \"type\": \"string\"}}, \"required\": [\"entity_ref\", \"entity_type\", \"mention\", \"resolution_status\"], \"title\": \"PlannedEntityV2\", \"type\": \"object\"}, \"QueryCharacteristicsV2\": {\"description\": \"Descriptive labels for indexing; they do not determine the plan.\", \"properties\": {\"primary\": {\"enum\": [\"single_hop\", \"multi_hop\", \"evidence_directed\", \"filter_and_rank\", \"comparison_and_aggregation\", \"safety_and_negative_knowledge\"], \"title\": \"Primary\", \"type\": \"string\"}, \"secondary\": {\"items\": {\"enum\": [\"single_hop\", \"multi_hop\", \"evidence_directed\", \"filter_and_rank\", \"comparison_and_aggregation\", \"safety_and_negative_knowledge\"], \"type\": \"string\"}, \"title\": \"Secondary\", \"type\": \"array\"}}, \"required\": [\"primary\"], \"title\": \"QueryCharacteristicsV2\", \"type\": \"object\"}, \"RankingSpecV2\": {\"additionalProperties\": false, \"description\": \"Deterministic ranking contract with conservative legacy normalization.\", \"properties\": {\"primary_metric\": {\"minLength\": 1, \"title\": \"Primary Metric\", \"type\": \"string\"}, \"direction\": {\"enum\": [\"ascending\", \"descending\"], \"title\": \"Direction\", \"type\": \"string\"}, \"secondary_metrics\": {\"items\": {\"type\": \"string\"}, \"title\": \"Secondary Metrics\", \"type\": \"array\"}}, \"required\": [\"primary_metric\", \"direction\"], \"title\": \"RankingSpecV2\", \"type\": \"object\"}, \"ResearchPlanStepV2\": {\"description\": \"One executable or analytical operation in a research plan.\", \"properties\": {\"step_id\": {\"minLength\": 1, \"title\": \"Step Id\", \"type\": \"string\"}, \"operation\": {\"minLength\": 1, \"title\": \"Operation\", \"type\": \"string\"}, \"operation_status\": {\"default\": \"approved\", \"enum\": [\"approved\", \"proposed\"], \"title\": \"Operation Status\", \"type\": \"string\"}, \"proposed_operation_name\": {\"anyOf\": [{\"type\": \"string\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Proposed Operation Name\"}, \"proposal_reason\": {\"anyOf\": [{\"type\": \"string\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Proposal Reason\"}, \"description\": {\"minLength\": 1, \"title\": \"Description\", \"type\": \"string\"}, \"depends_on\": {\"items\": {\"type\": \"string\"}, \"title\": \"Depends On\", \"type\": \"array\"}, \"entity_refs\": {\"items\": {\"type\": \"string\"}, \"title\": \"Entity Refs\", \"type\": \"array\"}, \"sources\": {\"items\": {\"enum\": [\"open_targets\", \"europe_pmc\", \"clinicaltrials_gov\", \"chembl\"], \"type\": \"string\"}, \"title\": \"Sources\", \"type\": \"array\"}, \"outputs\": {\"items\": {\"type\": \"string\"}, \"minItems\": 1, \"title\": \"Outputs\", \"type\": \"array\"}, \"filters\": {\"additionalProperties\": true, \"title\": \"Filters\", \"type\": \"object\"}, \"ranking\": {\"anyOf\": [{\"$ref\": \"#/$defs/RankingSpecV2\"}, {\"type\": \"null\"}], \"default\": null}, \"aggregation\": {\"anyOf\": [{\"additionalProperties\": true, \"type\": \"object\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Aggregation\"}, \"safeguards\": {\"items\": {\"type\": \"string\"}, \"title\": \"Safeguards\", \"type\": \"array\"}}, \"required\": [\"step_id\", \"operation\", \"description\", \"outputs\"], \"title\": \"ResearchPlanStepV2\", \"type\": \"object\"}}, \"description\": \"Bounded edits applied by Python to the last schema-valid manifest.\", \"properties\": {\"remove_entity_refs\": {\"items\": {\"type\": \"string\"}, \"title\": \"Remove Entity Refs\", \"type\": \"array\"}, \"upsert_entities\": {\"items\": {\"$ref\": \"#/$defs/PlannedEntityV2\"}, \"title\": \"Upsert Entities\", \"type\": \"array\"}, \"remove_step_ids\": {\"items\": {\"type\": \"string\"}, \"title\": \"Remove Step Ids\", \"type\": \"array\"}, \"upsert_steps\": {\"items\": {\"$ref\": \"#/$defs/ResearchPlanStepV2\"}, \"title\": \"Upsert Steps\", \"type\": \"array\"}, \"step_order\": {\"anyOf\": [{\"items\": {\"type\": \"string\"}, \"type\": \"array\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Step Order\"}, \"research_objective\": {\"anyOf\": [{\"type\": \"string\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Research Objective\"}, \"evidence_requirements\": {\"anyOf\": [{\"items\": {\"type\": \"string\"}, \"type\": \"array\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Evidence Requirements\"}, \"completion_criteria\": {\"anyOf\": [{\"items\": {\"type\": \"string\"}, \"type\": \"array\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Completion Criteria\"}, \"global_safeguards\": {\"anyOf\": [{\"items\": {\"type\": \"string\"}, \"type\": \"array\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Global Safeguards\"}, \"characteristics\": {\"anyOf\": [{\"$ref\": \"#/$defs/QueryCharacteristicsV2\"}, {\"type\": \"null\"}], \"default\": null}}, \"title\": \"QueryManifestPatch\", \"type\": \"object\"}",
+              "additional_kwargs": {},
+              "response_metadata": {},
+              "type": "system",
+              "name": null,
+              "id": null
+            },
+            {
+              "content": "使用者原始問題：\n胰臟癌（pancreatic ductal adenocarcinoma, PDAC）目前有哪些已知的治療標的？\n\nRelevant authoritative OPERATION_TABLE entries for this repair:\n- canonical=discover_targets; equivalents=['discover_targets_per_disease', 'retrieve_disease_targets', 'search_associated_targets', 'target_retrieval']; kind=retrieval; requires_all=['resolved_disease']; provides=['disease_target_association', 'target_candidates']; required_safeguards=['association_does_not_imply_efficacy', 'association_score_not_probability', 'missing_not_negative', 'provenance_pagination_truncation']; meaning=輸入已解析疾病，取得 disease-associated targets；僅表示疾病關聯，不等同治療有效或可成藥。\n- canonical=rank_targets; equivalents=['prioritize_targets', 'order_targets']; kind=analysis; requires_any=['target_candidates', 'stratified_target_evidence']; meaning=對已取得的標的使用固定 ranking schema 排序；不負責擷取或分層證據。\n- canonical=resolve_disease; equivalents=['entity_resolution', 'normalize_disease']; kind=resolution; provides=['resolved_disease']; meaning=將一個疾病 mention 解析為候選標準實體；Plan 階段不得自行宣稱 ID 已驗證。\n- canonical=retrieve_target_drugs; equivalents=['retrieve_drugs_for_targets', 'search_target_drugs']; kind=retrieval; requires_any=['resolved_target', 'target_candidates']; provides=['target_drug_evidence']; required_safeguards=['missing_not_negative', 'provenance_pagination_truncation']; meaning=輸入已解析 target，取得已知 target-drug 關係與證據；不負責 tractability、疾病療效或核准。\n- canonical=retrieve_tractability; equivalents=none; kind=retrieval; requires_any=['resolved_target', 'target_candidates']; provides=['tractability_evidence']; required_safeguards=['missing_not_negative', 'provenance_pagination_truncation', 'tractability_not_efficacy']; meaning=輸入已解析 target，取得可成藥性與小分子 tractability 證據；不表示已有藥物或療效。\n- canonical=stratify_target_evidence_layers; equivalents=none; kind=analysis; requires_all=['disease_target_association', 'target_drug_evidence', 'tractability_evidence']; provides=['stratified_target_evidence']; reserved_outputs=['target_translation_layer']; requires_aggregation=true; meaning=輸入疾病關聯、target-drug 與 tractability 證據，分層輸出疾病相關標的及具轉譯支持標的；不做類別計數。\nUse no other approved operation unless it is explicitly named in the repair scope.\n\n這是不可直接覆寫的基礎 Plan：\n{\n  \"schema_version\": \"2.0\",\n  \"manifest_id\": \"f3c1a5d4-8a9e-4a3b-9c2d-7e1f0e8a7b6c\",\n  \"original_question\": \"胰臟癌（pancreatic ductal adenocarcinoma, PDAC）目前有哪些已知的治療標的？\",\n  \"research_objective\": \"識別與胰臟癌（PDAC）相關的治療標的\",\n  \"entities\": [\n    {\n      \"entity_ref\": \"entity_1\",\n      \"entity_type\": \"disease\",\n      \"mention\": \"胰臟癌（pancreatic ductal adenocarcinoma, PDAC）\",\n      \"entity_id\": null,\n      \"canonical_name\": null,\n      \"resolution_status\": \"unresolved\"\n    }\n  ],\n  \"plan_steps\": [\n    {\n      \"step_id\": \"resolve_disease_1\",\n      \"operation\": \"resolve_disease\",\n      \"operation_status\": \"approved\",\n      \"proposed_operation_name\": null,\n      \"proposal_reason\": null,\n      \"description\": \"解析疾病提及 '胰臟癌（pancreatic ductal adenocarcinoma, PDAC）' 為標準實體\",\n      \"depends_on\": [],\n      \"entity_refs\": [\n        \"entity_1\"\n      ],\n      \"sources\": [\n        \"open_targets\"\n      ],\n      \"outputs\": [\n        \"resolved_disease_1\"\n      ],\n      \"filters\": {},\n      \"ranking\": null,\n      \"aggregation\": null,\n      \"safeguards\": [\n        \"association_does_not_imply_efficacy\",\n        \"association_score_not_probability\",\n        \"missing_not_negative\",\n        \"provenance_pagination_truncation\"\n      ]\n    },\n    {\n      \"step_id\": \"discover_targets_1\",\n      \"operation\": \"discover_targets\",\n      \"operation_status\": \"approved\",\n      \"proposed_operation_name\": null,\n      \"proposal_reason\": null,\n      \"description\": \"取得與解析後 PDAC 相關的治療標的\",\n      \"depends_on\": [\n        \"resolve_disease_1\"\n      ],\n      \"entity_refs\": [\n        \"entity_1\"\n      ],\n      \"sources\": [\n        \"open_targets\"\n      ],\n      \"outputs\": [\n        \"disease_target_association_1\",\n        \"target_candidates_1\"\n      ],\n      \"filters\": {},\n      \"ranking\": null,\n      \"aggregation\": null,\n      \"safeguards\": [\n        \"association_does_not_imply_efficacy\",\n        \"association_score_not_probability\",\n        \"missing_not_negative\",\n        \"provenance_pagination_truncation\"\n      ]\n    },\n    {\n      \"step_id\": \"rank_targets_1\",\n      \"operation\": \"rank_targets\",\n      \"operation_status\": \"approved\",\n      \"proposed_operation_name\": null,\n      \"proposal_reason\": null,\n      \"description\": \"依證據強度與明列警訊排序治療標的\",\n      \"depends_on\": [\n        \"discover_targets_1\"\n      ],\n      \"entity_refs\": [\n        \"entity_1\"\n      ],\n      \"sources\": [],\n      \"outputs\": [\n        \"ranked_targets_1\"\n      ],\n      \"filters\": {},\n      \"ranking\": {\n        \"primary_metric\": \"association_evidence_strength\",\n        \"direction\": \"descending\",\n        \"secondary_metrics\": [\n          \"tractability_evidence_score\",\n          \"clinical_trial_phase\"\n        ]\n      },\n      \"aggregation\": null,\n      \"safeguards\": [\n        \"association_does_not_imply_efficacy\",\n        \"missing_not_negative\"\n      ]\n    }\n  ],\n  \"evidence_requirements\": [\n    \"disease_target_association\",\n    \"target_candidates\",\n    \"tractability_evidence\"\n  ],\n  \"completion_criteria\": [\n    \"成功解析 PDAC 為標準實體\",\n    \"取得至少 5 個 PDAC 相關治療標的\",\n    \"完成治療標的排序\"\n  ],\n  \"global_safeguards\": [\n    \"association_does_not_imply_efficacy\",\n    \"association_score_not_probability\",\n    \"missing_not_negative\",\n    \"provenance_pagination_truncation\"\n  ],\n  \"characteristics\": {\n    \"primary\": \"evidence_directed\",\n    \"secondary\": [\n      \"filter_and_rank\"\n    ]\n  },\n  \"created_before_retrieval\": true,\n  \"generated_at\": \"2026-09-13T09:50:57.507914Z\"\n}\n\nPython 授權的修改範圍：\n{\n  \"entity_refs\": [],\n  \"step_ids\": [\n    \"discover_targets_1\",\n    \"resolve_disease_1\"\n  ],\n  \"new_operations\": [\n    \"discover_targets\",\n    \"retrieve_target_drugs\",\n    \"retrieve_tractability\",\n    \"stratify_target_evidence_layers\"\n  ],\n  \"top_level_fields\": [\n    \"global_safeguards\"\n  ],\n  \"allow_new_entities\": false,\n  \"allow_step_order\": true\n}\n\n只回傳 QueryManifestPatch。保留 preserve 中已通過的項目，只修正 missing 與 incorrect；不要回傳完整 Plan：\n{\n  \"missing\": [\n    {\n      \"area\": \"research_capability\",\n      \"problem\": \"缺少必要項目：retrieve_target_drugs\",\n      \"required_correction\": \"補上 retrieve_target_drugs 的研究語意並保持整體 Plan 一致。\"\n    },\n    {\n      \"area\": \"research_capability\",\n      \"problem\": \"缺少必要項目：retrieve_tractability\",\n      \"required_correction\": \"補上 retrieve_tractability 的研究語意並保持整體 Plan 一致。\"\n    },\n    {\n      \"area\": \"research_capability\",\n      \"problem\": \"缺少必要項目：stratify_target_evidence_layers\",\n      \"required_correction\": \"補上 stratify_target_evidence_layers 的研究語意並保持整體 Plan 一致。\"\n    },\n    {\n      \"area\": \"dependency\",\n      \"problem\": \"缺少必要項目：discover_targets->retrieve_target_drugs\",\n      \"required_correction\": \"補上 discover_targets->retrieve_target_drugs 的研究語意並保持整體 Plan 一致。\"\n    },\n    {\n      \"area\": \"dependency\",\n      \"problem\": \"缺少必要項目：discover_targets->retrieve_tractability\",\n      \"required_correction\": \"補上 discover_targets->retrieve_tractability 的研究語意並保持整體 Plan 一致。\"\n    },\n    {\n      \"area\": \"dependency\",\n      \"problem\": \"缺少必要項目：retrieve_target_drugs->stratify_target_evidence_layers\",\n      \"required_correction\": \"補上 retrieve_target_drugs->stratify_target_evidence_layers 的研究語意並保持整體 Plan 一致。\"\n    },\n    {\n      \"area\": \"dependency\",\n      \"problem\": \"缺少必要項目：retrieve_tractability->stratify_target_evidence_layers\",\n      \"required_correction\": \"補上 retrieve_tractability->stratify_target_evidence_layers 的研究語意並保持整體 Plan 一致。\"\n    },\n    {\n      \"area\": \"source_coverage\",\n      \"problem\": \"缺少必要項目：chembl\",\n      \"required_correction\": \"補上 chembl 的研究語意並保持整體 Plan 一致。\"\n    },\n    {\n      \"area\": \"safeguard\",\n      \"problem\": \"缺少必要項目：tractability_not_efficacy\",\n      \"required_correction\": \"補上 tractability_not_efficacy 的研究語意並保持整體 Plan 一致。\"\n    },\n    {\n      \"area\": \"aggregation\",\n      \"problem\": \"缺少必要項目：target_translation_layer\",\n      \"required_correction\": \"在適當分析步驟的 aggregation 物件中加入頂層 key 'target_translation_layer'；只放在 outputs、description 或巢狀文字不算完成。\"\n    }\n  ],\n  \"incorrect\": [],\n  \"preserve\": [\n    {\n      \"area\": \"accepted_capability\",\n      \"item\": \"discover_targets\",\n      \"instruction\": \"此能力已通過；修復其他缺項時不得刪除或改壞。\"\n    },\n    {\n      \"area\": \"accepted_capability\",\n      \"item\": \"rank_targets\",\n      \"instruction\": \"此能力已通過；修復其他缺項時不得刪除或改壞。\"\n    },\n    {\n      \"area\": \"accepted_capability\",\n      \"item\": \"resolve_disease\",\n      \"instruction\": \"此能力已通過；修復其他缺項時不得刪除或改壞。\"\n    }\n  ]\n}",
+              "additional_kwargs": {},
+              "response_metadata": {},
+              "type": "human",
+              "name": null,
+              "id": null
+            }
+          ],
+          "raw_response": {
+            "generations": [
+              [
+                {
+                  "text": "",
+                  "generation_info": {
+                    "model": "qwen3:14b",
+                    "created_at": "2026-09-13T10:06:59.3627099Z",
+                    "done": true,
+                    "done_reason": "length",
+                    "total_duration": 959791355500,
+                    "load_duration": 2102300,
+                    "prompt_eval_count": 4118,
+                    "prompt_eval_duration": 1520177000,
+                    "eval_count": 4096,
+                    "eval_duration": 957849867000,
+                    "logprobs": null,
+                    "model_name": "qwen3:14b",
+                    "model_provider": "ollama"
+                  },
+                  "type": "ChatGeneration",
+                  "message": {
+                    "content": "",
+                    "additional_kwargs": {},
+                    "response_metadata": {
+                      "model": "qwen3:14b",
+                      "created_at": "2026-09-13T10:06:59.3627099Z",
+                      "done": true,
+                      "done_reason": "length",
+                      "total_duration": 959791355500,
+                      "load_duration": 2102300,
+                      "prompt_eval_count": 4118,
+                      "prompt_eval_duration": 1520177000,
+                      "eval_count": 4096,
+                      "eval_duration": 957849867000,
+                      "logprobs": null,
+                      "model_name": "qwen3:14b",
+                      "model_provider": "ollama"
+                    },
+                    "type": "ai",
+                    "name": null,
+                    "id": "lc_run--01a09a2d-55f2-7b23-9a6a-305594c3ee65-0"
+                  }
+                }
+              ]
+            ],
+            "llm_output": null,
+            "run": null,
+            "type": "LLMResult"
+          },
+          "error_type": null,
+          "error_message": null
+        }
+      ],
+      "repair_feedback_sent_next": {
+        "missing": [
+          {
+            "area": "research_capability",
+            "problem": "缺少必要項目：retrieve_target_drugs",
+            "required_correction": "補上 retrieve_target_drugs 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "research_capability",
+            "problem": "缺少必要項目：retrieve_tractability",
+            "required_correction": "補上 retrieve_tractability 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "research_capability",
+            "problem": "缺少必要項目：stratify_target_evidence_layers",
+            "required_correction": "補上 stratify_target_evidence_layers 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "dependency",
+            "problem": "缺少必要項目：discover_targets->retrieve_target_drugs",
+            "required_correction": "補上 discover_targets->retrieve_target_drugs 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "dependency",
+            "problem": "缺少必要項目：discover_targets->retrieve_tractability",
+            "required_correction": "補上 discover_targets->retrieve_tractability 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "dependency",
+            "problem": "缺少必要項目：retrieve_target_drugs->stratify_target_evidence_layers",
+            "required_correction": "補上 retrieve_target_drugs->stratify_target_evidence_layers 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "dependency",
+            "problem": "缺少必要項目：retrieve_tractability->stratify_target_evidence_layers",
+            "required_correction": "補上 retrieve_tractability->stratify_target_evidence_layers 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "source_coverage",
+            "problem": "缺少必要項目：chembl",
+            "required_correction": "補上 chembl 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "safeguard",
+            "problem": "缺少必要項目：tractability_not_efficacy",
+            "required_correction": "補上 tractability_not_efficacy 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "aggregation",
+            "problem": "缺少必要項目：target_translation_layer",
+            "required_correction": "在適當分析步驟的 aggregation 物件中加入頂層 key 'target_translation_layer'；只放在 outputs、description 或巢狀文字不算完成。"
+          }
+        ],
+        "incorrect": [
+          {
+            "area": "schema_or_integrity",
+            "problem": "model response did not contain a QueryManifestPatch JSON object",
+            "required_correction": "修正指定錯誤並保留原始問題。"
+          }
+        ],
+        "preserve": [
+          {
+            "area": "accepted_capability",
+            "item": "discover_targets",
+            "instruction": "此能力已通過；修復其他缺項時不得刪除或改壞。"
+          },
+          {
+            "area": "accepted_capability",
+            "item": "rank_targets",
+            "instruction": "此能力已通過；修復其他缺項時不得刪除或改壞。"
+          },
+          {
+            "area": "accepted_capability",
+            "item": "resolve_disease",
+            "instruction": "此能力已通過；修復其他缺項時不得刪除或改壞。"
+          }
+        ]
+      },
+      "errors": [
+        "ValueError: model response did not contain a QueryManifestPatch JSON object"
+      ],
+      "corrected_model_claims": [],
+      "regressed_components": [],
+      "input_tokens": null,
+      "output_tokens": null,
+      "total_tokens": null,
+      "model_total_duration_ns": null,
+      "model_eval_duration_ns": null,
+      "model_eval_count": null,
+      "model_generation_timeout": false,
+      "ollama_stop_requested": false,
+      "ollama_stopping_detected": false,
+      "ollama_stopping_timeout": false,
+      "ollama_cleanup_succeeded": false,
+      "ollama_cleanup_error": null,
+      "evidence_collection_started": false,
+      "executed_retrieval_tools": []
+    },
+    {
+      "attempt": 3,
+      "started_at": "2026-09-13T10:06:59.364869Z",
+      "duration_seconds": 422.47866560000693,
+      "schema_valid": true,
+      "generation_mode": "local_patch",
+      "applied_patch": {
+        "remove_entity_refs": [],
+        "upsert_entities": [],
+        "remove_step_ids": [],
+        "upsert_steps": [
+          {
+            "step_id": "retrieve_target_drugs_1",
+            "operation": "retrieve_target_drugs",
+            "operation_status": "approved",
+            "proposed_operation_name": null,
+            "proposal_reason": null,
+            "description": "取得與 PDAC 相關治療標的的已知藥物與證據",
+            "depends_on": [
+              "discover_targets_1"
+            ],
+            "entity_refs": [
+              "entity_1"
+            ],
+            "sources": [
+              "chembl"
+            ],
+            "outputs": [
+              "target_drug_evidence_1"
+            ],
+            "filters": {},
+            "ranking": null,
+            "aggregation": null,
+            "safeguards": [
+              "missing_not_negative",
+              "provenance_pagination_truncation"
+            ]
+          },
+          {
+            "step_id": "retrieve_tractability_1",
+            "operation": "retrieve_tractability",
+            "operation_status": "approved",
+            "proposed_operation_name": null,
+            "proposal_reason": null,
+            "description": "取得與 PDAC 相關治療標的的可成藥性與小分子 tractability 證據",
+            "depends_on": [
+              "discover_targets_1"
+            ],
+            "entity_refs": [
+              "entity_1"
+            ],
+            "sources": [
+              "chembl"
+            ],
+            "outputs": [
+              "tractability_evidence_1"
+            ],
+            "filters": {},
+            "ranking": null,
+            "aggregation": null,
+            "safeguards": [
+              "tractability_not_efficacy",
+              "missing_not_negative",
+              "provenance_pagination_truncation"
+            ]
+          },
+          {
+            "step_id": "stratify_target_evidence_layers_1",
+            "operation": "stratify_target_evidence_layers",
+            "operation_status": "approved",
+            "proposed_operation_name": null,
+            "proposal_reason": null,
+            "description": "整合疾病關聯、藥物證據與 tractability 證據，分層輸出治療標的",
+            "depends_on": [
+              "discover_targets_1",
+              "retrieve_target_drugs_1",
+              "retrieve_tractability_1"
+            ],
+            "entity_refs": [
+              "entity_1"
+            ],
+            "sources": [],
+            "outputs": [
+              "stratified_target_evidence_1"
+            ],
+            "filters": {},
+            "ranking": null,
+            "aggregation": {
+              "target_translation_layer": {}
+            },
+            "safeguards": []
+          }
+        ],
+        "step_order": [
+          "resolve_disease_1",
+          "discover_targets_1",
+          "retrieve_target_drugs_1",
+          "retrieve_tractability_1",
+          "stratify_target_evidence_layers_1",
+          "rank_targets_1"
+        ],
+        "research_objective": null,
+        "evidence_requirements": null,
+        "completion_criteria": null,
+        "global_safeguards": [
+          "association_does_not_imply_efficacy",
+          "association_score_not_probability",
+          "missing_not_negative",
+          "provenance_pagination_truncation",
+          "tractability_not_efficacy"
+        ],
+        "characteristics": null
+      },
+      "repair_scope": {
+        "entity_refs": [],
+        "step_ids": [
+          "discover_targets_1",
+          "resolve_disease_1"
+        ],
+        "new_operations": [
+          "discover_targets",
+          "retrieve_target_drugs",
+          "retrieve_tractability",
+          "stratify_target_evidence_layers"
+        ],
+        "top_level_fields": [
+          "global_safeguards"
+        ],
+        "allow_new_entities": false,
+        "allow_step_order": true
+      },
+      "promoted_to_repair_base": true,
+      "semantic_acceptance": {
+        "case_id": "pdac_known_targets",
+        "passed": false,
+        "missing_entities": [],
+        "missing_capabilities": [],
+        "missing_operations": [],
+        "missing_dependencies": [
+          "stratify_target_evidence_layers->rank_targets"
+        ],
+        "missing_sources": [],
+        "missing_safeguards": [],
+        "missing_filters": [],
+        "missing_ranking": [
+          "overall_association_score"
+        ],
+        "missing_aggregation": [],
+        "forbidden_findings": [],
+        "optional_capabilities_present": [],
+        "accepted_capabilities": [
+          "discover_targets",
+          "rank_targets",
+          "resolve_disease",
+          "retrieve_target_drugs",
+          "retrieve_tractability",
+          "stratify_target_evidence_layers"
+        ],
+        "actual_operations": [
+          "discover_targets",
+          "rank_targets",
+          "resolve_disease",
+          "retrieve_target_drugs",
+          "retrieve_tractability",
+          "stratify_target_evidence_layers"
+        ],
+        "unrecognized_operations": [],
+        "proposed_operations": []
+      },
+      "operation_rule_evaluation": {
+        "passed": false,
+        "findings": [
+          {
+            "rule_id": "analysis_metric_requires_available_evidence",
+            "severity": "hard_error",
+            "step_id": "rank_targets_1",
+            "operation": "rank_targets",
+            "problem": "rank_targets 使用未核准或尚不可用的分析控制：未登記 metrics：association_evidence_strength, clinical_trial_phase, tractability_evidence_score。",
+            "required_correction": "只使用 operation table 支援的 filter 與 metric registry 已登記且有上游證據的指標；否則標記為待人工審核。",
+            "missing": [
+              "association_evidence_strength",
+              "clinical_trial_phase",
+              "tractability_evidence_score"
+            ]
+          }
+        ]
+      },
+      "candidate_plan": {
+        "schema_version": "2.0",
+        "manifest_id": "f3c1a5d4-8a9e-4a3b-9c2d-7e1f0e8a7b6c",
+        "original_question": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）目前有哪些已知的治療標的？",
+        "research_objective": "識別與胰臟癌（PDAC）相關的治療標的",
+        "entities": [
+          {
+            "entity_ref": "entity_1",
+            "entity_type": "disease",
+            "mention": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）",
+            "entity_id": null,
+            "canonical_name": null,
+            "resolution_status": "unresolved"
+          }
+        ],
+        "plan_steps": [
+          {
+            "step_id": "resolve_disease_1",
+            "operation": "resolve_disease",
+            "operation_status": "approved",
+            "proposed_operation_name": null,
+            "proposal_reason": null,
+            "description": "解析疾病提及 '胰臟癌（pancreatic ductal adenocarcinoma, PDAC）' 為標準實體",
+            "depends_on": [],
+            "entity_refs": [
+              "entity_1"
+            ],
+            "sources": [
+              "open_targets"
+            ],
+            "outputs": [
+              "resolved_disease_1"
+            ],
+            "filters": {},
+            "ranking": null,
+            "aggregation": null,
+            "safeguards": [
+              "association_does_not_imply_efficacy",
+              "association_score_not_probability",
+              "missing_not_negative",
+              "provenance_pagination_truncation"
+            ]
+          },
+          {
+            "step_id": "discover_targets_1",
+            "operation": "discover_targets",
+            "operation_status": "approved",
+            "proposed_operation_name": null,
+            "proposal_reason": null,
+            "description": "取得與解析後 PDAC 相關的治療標的",
+            "depends_on": [
+              "resolve_disease_1"
+            ],
+            "entity_refs": [
+              "entity_1"
+            ],
+            "sources": [
+              "open_targets"
+            ],
+            "outputs": [
+              "disease_target_association_1",
+              "target_candidates_1"
+            ],
+            "filters": {},
+            "ranking": null,
+            "aggregation": null,
+            "safeguards": [
+              "association_does_not_imply_efficacy",
+              "association_score_not_probability",
+              "missing_not_negative",
+              "provenance_pagination_truncation"
+            ]
+          },
+          {
+            "step_id": "retrieve_target_drugs_1",
+            "operation": "retrieve_target_drugs",
+            "operation_status": "approved",
+            "proposed_operation_name": null,
+            "proposal_reason": null,
+            "description": "取得與 PDAC 相關治療標的的已知藥物與證據",
+            "depends_on": [
+              "discover_targets_1"
+            ],
+            "entity_refs": [
+              "entity_1"
+            ],
+            "sources": [
+              "chembl"
+            ],
+            "outputs": [
+              "target_drug_evidence_1"
+            ],
+            "filters": {},
+            "ranking": null,
+            "aggregation": null,
+            "safeguards": [
+              "missing_not_negative",
+              "provenance_pagination_truncation"
+            ]
+          },
+          {
+            "step_id": "retrieve_tractability_1",
+            "operation": "retrieve_tractability",
+            "operation_status": "approved",
+            "proposed_operation_name": null,
+            "proposal_reason": null,
+            "description": "取得與 PDAC 相關治療標的的可成藥性與小分子 tractability 證據",
+            "depends_on": [
+              "discover_targets_1"
+            ],
+            "entity_refs": [
+              "entity_1"
+            ],
+            "sources": [
+              "chembl"
+            ],
+            "outputs": [
+              "tractability_evidence_1"
+            ],
+            "filters": {},
+            "ranking": null,
+            "aggregation": null,
+            "safeguards": [
+              "tractability_not_efficacy",
+              "missing_not_negative",
+              "provenance_pagination_truncation"
+            ]
+          },
+          {
+            "step_id": "stratify_target_evidence_layers_1",
+            "operation": "stratify_target_evidence_layers",
+            "operation_status": "approved",
+            "proposed_operation_name": null,
+            "proposal_reason": null,
+            "description": "整合疾病關聯、藥物證據與 tractability 證據，分層輸出治療標的",
+            "depends_on": [
+              "discover_targets_1",
+              "retrieve_target_drugs_1",
+              "retrieve_tractability_1"
+            ],
+            "entity_refs": [
+              "entity_1"
+            ],
+            "sources": [],
+            "outputs": [
+              "stratified_target_evidence_1"
+            ],
+            "filters": {},
+            "ranking": null,
+            "aggregation": {
+              "target_translation_layer": {}
+            },
+            "safeguards": []
+          },
+          {
+            "step_id": "rank_targets_1",
+            "operation": "rank_targets",
+            "operation_status": "approved",
+            "proposed_operation_name": null,
+            "proposal_reason": null,
+            "description": "依證據強度與明列警訊排序治療標的",
+            "depends_on": [
+              "discover_targets_1"
+            ],
+            "entity_refs": [
+              "entity_1"
+            ],
+            "sources": [],
+            "outputs": [
+              "ranked_targets_1"
+            ],
+            "filters": {},
+            "ranking": {
+              "primary_metric": "association_evidence_strength",
+              "direction": "descending",
+              "secondary_metrics": [
+                "tractability_evidence_score",
+                "clinical_trial_phase"
+              ]
+            },
+            "aggregation": null,
+            "safeguards": [
+              "association_does_not_imply_efficacy",
+              "missing_not_negative"
+            ]
+          }
+        ],
+        "evidence_requirements": [
+          "disease_target_association",
+          "target_candidates",
+          "tractability_evidence"
+        ],
+        "completion_criteria": [
+          "成功解析 PDAC 為標準實體",
+          "取得至少 5 個 PDAC 相關治療標的",
+          "完成治療標的排序"
+        ],
+        "global_safeguards": [
+          "association_does_not_imply_efficacy",
+          "association_score_not_probability",
+          "missing_not_negative",
+          "provenance_pagination_truncation",
+          "tractability_not_efficacy"
+        ],
+        "characteristics": {
+          "primary": "evidence_directed",
+          "secondary": [
+            "filter_and_rank"
+          ]
+        },
+        "created_before_retrieval": true,
+        "generated_at": "2026-09-13T10:14:01.842276Z"
+      },
+      "raw_candidate_payload": {
+        "remove_entity_refs": [],
+        "upsert_entities": [],
+        "remove_step_ids": [],
+        "upsert_steps": [
+          {
+            "step_id": "retrieve_target_drugs_1",
+            "operation": "retrieve_target_drugs",
+            "operation_status": "approved",
+            "proposed_operation_name": null,
+            "proposal_reason": null,
+            "description": "取得與 PDAC 相關治療標的的已知藥物與證據",
+            "depends_on": [
+              "discover_targets_1"
+            ],
+            "entity_refs": [
+              "entity_1"
+            ],
+            "sources": [
+              "chembl"
+            ],
+            "outputs": [
+              "target_drug_evidence_1"
+            ],
+            "filters": {},
+            "ranking": null,
+            "aggregation": null,
+            "safeguards": [
+              "missing_not_negative",
+              "provenance_pagination_truncation"
+            ]
+          },
+          {
+            "step_id": "retrieve_tractability_1",
+            "operation": "retrieve_tractability",
+            "operation_status": "approved",
+            "proposed_operation_name": null,
+            "proposal_reason": null,
+            "description": "取得與 PDAC 相關治療標的的可成藥性與小分子 tractability 證據",
+            "depends_on": [
+              "discover_targets_1"
+            ],
+            "entity_refs": [
+              "entity_1"
+            ],
+            "sources": [
+              "chembl"
+            ],
+            "outputs": [
+              "tractability_evidence_1"
+            ],
+            "filters": {},
+            "ranking": null,
+            "aggregation": null,
+            "safeguards": [
+              "tractability_not_efficacy",
+              "missing_not_negative",
+              "provenance_pagination_truncation"
+            ]
+          },
+          {
+            "step_id": "stratify_target_evidence_layers_1",
+            "operation": "stratify_target_evidence_layers",
+            "operation_status": "approved",
+            "proposed_operation_name": null,
+            "proposal_reason": null,
+            "description": "整合疾病關聯、藥物證據與 tractability 證據，分層輸出治療標的",
+            "depends_on": [
+              "discover_targets_1",
+              "retrieve_target_drugs_1",
+              "retrieve_tractability_1"
+            ],
+            "entity_refs": [
+              "entity_1"
+            ],
+            "sources": [],
+            "outputs": [
+              "stratified_target_evidence_1"
+            ],
+            "filters": {},
+            "ranking": null,
+            "aggregation": {
+              "target_translation_layer": {}
+            },
+            "safeguards": []
+          }
+        ],
+        "step_order": [
+          "resolve_disease_1",
+          "discover_targets_1",
+          "retrieve_target_drugs_1",
+          "retrieve_tractability_1",
+          "stratify_target_evidence_layers_1",
+          "rank_targets_1"
+        ],
+        "research_objective": null,
+        "evidence_requirements": null,
+        "completion_criteria": null,
+        "global_safeguards": [
+          "association_does_not_imply_efficacy",
+          "association_score_not_probability",
+          "missing_not_negative",
+          "provenance_pagination_truncation",
+          "tractability_not_efficacy"
+        ],
+        "characteristics": null
+      },
+      "model_calls": [
+        {
+          "call_index": 1,
+          "run_id": "01a09a3c-032b-7db0-9b33-46a45d382fe2",
+          "parent_run_id": null,
+          "started_at": "2026-09-13T10:06:59.370749Z",
+          "finished_at": "2026-09-13T10:14:01.840688Z",
+          "duration_seconds": 422.469939,
+          "status": "completed",
+          "input_messages": [
+            {
+              "content": "\nYou repair an existing QueryManifestV2. You have no tools and must never\nretrieve evidence. Return only a QueryManifestPatch, not a complete manifest.\n\nApply only the supplied concrete errors. Preserve every correct entity, step,\ndependency, source, safeguard, and accepted capability. Use remove_* only for\nincorrect items and upsert_* only for new or changed items. An upsert replaces\nthe item with the same entity_ref or step_id; otherwise it appends it. Supply\nstep_order only when adding/removing/reordering steps, and then list every final\nstep_id exactly once. Leave unrelated optional replacement fields null.\n\nDo not include schema_version, manifest_id, original_question, generated_at, or\nother parent-Plan metadata in the patch. Python owns and preserves those fields.\n\nDo not invent verified IDs or research findings. Do not change the original\nquestion. Analysis steps consume upstream results through depends_on and must\nnot attach sources. Top-level entities may only represent entities explicitly\nnamed in the question; generated collections remain step outputs. A repair is\nstill only a Plan and never evidence retrieval.\n\nReturn exactly one JSON object matching this schema:\n{\"$defs\": {\"PlannedEntityV2\": {\"description\": \"Entity mentioned by the user and carried into a plan without invention.\", \"properties\": {\"entity_ref\": {\"minLength\": 1, \"title\": \"Entity Ref\", \"type\": \"string\"}, \"entity_type\": {\"enum\": [\"disease\", \"target\", \"drug\", \"tissue\", \"mechanism\"], \"title\": \"Entity Type\", \"type\": \"string\"}, \"mention\": {\"minLength\": 1, \"title\": \"Mention\", \"type\": \"string\"}, \"entity_id\": {\"anyOf\": [{\"type\": \"string\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Entity Id\"}, \"canonical_name\": {\"anyOf\": [{\"type\": \"string\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Canonical Name\"}, \"resolution_status\": {\"enum\": [\"verified\", \"ambiguous\", \"unresolved\"], \"title\": \"Resolution Status\", \"type\": \"string\"}}, \"required\": [\"entity_ref\", \"entity_type\", \"mention\", \"resolution_status\"], \"title\": \"PlannedEntityV2\", \"type\": \"object\"}, \"QueryCharacteristicsV2\": {\"description\": \"Descriptive labels for indexing; they do not determine the plan.\", \"properties\": {\"primary\": {\"enum\": [\"single_hop\", \"multi_hop\", \"evidence_directed\", \"filter_and_rank\", \"comparison_and_aggregation\", \"safety_and_negative_knowledge\"], \"title\": \"Primary\", \"type\": \"string\"}, \"secondary\": {\"items\": {\"enum\": [\"single_hop\", \"multi_hop\", \"evidence_directed\", \"filter_and_rank\", \"comparison_and_aggregation\", \"safety_and_negative_knowledge\"], \"type\": \"string\"}, \"title\": \"Secondary\", \"type\": \"array\"}}, \"required\": [\"primary\"], \"title\": \"QueryCharacteristicsV2\", \"type\": \"object\"}, \"RankingSpecV2\": {\"additionalProperties\": false, \"description\": \"Deterministic ranking contract with conservative legacy normalization.\", \"properties\": {\"primary_metric\": {\"minLength\": 1, \"title\": \"Primary Metric\", \"type\": \"string\"}, \"direction\": {\"enum\": [\"ascending\", \"descending\"], \"title\": \"Direction\", \"type\": \"string\"}, \"secondary_metrics\": {\"items\": {\"type\": \"string\"}, \"title\": \"Secondary Metrics\", \"type\": \"array\"}}, \"required\": [\"primary_metric\", \"direction\"], \"title\": \"RankingSpecV2\", \"type\": \"object\"}, \"ResearchPlanStepV2\": {\"description\": \"One executable or analytical operation in a research plan.\", \"properties\": {\"step_id\": {\"minLength\": 1, \"title\": \"Step Id\", \"type\": \"string\"}, \"operation\": {\"minLength\": 1, \"title\": \"Operation\", \"type\": \"string\"}, \"operation_status\": {\"default\": \"approved\", \"enum\": [\"approved\", \"proposed\"], \"title\": \"Operation Status\", \"type\": \"string\"}, \"proposed_operation_name\": {\"anyOf\": [{\"type\": \"string\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Proposed Operation Name\"}, \"proposal_reason\": {\"anyOf\": [{\"type\": \"string\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Proposal Reason\"}, \"description\": {\"minLength\": 1, \"title\": \"Description\", \"type\": \"string\"}, \"depends_on\": {\"items\": {\"type\": \"string\"}, \"title\": \"Depends On\", \"type\": \"array\"}, \"entity_refs\": {\"items\": {\"type\": \"string\"}, \"title\": \"Entity Refs\", \"type\": \"array\"}, \"sources\": {\"items\": {\"enum\": [\"open_targets\", \"europe_pmc\", \"clinicaltrials_gov\", \"chembl\"], \"type\": \"string\"}, \"title\": \"Sources\", \"type\": \"array\"}, \"outputs\": {\"items\": {\"type\": \"string\"}, \"minItems\": 1, \"title\": \"Outputs\", \"type\": \"array\"}, \"filters\": {\"additionalProperties\": true, \"title\": \"Filters\", \"type\": \"object\"}, \"ranking\": {\"anyOf\": [{\"$ref\": \"#/$defs/RankingSpecV2\"}, {\"type\": \"null\"}], \"default\": null}, \"aggregation\": {\"anyOf\": [{\"additionalProperties\": true, \"type\": \"object\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Aggregation\"}, \"safeguards\": {\"items\": {\"type\": \"string\"}, \"title\": \"Safeguards\", \"type\": \"array\"}}, \"required\": [\"step_id\", \"operation\", \"description\", \"outputs\"], \"title\": \"ResearchPlanStepV2\", \"type\": \"object\"}}, \"description\": \"Bounded edits applied by Python to the last schema-valid manifest.\", \"properties\": {\"remove_entity_refs\": {\"items\": {\"type\": \"string\"}, \"title\": \"Remove Entity Refs\", \"type\": \"array\"}, \"upsert_entities\": {\"items\": {\"$ref\": \"#/$defs/PlannedEntityV2\"}, \"title\": \"Upsert Entities\", \"type\": \"array\"}, \"remove_step_ids\": {\"items\": {\"type\": \"string\"}, \"title\": \"Remove Step Ids\", \"type\": \"array\"}, \"upsert_steps\": {\"items\": {\"$ref\": \"#/$defs/ResearchPlanStepV2\"}, \"title\": \"Upsert Steps\", \"type\": \"array\"}, \"step_order\": {\"anyOf\": [{\"items\": {\"type\": \"string\"}, \"type\": \"array\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Step Order\"}, \"research_objective\": {\"anyOf\": [{\"type\": \"string\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Research Objective\"}, \"evidence_requirements\": {\"anyOf\": [{\"items\": {\"type\": \"string\"}, \"type\": \"array\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Evidence Requirements\"}, \"completion_criteria\": {\"anyOf\": [{\"items\": {\"type\": \"string\"}, \"type\": \"array\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Completion Criteria\"}, \"global_safeguards\": {\"anyOf\": [{\"items\": {\"type\": \"string\"}, \"type\": \"array\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Global Safeguards\"}, \"characteristics\": {\"anyOf\": [{\"$ref\": \"#/$defs/QueryCharacteristicsV2\"}, {\"type\": \"null\"}], \"default\": null}}, \"title\": \"QueryManifestPatch\", \"type\": \"object\"}",
+              "additional_kwargs": {},
+              "response_metadata": {},
+              "type": "system",
+              "name": null,
+              "id": null
+            },
+            {
+              "content": "使用者原始問題：\n胰臟癌（pancreatic ductal adenocarcinoma, PDAC）目前有哪些已知的治療標的？\n\nRelevant authoritative OPERATION_TABLE entries for this repair:\n- canonical=discover_targets; equivalents=['discover_targets_per_disease', 'retrieve_disease_targets', 'search_associated_targets', 'target_retrieval']; kind=retrieval; requires_all=['resolved_disease']; provides=['disease_target_association', 'target_candidates']; required_safeguards=['association_does_not_imply_efficacy', 'association_score_not_probability', 'missing_not_negative', 'provenance_pagination_truncation']; meaning=輸入已解析疾病，取得 disease-associated targets；僅表示疾病關聯，不等同治療有效或可成藥。\n- canonical=rank_targets; equivalents=['prioritize_targets', 'order_targets']; kind=analysis; requires_any=['target_candidates', 'stratified_target_evidence']; meaning=對已取得的標的使用固定 ranking schema 排序；不負責擷取或分層證據。\n- canonical=resolve_disease; equivalents=['entity_resolution', 'normalize_disease']; kind=resolution; provides=['resolved_disease']; meaning=將一個疾病 mention 解析為候選標準實體；Plan 階段不得自行宣稱 ID 已驗證。\n- canonical=retrieve_target_drugs; equivalents=['retrieve_drugs_for_targets', 'search_target_drugs']; kind=retrieval; requires_any=['resolved_target', 'target_candidates']; provides=['target_drug_evidence']; required_safeguards=['missing_not_negative', 'provenance_pagination_truncation']; meaning=輸入已解析 target，取得已知 target-drug 關係與證據；不負責 tractability、疾病療效或核准。\n- canonical=retrieve_tractability; equivalents=none; kind=retrieval; requires_any=['resolved_target', 'target_candidates']; provides=['tractability_evidence']; required_safeguards=['missing_not_negative', 'provenance_pagination_truncation', 'tractability_not_efficacy']; meaning=輸入已解析 target，取得可成藥性與小分子 tractability 證據；不表示已有藥物或療效。\n- canonical=stratify_target_evidence_layers; equivalents=none; kind=analysis; requires_all=['disease_target_association', 'target_drug_evidence', 'tractability_evidence']; provides=['stratified_target_evidence']; reserved_outputs=['target_translation_layer']; requires_aggregation=true; meaning=輸入疾病關聯、target-drug 與 tractability 證據，分層輸出疾病相關標的及具轉譯支持標的；不做類別計數。\nUse no other approved operation unless it is explicitly named in the repair scope.\n\n這是不可直接覆寫的基礎 Plan：\n{\n  \"schema_version\": \"2.0\",\n  \"manifest_id\": \"f3c1a5d4-8a9e-4a3b-9c2d-7e1f0e8a7b6c\",\n  \"original_question\": \"胰臟癌（pancreatic ductal adenocarcinoma, PDAC）目前有哪些已知的治療標的？\",\n  \"research_objective\": \"識別與胰臟癌（PDAC）相關的治療標的\",\n  \"entities\": [\n    {\n      \"entity_ref\": \"entity_1\",\n      \"entity_type\": \"disease\",\n      \"mention\": \"胰臟癌（pancreatic ductal adenocarcinoma, PDAC）\",\n      \"entity_id\": null,\n      \"canonical_name\": null,\n      \"resolution_status\": \"unresolved\"\n    }\n  ],\n  \"plan_steps\": [\n    {\n      \"step_id\": \"resolve_disease_1\",\n      \"operation\": \"resolve_disease\",\n      \"operation_status\": \"approved\",\n      \"proposed_operation_name\": null,\n      \"proposal_reason\": null,\n      \"description\": \"解析疾病提及 '胰臟癌（pancreatic ductal adenocarcinoma, PDAC）' 為標準實體\",\n      \"depends_on\": [],\n      \"entity_refs\": [\n        \"entity_1\"\n      ],\n      \"sources\": [\n        \"open_targets\"\n      ],\n      \"outputs\": [\n        \"resolved_disease_1\"\n      ],\n      \"filters\": {},\n      \"ranking\": null,\n      \"aggregation\": null,\n      \"safeguards\": [\n        \"association_does_not_imply_efficacy\",\n        \"association_score_not_probability\",\n        \"missing_not_negative\",\n        \"provenance_pagination_truncation\"\n      ]\n    },\n    {\n      \"step_id\": \"discover_targets_1\",\n      \"operation\": \"discover_targets\",\n      \"operation_status\": \"approved\",\n      \"proposed_operation_name\": null,\n      \"proposal_reason\": null,\n      \"description\": \"取得與解析後 PDAC 相關的治療標的\",\n      \"depends_on\": [\n        \"resolve_disease_1\"\n      ],\n      \"entity_refs\": [\n        \"entity_1\"\n      ],\n      \"sources\": [\n        \"open_targets\"\n      ],\n      \"outputs\": [\n        \"disease_target_association_1\",\n        \"target_candidates_1\"\n      ],\n      \"filters\": {},\n      \"ranking\": null,\n      \"aggregation\": null,\n      \"safeguards\": [\n        \"association_does_not_imply_efficacy\",\n        \"association_score_not_probability\",\n        \"missing_not_negative\",\n        \"provenance_pagination_truncation\"\n      ]\n    },\n    {\n      \"step_id\": \"rank_targets_1\",\n      \"operation\": \"rank_targets\",\n      \"operation_status\": \"approved\",\n      \"proposed_operation_name\": null,\n      \"proposal_reason\": null,\n      \"description\": \"依證據強度與明列警訊排序治療標的\",\n      \"depends_on\": [\n        \"discover_targets_1\"\n      ],\n      \"entity_refs\": [\n        \"entity_1\"\n      ],\n      \"sources\": [],\n      \"outputs\": [\n        \"ranked_targets_1\"\n      ],\n      \"filters\": {},\n      \"ranking\": {\n        \"primary_metric\": \"association_evidence_strength\",\n        \"direction\": \"descending\",\n        \"secondary_metrics\": [\n          \"tractability_evidence_score\",\n          \"clinical_trial_phase\"\n        ]\n      },\n      \"aggregation\": null,\n      \"safeguards\": [\n        \"association_does_not_imply_efficacy\",\n        \"missing_not_negative\"\n      ]\n    }\n  ],\n  \"evidence_requirements\": [\n    \"disease_target_association\",\n    \"target_candidates\",\n    \"tractability_evidence\"\n  ],\n  \"completion_criteria\": [\n    \"成功解析 PDAC 為標準實體\",\n    \"取得至少 5 個 PDAC 相關治療標的\",\n    \"完成治療標的排序\"\n  ],\n  \"global_safeguards\": [\n    \"association_does_not_imply_efficacy\",\n    \"association_score_not_probability\",\n    \"missing_not_negative\",\n    \"provenance_pagination_truncation\"\n  ],\n  \"characteristics\": {\n    \"primary\": \"evidence_directed\",\n    \"secondary\": [\n      \"filter_and_rank\"\n    ]\n  },\n  \"created_before_retrieval\": true,\n  \"generated_at\": \"2026-09-13T09:50:57.507914Z\"\n}\n\nPython 授權的修改範圍：\n{\n  \"entity_refs\": [],\n  \"step_ids\": [\n    \"discover_targets_1\",\n    \"resolve_disease_1\"\n  ],\n  \"new_operations\": [\n    \"discover_targets\",\n    \"retrieve_target_drugs\",\n    \"retrieve_tractability\",\n    \"stratify_target_evidence_layers\"\n  ],\n  \"top_level_fields\": [\n    \"global_safeguards\"\n  ],\n  \"allow_new_entities\": false,\n  \"allow_step_order\": true\n}\n\n只回傳 QueryManifestPatch。保留 preserve 中已通過的項目，只修正 missing 與 incorrect；不要回傳完整 Plan：\n{\n  \"missing\": [\n    {\n      \"area\": \"research_capability\",\n      \"problem\": \"缺少必要項目：retrieve_target_drugs\",\n      \"required_correction\": \"補上 retrieve_target_drugs 的研究語意並保持整體 Plan 一致。\"\n    },\n    {\n      \"area\": \"research_capability\",\n      \"problem\": \"缺少必要項目：retrieve_tractability\",\n      \"required_correction\": \"補上 retrieve_tractability 的研究語意並保持整體 Plan 一致。\"\n    },\n    {\n      \"area\": \"research_capability\",\n      \"problem\": \"缺少必要項目：stratify_target_evidence_layers\",\n      \"required_correction\": \"補上 stratify_target_evidence_layers 的研究語意並保持整體 Plan 一致。\"\n    },\n    {\n      \"area\": \"dependency\",\n      \"problem\": \"缺少必要項目：discover_targets->retrieve_target_drugs\",\n      \"required_correction\": \"補上 discover_targets->retrieve_target_drugs 的研究語意並保持整體 Plan 一致。\"\n    },\n    {\n      \"area\": \"dependency\",\n      \"problem\": \"缺少必要項目：discover_targets->retrieve_tractability\",\n      \"required_correction\": \"補上 discover_targets->retrieve_tractability 的研究語意並保持整體 Plan 一致。\"\n    },\n    {\n      \"area\": \"dependency\",\n      \"problem\": \"缺少必要項目：retrieve_target_drugs->stratify_target_evidence_layers\",\n      \"required_correction\": \"補上 retrieve_target_drugs->stratify_target_evidence_layers 的研究語意並保持整體 Plan 一致。\"\n    },\n    {\n      \"area\": \"dependency\",\n      \"problem\": \"缺少必要項目：retrieve_tractability->stratify_target_evidence_layers\",\n      \"required_correction\": \"補上 retrieve_tractability->stratify_target_evidence_layers 的研究語意並保持整體 Plan 一致。\"\n    },\n    {\n      \"area\": \"source_coverage\",\n      \"problem\": \"缺少必要項目：chembl\",\n      \"required_correction\": \"補上 chembl 的研究語意並保持整體 Plan 一致。\"\n    },\n    {\n      \"area\": \"safeguard\",\n      \"problem\": \"缺少必要項目：tractability_not_efficacy\",\n      \"required_correction\": \"補上 tractability_not_efficacy 的研究語意並保持整體 Plan 一致。\"\n    },\n    {\n      \"area\": \"aggregation\",\n      \"problem\": \"缺少必要項目：target_translation_layer\",\n      \"required_correction\": \"在適當分析步驟的 aggregation 物件中加入頂層 key 'target_translation_layer'；只放在 outputs、description 或巢狀文字不算完成。\"\n    }\n  ],\n  \"incorrect\": [\n    {\n      \"area\": \"schema_or_integrity\",\n      \"problem\": \"model response did not contain a QueryManifestPatch JSON object\",\n      \"required_correction\": \"修正指定錯誤並保留原始問題。\"\n    }\n  ],\n  \"preserve\": [\n    {\n      \"area\": \"accepted_capability\",\n      \"item\": \"discover_targets\",\n      \"instruction\": \"此能力已通過；修復其他缺項時不得刪除或改壞。\"\n    },\n    {\n      \"area\": \"accepted_capability\",\n      \"item\": \"rank_targets\",\n      \"instruction\": \"此能力已通過；修復其他缺項時不得刪除或改壞。\"\n    },\n    {\n      \"area\": \"accepted_capability\",\n      \"item\": \"resolve_disease\",\n      \"instruction\": \"此能力已通過；修復其他缺項時不得刪除或改壞。\"\n    }\n  ]\n}",
+              "additional_kwargs": {},
+              "response_metadata": {},
+              "type": "human",
+              "name": null,
+              "id": null
+            }
+          ],
+          "raw_response": {
+            "generations": [
+              [
+                {
+                  "text": "{\n  \"upsert_steps\": [\n    {\n      \"step_id\": \"retrieve_target_drugs_1\",\n      \"operation\": \"retrieve_target_drugs\",\n      \"description\": \"取得與 PDAC 相關治療標的的已知藥物與證據\",\n      \"depends_on\": [\"discover_targets_1\"],\n      \"entity_refs\": [\"entity_1\"],\n      \"sources\": [\"chembl\"],\n      \"outputs\": [\"target_drug_evidence_1\"],\n      \"safeguards\": [\"missing_not_negative\", \"provenance_pagination_truncation\"]\n    },\n    {\n      \"step_id\": \"retrieve_tractability_1\",\n      \"operation\": \"retrieve_tractability\",\n      \"description\": \"取得與 PDAC 相關治療標的的可成藥性與小分子 tractability 證據\",\n      \"depends_on\": [\"discover_targets_1\"],\n      \"entity_refs\": [\"entity_1\"],\n      \"sources\": [\"chembl\"],\n      \"outputs\": [\"tractability_evidence_1\"],\n      \"safeguards\": [\"tractability_not_efficacy\", \"missing_not_negative\", \"provenance_pagination_truncation\"]\n    },\n    {\n      \"step_id\": \"stratify_target_evidence_layers_1\",\n      \"operation\": \"stratify_target_evidence_layers\",\n      \"description\": \"整合疾病關聯、藥物證據與 tractability 證據，分層輸出治療標的\",\n      \"depends_on\": [\"discover_targets_1\", \"retrieve_target_drugs_1\", \"retrieve_tractability_1\"],\n      \"entity_refs\": [\"entity_1\"],\n      \"outputs\": [\"stratified_target_evidence_1\"],\n      \"aggregation\": {\"target_translation_layer\": {}}\n    }\n  ],\n  \"step_order\": [\"resolve_disease_1\", \"discover_targets_1\", \"retrieve_target_drugs_1\", \"retrieve_tractability_1\", \"stratify_target_evidence_layers_1\", \"rank_targets_1\"],\n  \"global_safeguards\": [\n    \"association_does_not_imply_efficacy\",\n    \"association_score_not_probability\",\n    \"missing_not_negative\",\n    \"provenance_pagination_truncation\",\n    \"tractability_not_efficacy\"\n  ]\n}",
+                  "generation_info": {
+                    "model": "qwen3:14b",
+                    "created_at": "2026-09-13T10:14:01.8401564Z",
+                    "done": true,
+                    "done_reason": "stop",
+                    "total_duration": 422468345300,
+                    "load_duration": 2634500,
+                    "prompt_eval_count": 4166,
+                    "prompt_eval_duration": 2211935000,
+                    "eval_count": 1980,
+                    "eval_duration": 419852876000,
+                    "logprobs": null,
+                    "model_name": "qwen3:14b",
+                    "model_provider": "ollama"
+                  },
+                  "type": "ChatGeneration",
+                  "message": {
+                    "content": "{\n  \"upsert_steps\": [\n    {\n      \"step_id\": \"retrieve_target_drugs_1\",\n      \"operation\": \"retrieve_target_drugs\",\n      \"description\": \"取得與 PDAC 相關治療標的的已知藥物與證據\",\n      \"depends_on\": [\"discover_targets_1\"],\n      \"entity_refs\": [\"entity_1\"],\n      \"sources\": [\"chembl\"],\n      \"outputs\": [\"target_drug_evidence_1\"],\n      \"safeguards\": [\"missing_not_negative\", \"provenance_pagination_truncation\"]\n    },\n    {\n      \"step_id\": \"retrieve_tractability_1\",\n      \"operation\": \"retrieve_tractability\",\n      \"description\": \"取得與 PDAC 相關治療標的的可成藥性與小分子 tractability 證據\",\n      \"depends_on\": [\"discover_targets_1\"],\n      \"entity_refs\": [\"entity_1\"],\n      \"sources\": [\"chembl\"],\n      \"outputs\": [\"tractability_evidence_1\"],\n      \"safeguards\": [\"tractability_not_efficacy\", \"missing_not_negative\", \"provenance_pagination_truncation\"]\n    },\n    {\n      \"step_id\": \"stratify_target_evidence_layers_1\",\n      \"operation\": \"stratify_target_evidence_layers\",\n      \"description\": \"整合疾病關聯、藥物證據與 tractability 證據，分層輸出治療標的\",\n      \"depends_on\": [\"discover_targets_1\", \"retrieve_target_drugs_1\", \"retrieve_tractability_1\"],\n      \"entity_refs\": [\"entity_1\"],\n      \"outputs\": [\"stratified_target_evidence_1\"],\n      \"aggregation\": {\"target_translation_layer\": {}}\n    }\n  ],\n  \"step_order\": [\"resolve_disease_1\", \"discover_targets_1\", \"retrieve_target_drugs_1\", \"retrieve_tractability_1\", \"stratify_target_evidence_layers_1\", \"rank_targets_1\"],\n  \"global_safeguards\": [\n    \"association_does_not_imply_efficacy\",\n    \"association_score_not_probability\",\n    \"missing_not_negative\",\n    \"provenance_pagination_truncation\",\n    \"tractability_not_efficacy\"\n  ]\n}",
+                    "additional_kwargs": {},
+                    "response_metadata": {
+                      "model": "qwen3:14b",
+                      "created_at": "2026-09-13T10:14:01.8401564Z",
+                      "done": true,
+                      "done_reason": "stop",
+                      "total_duration": 422468345300,
+                      "load_duration": 2634500,
+                      "prompt_eval_count": 4166,
+                      "prompt_eval_duration": 2211935000,
+                      "eval_count": 1980,
+                      "eval_duration": 419852876000,
+                      "logprobs": null,
+                      "model_name": "qwen3:14b",
+                      "model_provider": "ollama"
+                    },
+                    "type": "ai",
+                    "name": null,
+                    "id": "lc_run--01a09a3c-032b-7db0-9b33-46a45d382fe2-0"
+                  }
+                }
+              ]
+            ],
+            "llm_output": null,
+            "run": null,
+            "type": "LLMResult"
+          },
+          "error_type": null,
+          "error_message": null
+        }
+      ],
+      "repair_feedback_sent_next": {
+        "missing": [
+          {
+            "area": "dependency",
+            "problem": "缺少必要項目：stratify_target_evidence_layers->rank_targets",
+            "required_correction": "補上 stratify_target_evidence_layers->rank_targets 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "ranking",
+            "problem": "缺少必要項目：overall_association_score",
+            "required_correction": "在適當步驟的 ranking.primary_metric 或 ranking.secondary_metrics 中使用正式指標 'overall_association_score'。"
+          }
+        ],
+        "incorrect": [
+          {
+            "area": "analysis_metric_requires_available_evidence",
+            "problem": "step_id=rank_targets_1; rank_targets 使用未核准或尚不可用的分析控制：未登記 metrics：association_evidence_strength, clinical_trial_phase, tractability_evidence_score。",
+            "required_correction": "只使用 operation table 支援的 filter 與 metric registry 已登記且有上游證據的指標；否則標記為待人工審核。"
+          }
+        ],
+        "preserve": [
+          {
+            "area": "accepted_capability",
+            "item": "discover_targets",
+            "instruction": "此能力已通過；修復其他缺項時不得刪除或改壞。"
+          },
+          {
+            "area": "accepted_capability",
+            "item": "rank_targets",
+            "instruction": "此能力已通過；修復其他缺項時不得刪除或改壞。"
+          },
+          {
+            "area": "accepted_capability",
+            "item": "resolve_disease",
+            "instruction": "此能力已通過；修復其他缺項時不得刪除或改壞。"
+          },
+          {
+            "area": "accepted_capability",
+            "item": "retrieve_target_drugs",
+            "instruction": "此能力已通過；修復其他缺項時不得刪除或改壞。"
+          },
+          {
+            "area": "accepted_capability",
+            "item": "retrieve_tractability",
+            "instruction": "此能力已通過；修復其他缺項時不得刪除或改壞。"
+          },
+          {
+            "area": "accepted_capability",
+            "item": "stratify_target_evidence_layers",
+            "instruction": "此能力已通過；修復其他缺項時不得刪除或改壞。"
+          }
+        ]
+      },
+      "errors": [
+        "plan failed hidden semantic acceptance",
+        "plan failed general operation rules"
+      ],
+      "corrected_model_claims": [],
+      "regressed_components": [],
+      "input_tokens": 4166,
+      "output_tokens": 1980,
+      "total_tokens": 6146,
+      "model_total_duration_ns": 422468345300,
+      "model_eval_duration_ns": 419852876000,
+      "model_eval_count": 1980,
+      "model_generation_timeout": false,
+      "ollama_stop_requested": false,
+      "ollama_stopping_detected": false,
+      "ollama_stopping_timeout": false,
+      "ollama_cleanup_succeeded": false,
+      "ollama_cleanup_error": null,
+      "evidence_collection_started": false,
+      "executed_retrieval_tools": []
+    },
+    {
+      "attempt": 4,
+      "started_at": "2026-09-13T10:14:01.845445Z",
+      "duration_seconds": 163.99442669999553,
+      "schema_valid": false,
+      "generation_mode": "local_patch",
+      "applied_patch": null,
+      "repair_scope": {
+        "entity_refs": [],
+        "step_ids": [
+          "rank_targets_1",
+          "stratify_target_evidence_layers_1"
+        ],
+        "new_operations": [
+          "rank_targets",
+          "stratify_target_evidence_layers"
+        ],
+        "top_level_fields": [],
+        "allow_new_entities": false,
+        "allow_step_order": true
+      },
+      "promoted_to_repair_base": false,
+      "semantic_acceptance": null,
+      "operation_rule_evaluation": null,
+      "candidate_plan": null,
+      "raw_candidate_payload": null,
+      "model_calls": [
+        {
+          "call_index": 1,
+          "run_id": "01a09a42-757b-7b80-8b1d-3a3c093cf5d7",
+          "parent_run_id": null,
+          "started_at": "2026-09-13T10:14:01.851781Z",
+          "finished_at": "2026-09-13T10:16:45.839385Z",
+          "duration_seconds": 163.987604,
+          "status": "completed",
+          "input_messages": [
+            {
+              "content": "\nYou repair an existing QueryManifestV2. You have no tools and must never\nretrieve evidence. Return only a QueryManifestPatch, not a complete manifest.\n\nApply only the supplied concrete errors. Preserve every correct entity, step,\ndependency, source, safeguard, and accepted capability. Use remove_* only for\nincorrect items and upsert_* only for new or changed items. An upsert replaces\nthe item with the same entity_ref or step_id; otherwise it appends it. Supply\nstep_order only when adding/removing/reordering steps, and then list every final\nstep_id exactly once. Leave unrelated optional replacement fields null.\n\nDo not include schema_version, manifest_id, original_question, generated_at, or\nother parent-Plan metadata in the patch. Python owns and preserves those fields.\n\nDo not invent verified IDs or research findings. Do not change the original\nquestion. Analysis steps consume upstream results through depends_on and must\nnot attach sources. Top-level entities may only represent entities explicitly\nnamed in the question; generated collections remain step outputs. A repair is\nstill only a Plan and never evidence retrieval.\n\nReturn exactly one JSON object matching this schema:\n{\"$defs\": {\"PlannedEntityV2\": {\"description\": \"Entity mentioned by the user and carried into a plan without invention.\", \"properties\": {\"entity_ref\": {\"minLength\": 1, \"title\": \"Entity Ref\", \"type\": \"string\"}, \"entity_type\": {\"enum\": [\"disease\", \"target\", \"drug\", \"tissue\", \"mechanism\"], \"title\": \"Entity Type\", \"type\": \"string\"}, \"mention\": {\"minLength\": 1, \"title\": \"Mention\", \"type\": \"string\"}, \"entity_id\": {\"anyOf\": [{\"type\": \"string\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Entity Id\"}, \"canonical_name\": {\"anyOf\": [{\"type\": \"string\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Canonical Name\"}, \"resolution_status\": {\"enum\": [\"verified\", \"ambiguous\", \"unresolved\"], \"title\": \"Resolution Status\", \"type\": \"string\"}}, \"required\": [\"entity_ref\", \"entity_type\", \"mention\", \"resolution_status\"], \"title\": \"PlannedEntityV2\", \"type\": \"object\"}, \"QueryCharacteristicsV2\": {\"description\": \"Descriptive labels for indexing; they do not determine the plan.\", \"properties\": {\"primary\": {\"enum\": [\"single_hop\", \"multi_hop\", \"evidence_directed\", \"filter_and_rank\", \"comparison_and_aggregation\", \"safety_and_negative_knowledge\"], \"title\": \"Primary\", \"type\": \"string\"}, \"secondary\": {\"items\": {\"enum\": [\"single_hop\", \"multi_hop\", \"evidence_directed\", \"filter_and_rank\", \"comparison_and_aggregation\", \"safety_and_negative_knowledge\"], \"type\": \"string\"}, \"title\": \"Secondary\", \"type\": \"array\"}}, \"required\": [\"primary\"], \"title\": \"QueryCharacteristicsV2\", \"type\": \"object\"}, \"RankingSpecV2\": {\"additionalProperties\": false, \"description\": \"Deterministic ranking contract with conservative legacy normalization.\", \"properties\": {\"primary_metric\": {\"minLength\": 1, \"title\": \"Primary Metric\", \"type\": \"string\"}, \"direction\": {\"enum\": [\"ascending\", \"descending\"], \"title\": \"Direction\", \"type\": \"string\"}, \"secondary_metrics\": {\"items\": {\"type\": \"string\"}, \"title\": \"Secondary Metrics\", \"type\": \"array\"}}, \"required\": [\"primary_metric\", \"direction\"], \"title\": \"RankingSpecV2\", \"type\": \"object\"}, \"ResearchPlanStepV2\": {\"description\": \"One executable or analytical operation in a research plan.\", \"properties\": {\"step_id\": {\"minLength\": 1, \"title\": \"Step Id\", \"type\": \"string\"}, \"operation\": {\"minLength\": 1, \"title\": \"Operation\", \"type\": \"string\"}, \"operation_status\": {\"default\": \"approved\", \"enum\": [\"approved\", \"proposed\"], \"title\": \"Operation Status\", \"type\": \"string\"}, \"proposed_operation_name\": {\"anyOf\": [{\"type\": \"string\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Proposed Operation Name\"}, \"proposal_reason\": {\"anyOf\": [{\"type\": \"string\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Proposal Reason\"}, \"description\": {\"minLength\": 1, \"title\": \"Description\", \"type\": \"string\"}, \"depends_on\": {\"items\": {\"type\": \"string\"}, \"title\": \"Depends On\", \"type\": \"array\"}, \"entity_refs\": {\"items\": {\"type\": \"string\"}, \"title\": \"Entity Refs\", \"type\": \"array\"}, \"sources\": {\"items\": {\"enum\": [\"open_targets\", \"europe_pmc\", \"clinicaltrials_gov\", \"chembl\"], \"type\": \"string\"}, \"title\": \"Sources\", \"type\": \"array\"}, \"outputs\": {\"items\": {\"type\": \"string\"}, \"minItems\": 1, \"title\": \"Outputs\", \"type\": \"array\"}, \"filters\": {\"additionalProperties\": true, \"title\": \"Filters\", \"type\": \"object\"}, \"ranking\": {\"anyOf\": [{\"$ref\": \"#/$defs/RankingSpecV2\"}, {\"type\": \"null\"}], \"default\": null}, \"aggregation\": {\"anyOf\": [{\"additionalProperties\": true, \"type\": \"object\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Aggregation\"}, \"safeguards\": {\"items\": {\"type\": \"string\"}, \"title\": \"Safeguards\", \"type\": \"array\"}}, \"required\": [\"step_id\", \"operation\", \"description\", \"outputs\"], \"title\": \"ResearchPlanStepV2\", \"type\": \"object\"}}, \"description\": \"Bounded edits applied by Python to the last schema-valid manifest.\", \"properties\": {\"remove_entity_refs\": {\"items\": {\"type\": \"string\"}, \"title\": \"Remove Entity Refs\", \"type\": \"array\"}, \"upsert_entities\": {\"items\": {\"$ref\": \"#/$defs/PlannedEntityV2\"}, \"title\": \"Upsert Entities\", \"type\": \"array\"}, \"remove_step_ids\": {\"items\": {\"type\": \"string\"}, \"title\": \"Remove Step Ids\", \"type\": \"array\"}, \"upsert_steps\": {\"items\": {\"$ref\": \"#/$defs/ResearchPlanStepV2\"}, \"title\": \"Upsert Steps\", \"type\": \"array\"}, \"step_order\": {\"anyOf\": [{\"items\": {\"type\": \"string\"}, \"type\": \"array\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Step Order\"}, \"research_objective\": {\"anyOf\": [{\"type\": \"string\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Research Objective\"}, \"evidence_requirements\": {\"anyOf\": [{\"items\": {\"type\": \"string\"}, \"type\": \"array\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Evidence Requirements\"}, \"completion_criteria\": {\"anyOf\": [{\"items\": {\"type\": \"string\"}, \"type\": \"array\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Completion Criteria\"}, \"global_safeguards\": {\"anyOf\": [{\"items\": {\"type\": \"string\"}, \"type\": \"array\"}, {\"type\": \"null\"}], \"default\": null, \"title\": \"Global Safeguards\"}, \"characteristics\": {\"anyOf\": [{\"$ref\": \"#/$defs/QueryCharacteristicsV2\"}, {\"type\": \"null\"}], \"default\": null}}, \"title\": \"QueryManifestPatch\", \"type\": \"object\"}",
+              "additional_kwargs": {},
+              "response_metadata": {},
+              "type": "system",
+              "name": null,
+              "id": null
+            },
+            {
+              "content": "使用者原始問題：\n胰臟癌（pancreatic ductal adenocarcinoma, PDAC）目前有哪些已知的治療標的？\n\nRelevant authoritative OPERATION_TABLE entries for this repair:\n- canonical=discover_targets; equivalents=['discover_targets_per_disease', 'retrieve_disease_targets', 'search_associated_targets', 'target_retrieval']; kind=retrieval; requires_all=['resolved_disease']; provides=['disease_target_association', 'target_candidates']; required_safeguards=['association_does_not_imply_efficacy', 'association_score_not_probability', 'missing_not_negative', 'provenance_pagination_truncation']; meaning=輸入已解析疾病，取得 disease-associated targets；僅表示疾病關聯，不等同治療有效或可成藥。\n- canonical=rank_targets; equivalents=['prioritize_targets', 'order_targets']; kind=analysis; requires_any=['target_candidates', 'stratified_target_evidence']; meaning=對已取得的標的使用固定 ranking schema 排序；不負責擷取或分層證據。\n- canonical=resolve_disease; equivalents=['entity_resolution', 'normalize_disease']; kind=resolution; provides=['resolved_disease']; meaning=將一個疾病 mention 解析為候選標準實體；Plan 階段不得自行宣稱 ID 已驗證。\n- canonical=retrieve_target_drugs; equivalents=['retrieve_drugs_for_targets', 'search_target_drugs']; kind=retrieval; requires_any=['resolved_target', 'target_candidates']; provides=['target_drug_evidence']; required_safeguards=['missing_not_negative', 'provenance_pagination_truncation']; meaning=輸入已解析 target，取得已知 target-drug 關係與證據；不負責 tractability、疾病療效或核准。\n- canonical=retrieve_tractability; equivalents=none; kind=retrieval; requires_any=['resolved_target', 'target_candidates']; provides=['tractability_evidence']; required_safeguards=['missing_not_negative', 'provenance_pagination_truncation', 'tractability_not_efficacy']; meaning=輸入已解析 target，取得可成藥性與小分子 tractability 證據；不表示已有藥物或療效。\n- canonical=stratify_target_evidence_layers; equivalents=none; kind=analysis; requires_all=['disease_target_association', 'target_drug_evidence', 'tractability_evidence']; provides=['stratified_target_evidence']; reserved_outputs=['target_translation_layer']; requires_aggregation=true; meaning=輸入疾病關聯、target-drug 與 tractability 證據，分層輸出疾病相關標的及具轉譯支持標的；不做類別計數。\nUse no other approved operation unless it is explicitly named in the repair scope.\n\n這是不可直接覆寫的基礎 Plan：\n{\n  \"schema_version\": \"2.0\",\n  \"manifest_id\": \"f3c1a5d4-8a9e-4a3b-9c2d-7e1f0e8a7b6c\",\n  \"original_question\": \"胰臟癌（pancreatic ductal adenocarcinoma, PDAC）目前有哪些已知的治療標的？\",\n  \"research_objective\": \"識別與胰臟癌（PDAC）相關的治療標的\",\n  \"entities\": [\n    {\n      \"entity_ref\": \"entity_1\",\n      \"entity_type\": \"disease\",\n      \"mention\": \"胰臟癌（pancreatic ductal adenocarcinoma, PDAC）\",\n      \"entity_id\": null,\n      \"canonical_name\": null,\n      \"resolution_status\": \"unresolved\"\n    }\n  ],\n  \"plan_steps\": [\n    {\n      \"step_id\": \"resolve_disease_1\",\n      \"operation\": \"resolve_disease\",\n      \"operation_status\": \"approved\",\n      \"proposed_operation_name\": null,\n      \"proposal_reason\": null,\n      \"description\": \"解析疾病提及 '胰臟癌（pancreatic ductal adenocarcinoma, PDAC）' 為標準實體\",\n      \"depends_on\": [],\n      \"entity_refs\": [\n        \"entity_1\"\n      ],\n      \"sources\": [\n        \"open_targets\"\n      ],\n      \"outputs\": [\n        \"resolved_disease_1\"\n      ],\n      \"filters\": {},\n      \"ranking\": null,\n      \"aggregation\": null,\n      \"safeguards\": [\n        \"association_does_not_imply_efficacy\",\n        \"association_score_not_probability\",\n        \"missing_not_negative\",\n        \"provenance_pagination_truncation\"\n      ]\n    },\n    {\n      \"step_id\": \"discover_targets_1\",\n      \"operation\": \"discover_targets\",\n      \"operation_status\": \"approved\",\n      \"proposed_operation_name\": null,\n      \"proposal_reason\": null,\n      \"description\": \"取得與解析後 PDAC 相關的治療標的\",\n      \"depends_on\": [\n        \"resolve_disease_1\"\n      ],\n      \"entity_refs\": [\n        \"entity_1\"\n      ],\n      \"sources\": [\n        \"open_targets\"\n      ],\n      \"outputs\": [\n        \"disease_target_association_1\",\n        \"target_candidates_1\"\n      ],\n      \"filters\": {},\n      \"ranking\": null,\n      \"aggregation\": null,\n      \"safeguards\": [\n        \"association_does_not_imply_efficacy\",\n        \"association_score_not_probability\",\n        \"missing_not_negative\",\n        \"provenance_pagination_truncation\"\n      ]\n    },\n    {\n      \"step_id\": \"retrieve_target_drugs_1\",\n      \"operation\": \"retrieve_target_drugs\",\n      \"operation_status\": \"approved\",\n      \"proposed_operation_name\": null,\n      \"proposal_reason\": null,\n      \"description\": \"取得與 PDAC 相關治療標的的已知藥物與證據\",\n      \"depends_on\": [\n        \"discover_targets_1\"\n      ],\n      \"entity_refs\": [\n        \"entity_1\"\n      ],\n      \"sources\": [\n        \"chembl\"\n      ],\n      \"outputs\": [\n        \"target_drug_evidence_1\"\n      ],\n      \"filters\": {},\n      \"ranking\": null,\n      \"aggregation\": null,\n      \"safeguards\": [\n        \"missing_not_negative\",\n        \"provenance_pagination_truncation\"\n      ]\n    },\n    {\n      \"step_id\": \"retrieve_tractability_1\",\n      \"operation\": \"retrieve_tractability\",\n      \"operation_status\": \"approved\",\n      \"proposed_operation_name\": null,\n      \"proposal_reason\": null,\n      \"description\": \"取得與 PDAC 相關治療標的的可成藥性與小分子 tractability 證據\",\n      \"depends_on\": [\n        \"discover_targets_1\"\n      ],\n      \"entity_refs\": [\n        \"entity_1\"\n      ],\n      \"sources\": [\n        \"chembl\"\n      ],\n      \"outputs\": [\n        \"tractability_evidence_1\"\n      ],\n      \"filters\": {},\n      \"ranking\": null,\n      \"aggregation\": null,\n      \"safeguards\": [\n        \"tractability_not_efficacy\",\n        \"missing_not_negative\",\n        \"provenance_pagination_truncation\"\n      ]\n    },\n    {\n      \"step_id\": \"stratify_target_evidence_layers_1\",\n      \"operation\": \"stratify_target_evidence_layers\",\n      \"operation_status\": \"approved\",\n      \"proposed_operation_name\": null,\n      \"proposal_reason\": null,\n      \"description\": \"整合疾病關聯、藥物證據與 tractability 證據，分層輸出治療標的\",\n      \"depends_on\": [\n        \"discover_targets_1\",\n        \"retrieve_target_drugs_1\",\n        \"retrieve_tractability_1\"\n      ],\n      \"entity_refs\": [\n        \"entity_1\"\n      ],\n      \"sources\": [],\n      \"outputs\": [\n        \"stratified_target_evidence_1\"\n      ],\n      \"filters\": {},\n      \"ranking\": null,\n      \"aggregation\": {\n        \"target_translation_layer\": {}\n      },\n      \"safeguards\": []\n    },\n    {\n      \"step_id\": \"rank_targets_1\",\n      \"operation\": \"rank_targets\",\n      \"operation_status\": \"approved\",\n      \"proposed_operation_name\": null,\n      \"proposal_reason\": null,\n      \"description\": \"依證據強度與明列警訊排序治療標的\",\n      \"depends_on\": [\n        \"discover_targets_1\"\n      ],\n      \"entity_refs\": [\n        \"entity_1\"\n      ],\n      \"sources\": [],\n      \"outputs\": [\n        \"ranked_targets_1\"\n      ],\n      \"filters\": {},\n      \"ranking\": {\n        \"primary_metric\": \"association_evidence_strength\",\n        \"direction\": \"descending\",\n        \"secondary_metrics\": [\n          \"tractability_evidence_score\",\n          \"clinical_trial_phase\"\n        ]\n      },\n      \"aggregation\": null,\n      \"safeguards\": [\n        \"association_does_not_imply_efficacy\",\n        \"missing_not_negative\"\n      ]\n    }\n  ],\n  \"evidence_requirements\": [\n    \"disease_target_association\",\n    \"target_candidates\",\n    \"tractability_evidence\"\n  ],\n  \"completion_criteria\": [\n    \"成功解析 PDAC 為標準實體\",\n    \"取得至少 5 個 PDAC 相關治療標的\",\n    \"完成治療標的排序\"\n  ],\n  \"global_safeguards\": [\n    \"association_does_not_imply_efficacy\",\n    \"association_score_not_probability\",\n    \"missing_not_negative\",\n    \"provenance_pagination_truncation\",\n    \"tractability_not_efficacy\"\n  ],\n  \"characteristics\": {\n    \"primary\": \"evidence_directed\",\n    \"secondary\": [\n      \"filter_and_rank\"\n    ]\n  },\n  \"created_before_retrieval\": true,\n  \"generated_at\": \"2026-09-13T10:14:01.842276Z\"\n}\n\nPython 授權的修改範圍：\n{\n  \"entity_refs\": [],\n  \"step_ids\": [\n    \"rank_targets_1\",\n    \"stratify_target_evidence_layers_1\"\n  ],\n  \"new_operations\": [\n    \"rank_targets\",\n    \"stratify_target_evidence_layers\"\n  ],\n  \"top_level_fields\": [],\n  \"allow_new_entities\": false,\n  \"allow_step_order\": true\n}\n\n只回傳 QueryManifestPatch。保留 preserve 中已通過的項目，只修正 missing 與 incorrect；不要回傳完整 Plan：\n{\n  \"missing\": [\n    {\n      \"area\": \"dependency\",\n      \"problem\": \"缺少必要項目：stratify_target_evidence_layers->rank_targets\",\n      \"required_correction\": \"補上 stratify_target_evidence_layers->rank_targets 的研究語意並保持整體 Plan 一致。\"\n    },\n    {\n      \"area\": \"ranking\",\n      \"problem\": \"缺少必要項目：overall_association_score\",\n      \"required_correction\": \"在適當步驟的 ranking.primary_metric 或 ranking.secondary_metrics 中使用正式指標 'overall_association_score'。\"\n    }\n  ],\n  \"incorrect\": [\n    {\n      \"area\": \"analysis_metric_requires_available_evidence\",\n      \"problem\": \"step_id=rank_targets_1; rank_targets 使用未核准或尚不可用的分析控制：未登記 metrics：association_evidence_strength, clinical_trial_phase, tractability_evidence_score。\",\n      \"required_correction\": \"只使用 operation table 支援的 filter 與 metric registry 已登記且有上游證據的指標；否則標記為待人工審核。\"\n    }\n  ],\n  \"preserve\": [\n    {\n      \"area\": \"accepted_capability\",\n      \"item\": \"discover_targets\",\n      \"instruction\": \"此能力已通過；修復其他缺項時不得刪除或改壞。\"\n    },\n    {\n      \"area\": \"accepted_capability\",\n      \"item\": \"rank_targets\",\n      \"instruction\": \"此能力已通過；修復其他缺項時不得刪除或改壞。\"\n    },\n    {\n      \"area\": \"accepted_capability\",\n      \"item\": \"resolve_disease\",\n      \"instruction\": \"此能力已通過；修復其他缺項時不得刪除或改壞。\"\n    },\n    {\n      \"area\": \"accepted_capability\",\n      \"item\": \"retrieve_target_drugs\",\n      \"instruction\": \"此能力已通過；修復其他缺項時不得刪除或改壞。\"\n    },\n    {\n      \"area\": \"accepted_capability\",\n      \"item\": \"retrieve_tractability\",\n      \"instruction\": \"此能力已通過；修復其他缺項時不得刪除或改壞。\"\n    },\n    {\n      \"area\": \"accepted_capability\",\n      \"item\": \"stratify_target_evidence_layers\",\n      \"instruction\": \"此能力已通過；修復其他缺項時不得刪除或改壞。\"\n    }\n  ]\n}",
+              "additional_kwargs": {},
+              "response_metadata": {},
+              "type": "human",
+              "name": null,
+              "id": null
+            }
+          ],
+          "raw_response": {
+            "generations": [
+              [
+                {
+                  "text": "{\n  \"upsert_steps\": [\n    {\n      \"step_id\": \"stratify_target_evidence_layers_1\",\n      \"operation\": \"stratify_target_evidence_layers\",\n      \"operation_status\": \"approved\",\n      \"description\": \"整合疾病關聯、藥物證據與 tractability 證據，分層輸出治療標的\",\n      \"depends_on\": [\n        \"discover_targets_1\",\n        \"retrieve_target_drugs_1\",\n        \"retrieve_tractability_1\",\n        \"rank_targets_1\"\n      ],\n      \"outputs\": [\n        \"stratified_target_evidence_1\"\n      ],\n      \"aggregation\": {\n        \"target_translation_layer\": {}\n      }\n    },\n    {\n      \"step_id\": \"rank_targets_1\",\n      \"operation\": \"rank_targets\",\n      \"operation_status\": \"approved\",\n      \"description\": \"依證據強度與明列警訊排序治療標的\",\n      \"depends_on\": [\n        \"discover_targets_1\"\n      ],\n      \"ranking\": {\n        \"primary_metric\": \"overall_association_score\",\n        \"direction\": \"descending\"\n      }\n    }\n  ]\n}",
+                  "generation_info": {
+                    "model": "qwen3:14b",
+                    "created_at": "2026-09-13T10:16:45.83885Z",
+                    "done": true,
+                    "done_reason": "stop",
+                    "total_duration": 163985741200,
+                    "load_duration": 1560000,
+                    "prompt_eval_count": 4458,
+                    "prompt_eval_duration": 2737155000,
+                    "eval_count": 760,
+                    "eval_duration": 160991760000,
+                    "logprobs": null,
+                    "model_name": "qwen3:14b",
+                    "model_provider": "ollama"
+                  },
+                  "type": "ChatGeneration",
+                  "message": {
+                    "content": "{\n  \"upsert_steps\": [\n    {\n      \"step_id\": \"stratify_target_evidence_layers_1\",\n      \"operation\": \"stratify_target_evidence_layers\",\n      \"operation_status\": \"approved\",\n      \"description\": \"整合疾病關聯、藥物證據與 tractability 證據，分層輸出治療標的\",\n      \"depends_on\": [\n        \"discover_targets_1\",\n        \"retrieve_target_drugs_1\",\n        \"retrieve_tractability_1\",\n        \"rank_targets_1\"\n      ],\n      \"outputs\": [\n        \"stratified_target_evidence_1\"\n      ],\n      \"aggregation\": {\n        \"target_translation_layer\": {}\n      }\n    },\n    {\n      \"step_id\": \"rank_targets_1\",\n      \"operation\": \"rank_targets\",\n      \"operation_status\": \"approved\",\n      \"description\": \"依證據強度與明列警訊排序治療標的\",\n      \"depends_on\": [\n        \"discover_targets_1\"\n      ],\n      \"ranking\": {\n        \"primary_metric\": \"overall_association_score\",\n        \"direction\": \"descending\"\n      }\n    }\n  ]\n}",
+                    "additional_kwargs": {},
+                    "response_metadata": {
+                      "model": "qwen3:14b",
+                      "created_at": "2026-09-13T10:16:45.83885Z",
+                      "done": true,
+                      "done_reason": "stop",
+                      "total_duration": 163985741200,
+                      "load_duration": 1560000,
+                      "prompt_eval_count": 4458,
+                      "prompt_eval_duration": 2737155000,
+                      "eval_count": 760,
+                      "eval_duration": 160991760000,
+                      "logprobs": null,
+                      "model_name": "qwen3:14b",
+                      "model_provider": "ollama"
+                    },
+                    "type": "ai",
+                    "name": null,
+                    "id": "lc_run--01a09a42-757b-7b80-8b1d-3a3c093cf5d7-0"
+                  }
+                }
+              ]
+            ],
+            "llm_output": null,
+            "run": null,
+            "type": "LLMResult"
+          },
+          "error_type": null,
+          "error_message": null
+        }
+      ],
+      "repair_feedback_sent_next": {
+        "missing": [
+          {
+            "area": "dependency",
+            "problem": "缺少必要項目：stratify_target_evidence_layers->rank_targets",
+            "required_correction": "補上 stratify_target_evidence_layers->rank_targets 的研究語意並保持整體 Plan 一致。"
+          },
+          {
+            "area": "ranking",
+            "problem": "缺少必要項目：overall_association_score",
+            "required_correction": "在適當步驟的 ranking.primary_metric 或 ranking.secondary_metrics 中使用正式指標 'overall_association_score'。"
+          }
+        ],
+        "incorrect": [
+          {
+            "area": "analysis_metric_requires_available_evidence",
+            "problem": "step_id=rank_targets_1; rank_targets 使用未核准或尚不可用的分析控制：未登記 metrics：association_evidence_strength, clinical_trial_phase, tractability_evidence_score。",
+            "required_correction": "只使用 operation table 支援的 filter 與 metric registry 已登記且有上游證據的指標；否則標記為待人工審核。"
+          },
+          {
+            "area": "schema_or_integrity",
+            "problem": "1 validation error for QueryManifestPatch\nupsert_steps.1.outputs\n  Field required [type=missing, input_value={'step_id': 'rank_targets...rection': 'descending'}}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing",
+            "required_correction": "修正指定錯誤並保留原始問題。"
+          }
+        ],
+        "preserve": [
+          {
+            "area": "accepted_capability",
+            "item": "discover_targets",
+            "instruction": "此能力已通過；修復其他缺項時不得刪除或改壞。"
+          },
+          {
+            "area": "accepted_capability",
+            "item": "rank_targets",
+            "instruction": "此能力已通過；修復其他缺項時不得刪除或改壞。"
+          },
+          {
+            "area": "accepted_capability",
+            "item": "resolve_disease",
+            "instruction": "此能力已通過；修復其他缺項時不得刪除或改壞。"
+          },
+          {
+            "area": "accepted_capability",
+            "item": "retrieve_target_drugs",
+            "instruction": "此能力已通過；修復其他缺項時不得刪除或改壞。"
+          },
+          {
+            "area": "accepted_capability",
+            "item": "retrieve_tractability",
+            "instruction": "此能力已通過；修復其他缺項時不得刪除或改壞。"
+          },
+          {
+            "area": "accepted_capability",
+            "item": "stratify_target_evidence_layers",
+            "instruction": "此能力已通過；修復其他缺項時不得刪除或改壞。"
+          }
+        ]
+      },
+      "errors": [
+        "ValidationError: 1 validation error for QueryManifestPatch\nupsert_steps.1.outputs\n  Field required [type=missing, input_value={'step_id': 'rank_targets...rection': 'descending'}}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing"
+      ],
+      "corrected_model_claims": [],
+      "regressed_components": [],
+      "input_tokens": null,
+      "output_tokens": null,
+      "total_tokens": null,
+      "model_total_duration_ns": null,
+      "model_eval_duration_ns": null,
+      "model_eval_count": null,
+      "model_generation_timeout": false,
+      "ollama_stop_requested": false,
+      "ollama_stopping_detected": false,
+      "ollama_stopping_timeout": false,
+      "ollama_cleanup_succeeded": false,
+      "ollama_cleanup_error": null,
+      "evidence_collection_started": false,
+      "executed_retrieval_tools": []
+    }
+  ],
+  "first_attempt_passed": false,
+  "repair_count": 3,
+  "total_duration_seconds": 1906.1665602999856,
+  "evidence_collection_started": false,
+  "executed_retrieval_tools": [],
+  "generated_at": "2026-09-13T10:16:45.842024Z"
+}

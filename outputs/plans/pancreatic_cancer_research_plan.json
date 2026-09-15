@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.0",
+  "producer": "agent1_research_planner",
+  "mode": "disease_target",
+  "original_question": "研究 pancreatic cancer 與 KRAS 的證據",
+  "disease": {
+    "query": "pancreatic cancer",
+    "entity_id": "MONDO_0005192",
+    "canonical_name": "exocrine pancreatic carcinoma",
+    "symbol": null,
+    "verified_synonyms": [],
+    "source": "Open Targets"
+  },
+  "overall_objective": "收集 KRAS 與胰臟癌關聯性的證據",
+  "required_sources": [
+    "open_targets",
+    "europe_pmc",
+    "clinicaltrials_gov",
+    "chembl"
+  ],
+  "target_subplans": [
+    {
+      "target": {
+        "query": "KRAS",
+        "entity_id": "ENSG00000133703",
+        "canonical_name": "KRAS",
+        "symbol": null,
+        "verified_synonyms": [],
+        "source": "Open Targets"
+      },
+      "objective": "收集 KRAS 與胰臟癌關聯性的遺傳學證據",
+      "queries": [
+        {
+          "datasource": "open_targets",
+          "tool_name": "open_targets_search",
+          "query_purpose": "驗證 KRAS 基因與胰臟癌的遺傳關聯",
+          "rationale": "Open Targets 提供基因與疾病之間的驗證過的關聯數據",
+          "verified_search_terms": [
+            "KRAS",
+            "exocrine pancreatic carcinoma"
+          ],
+          "unvalidated_search_terms": [
+            "oncogene",
+            "mutation"
+          ],
+          "parameters": {
+            "disease_id": "MONDO_0005192",
+            "gene_id": "ENSG00000133703"
+          },
+          "expected_question": "KRAS 基因在胰臟癌中的角色",
+          "execution_order": 1,
+          "collection_policy_status": "not_configured"
+        },
+        {
+          "datasource": "europe_pmc",
+          "tool_name": "europe_pmc_search",
+          "query_purpose": "尋找 KRAS 與胰臟癌相關的學術研究",
+          "rationale": "Europe PMC 包含大量生物醫學文獻，可提供機制研究證據",
+          "verified_search_terms": [
+            "KRAS",
+            "pancreatic cancer"
+          ],
+          "unvalidated_search_terms": [
+            "signaling pathway",
+            "therapy resistance"
+          ],
+          "parameters": {
+            "query": "KRAS pancreatic cancer"
+          },
+          "expected_question": "KRAS 在胰臟癌發病機制中的作用",
+          "execution_order": 2,
+          "collection_policy_status": "not_configured"
+        },
+        {
+          "datasource": "clinicaltrials_gov",
+          "tool_name": "clinicaltrials_gov_search",
+          "query_purpose": "查找針對 KRAS 的胰臟癌臨床試驗",
+          "rationale": "ClinicalTrials.gov 提供針對 KRAS 突變的治療試驗資訊",
+          "verified_search_terms": [
+            "KRAS",
+            "pancreatic cancer"
+          ],
+          "unvalidated_search_terms": [
+            "inhibitor",
+            "phase II"
+          ],
+          "parameters": {
+            "keywords": "KRAS pancreatic cancer"
+          },
+          "expected_question": "KRAS 抑制劑在胰臟癌臨床試驗的結果",
+          "execution_order": 3,
+          "collection_policy_status": "not_configured"
+        },
+        {
+          "datasource": "chembl",
+          "tool_name": "chembl_search",
+          "query_purpose": "查詢 KRAS 為標的的藥物開發進度",
+          "rationale": "ChEMBL 收錄針對 KRAS 的小分子藥物資料",
+          "verified_search_terms": [
+            "KRAS"
+          ],
+          "unvalidated_search_terms": [
+            "inhibitor",
+            "drug candidate"
+          ],
+          "parameters": {
+            "target": "KRAS"
+          },
+          "expected_question": "KRAS 抑制劑的藥物開發狀態",
+          "execution_order": 4,
+          "collection_policy_status": "not_configured"
+        }
+      ],
+      "anticipated_data_gaps": []
+    }
+  ],
+  "first_round_completion_criteria": [
+    "完成四個資料來源的初步查詢",
+    "取得各資料庫的初步證據摘要"
+  ],
+  "supplemental_round_policy": "at_most_one_round",
+  "generated_at": "2026-08-15T13:21:49.495863Z",
+  "model_provider": "ollama",
+  "model_name": "qwen3:14b",
+  "validation_repair_count": 0
+}

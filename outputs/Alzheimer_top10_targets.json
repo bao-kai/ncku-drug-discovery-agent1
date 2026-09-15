@@ -1,0 +1,377 @@
+{
+  "producer": "agent1",
+  "run_id": "27c31b52-4bb7-4a34-8df9-905d078cfae8",
+  "generated_at": "2026-08-14T08:31:53.632773Z",
+  "target_discovery": {
+    "schema_version": "1.0",
+    "mode": "disease_only_target_discovery",
+    "disease_query": "pancreatic cancer",
+    "disease_id": "MONDO_0005192",
+    "disease_name": "exocrine pancreatic carcinoma",
+    "ranking_method": "Open Targets overall association score",
+    "requested_target_count": 10,
+    "returned_target_count": 10,
+    "total_associated_target_count": 10899,
+    "targets": [
+      {
+        "rank": 1,
+        "target_id": "ENSG00000133703",
+        "target_symbol": "KRAS",
+        "target_name": "KRas proto-oncogene, GTPase",
+        "overall_association_score": 0.8072437720364584,
+        "datasource_scores": [
+          {
+            "datasource_id": "intogen",
+            "score": 0.9190679877429972
+          },
+          {
+            "datasource_id": "cancer_gene_census",
+            "score": 0.8888429022682052
+          },
+          {
+            "datasource_id": "eva",
+            "score": 0.8562304476365666
+          },
+          {
+            "datasource_id": "eva_somatic",
+            "score": 0.6839221473130737
+          },
+          {
+            "datasource_id": "genomics_england",
+            "score": 0.607930797611621
+          },
+          {
+            "datasource_id": "cancer_biomarkers",
+            "score": 0.8274613634158176
+          },
+          {
+            "datasource_id": "crispr",
+            "score": 0.407192068648097
+          },
+          {
+            "datasource_id": "europepmc",
+            "score": 0.9867877929141823
+          },
+          {
+            "datasource_id": "clinical_precedence",
+            "score": 0.12074181119230806
+          }
+        ]
+      },
+      {
+        "rank": 2,
+        "target_id": "ENSG00000141510",
+        "target_symbol": "TP53",
+        "target_name": "tumor protein p53",
+        "overall_association_score": 0.795387015561337,
+        "datasource_scores": [
+          {
+            "datasource_id": "eva",
+            "score": 0.9197508373135731
+          },
+          {
+            "datasource_id": "intogen",
+            "score": 0.9190679877429972
+          },
+          {
+            "datasource_id": "cancer_gene_census",
+            "score": 0.8319786269814039
+          },
+          {
+            "datasource_id": "genomics_england",
+            "score": 0.607930797611621
+          },
+          {
+            "datasource_id": "eva_somatic",
+            "score": 0.547137717850459
+          },
+          {
+            "datasource_id": "europepmc",
+            "score": 0.9709282078436337
+          },
+          {
+            "datasource_id": "impc",
+            "score": 0.27344727276570713
+          }
+        ]
+      },
+      {
+        "rank": 3,
+        "target_id": "ENSG00000083093",
+        "target_symbol": "PALB2",
+        "target_name": "partner and localizer of BRCA2",
+        "overall_association_score": 0.7860693673011878,
+        "datasource_scores": [
+          {
+            "datasource_id": "eva",
+            "score": 0.9397621585272509
+          },
+          {
+            "datasource_id": "genomics_england",
+            "score": 0.9066612367713315
+          },
+          {
+            "datasource_id": "uniprot_literature",
+            "score": 0.607930797611621
+          },
+          {
+            "datasource_id": "cancer_gene_census",
+            "score": 0.6037090559615403
+          },
+          {
+            "datasource_id": "cancer_biomarkers",
+            "score": 0.9066612367713315
+          },
+          {
+            "datasource_id": "europepmc",
+            "score": 0.5731282207440516
+          }
+        ]
+      },
+      {
+        "rank": 4,
+        "target_id": "ENSG00000141646",
+        "target_symbol": "SMAD4",
+        "target_name": "SMAD family member 4",
+        "overall_association_score": 0.7792049925684528,
+        "datasource_scores": [
+          {
+            "datasource_id": "intogen",
+            "score": 0.916446561907495
+          },
+          {
+            "datasource_id": "eva",
+            "score": 0.856656594016507
+          },
+          {
+            "datasource_id": "cancer_gene_census",
+            "score": 0.8417308501930904
+          },
+          {
+            "datasource_id": "eva_somatic",
+            "score": 0.7789113344398895
+          },
+          {
+            "datasource_id": "europepmc",
+            "score": 0.9233914361099146
+          },
+          {
+            "datasource_id": "impc",
+            "score": 0.2749670997597362
+          }
+        ]
+      },
+      {
+        "rank": 5,
+        "target_id": "ENSG00000139618",
+        "target_symbol": "BRCA2",
+        "target_name": "BRCA2 DNA repair associated",
+        "overall_association_score": 0.755171066980832,
+        "datasource_scores": [
+          {
+            "datasource_id": "eva",
+            "score": 0.9436141789412433
+          },
+          {
+            "datasource_id": "cancer_gene_census",
+            "score": 0.6612513946521403
+          },
+          {
+            "datasource_id": "uniprot_literature",
+            "score": 0.607930797611621
+          },
+          {
+            "datasource_id": "genomics_england",
+            "score": 0.607930797611621
+          },
+          {
+            "datasource_id": "intogen",
+            "score": 0.3313301344419813
+          },
+          {
+            "datasource_id": "cancer_biomarkers",
+            "score": 0.607930797611621
+          },
+          {
+            "datasource_id": "gene_burden",
+            "score": 0.17200508132205652
+          },
+          {
+            "datasource_id": "europepmc",
+            "score": 0.8068791634482423
+          }
+        ]
+      },
+      {
+        "rank": 6,
+        "target_id": "ENSG00000118046",
+        "target_symbol": "STK11",
+        "target_name": "serine/threonine kinase 11",
+        "overall_association_score": 0.737934267590279,
+        "datasource_scores": [
+          {
+            "datasource_id": "eva",
+            "score": 0.8665047422151342
+          },
+          {
+            "datasource_id": "genomics_england",
+            "score": 0.7599134970145264
+          },
+          {
+            "datasource_id": "eva_somatic",
+            "score": 0.7447152270742359
+          },
+          {
+            "datasource_id": "gene2phenotype",
+            "score": 0.607930797611621
+          },
+          {
+            "datasource_id": "cancer_gene_census",
+            "score": 0.6037090559615403
+          },
+          {
+            "datasource_id": "cancer_biomarkers",
+            "score": 0.607930797611621
+          },
+          {
+            "datasource_id": "europepmc",
+            "score": 0.6611563382523213
+          },
+          {
+            "datasource_id": "impc",
+            "score": 0.42574913583735857
+          }
+        ]
+      },
+      {
+        "rank": 7,
+        "target_id": "ENSG00000147889",
+        "target_symbol": "CDKN2A",
+        "target_name": "cyclin dependent kinase inhibitor 2A",
+        "overall_association_score": 0.7301278146007052,
+        "datasource_scores": [
+          {
+            "datasource_id": "intogen",
+            "score": 0.9185918426255196
+          },
+          {
+            "datasource_id": "cancer_gene_census",
+            "score": 0.8132340940550455
+          },
+          {
+            "datasource_id": "eva",
+            "score": 0.57092525232945
+          },
+          {
+            "datasource_id": "europepmc",
+            "score": 0.9452519588253298
+          },
+          {
+            "datasource_id": "gwas_credible_sets",
+            "score": 0.09631648440508975
+          }
+        ]
+      },
+      {
+        "rank": 8,
+        "target_id": "ENSG00000062822",
+        "target_symbol": "POLD1",
+        "target_name": "DNA polymerase delta 1, catalytic subunit",
+        "overall_association_score": 0.7008198177822363,
+        "datasource_scores": [
+          {
+            "datasource_id": "clinical_precedence",
+            "score": 0.9559769869715655
+          },
+          {
+            "datasource_id": "eva",
+            "score": 0.547137717850459
+          },
+          {
+            "datasource_id": "cancer_gene_census",
+            "score": 0.5319394479101685
+          },
+          {
+            "datasource_id": "europepmc",
+            "score": 0.07436682351450158
+          }
+        ]
+      },
+      {
+        "rank": 9,
+        "target_id": "ENSG00000012048",
+        "target_symbol": "BRCA1",
+        "target_name": "BRCA1 DNA repair associated",
+        "overall_association_score": 0.6911943655212957,
+        "datasource_scores": [
+          {
+            "datasource_id": "eva",
+            "score": 0.8581661090775219
+          },
+          {
+            "datasource_id": "cancer_gene_census",
+            "score": 0.6205960225618631
+          },
+          {
+            "datasource_id": "uniprot_literature",
+            "score": 0.607930797611621
+          },
+          {
+            "datasource_id": "genomics_england",
+            "score": 0.607930797611621
+          },
+          {
+            "datasource_id": "cancer_biomarkers",
+            "score": 0.607930797611621
+          },
+          {
+            "datasource_id": "europepmc",
+            "score": 0.8777709782140031
+          },
+          {
+            "datasource_id": "impc",
+            "score": 0.26177500145156407
+          }
+        ]
+      },
+      {
+        "rank": 10,
+        "target_id": "ENSG00000108375",
+        "target_symbol": "RNF43",
+        "target_name": "ring finger protein 43",
+        "overall_association_score": 0.6853068779872106,
+        "datasource_scores": [
+          {
+            "datasource_id": "intogen",
+            "score": 0.8566907117118573
+          },
+          {
+            "datasource_id": "cancer_gene_census",
+            "score": 0.7725787219647684
+          },
+          {
+            "datasource_id": "reactome",
+            "score": 0.607930797611621
+          },
+          {
+            "datasource_id": "europepmc",
+            "score": 0.791561456617539
+          },
+          {
+            "datasource_id": "eva",
+            "score": 0.0
+          }
+        ]
+      }
+    ],
+    "source": "Open Targets Platform GraphQL API",
+    "source_url": "https://platform.opentargets.org/",
+    "retrieved_at": "2026-08-14T08:31:53.632773+00:00",
+    "score_warning": "Open Targets overall association scores are initial ranking references, not causality, efficacy, clinical-success, or project-confidence probabilities.",
+    "limitations": [
+      "Only the top 10 targets were selected for v1 discovery.",
+      "No underlying evidence records were downloaded in discovery mode.",
+      "The project has not yet defined its own target-selection score or threshold."
+    ]
+  }
+}

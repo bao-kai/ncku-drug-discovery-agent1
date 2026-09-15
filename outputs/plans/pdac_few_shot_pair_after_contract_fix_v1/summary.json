@@ -1,0 +1,19 @@
+{
+  "created_at": "2026-09-05T16:35:40.415064+00:00",
+  "comparison": "first_attempt_only_no_repair",
+  "expert_review": "synthetic_examples_not_expert_approved",
+  "runs": [
+    {
+      "run": "pdac_known_targets_r1_off",
+      "status": "failed",
+      "seconds": 392.4464970000554,
+      "first_attempt_passed": false
+    },
+    {
+      "run": "pdac_known_targets_r1_synthetic_v1",
+      "status": "failed",
+      "seconds": 311.8793390999781,
+      "first_attempt_passed": false
+    }
+  ]
+}

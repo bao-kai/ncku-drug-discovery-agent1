@@ -1,0 +1,14 @@
+{
+  "cases": [
+    "pdac_known_targets",
+    "kras_variant_drugs"
+  ],
+  "repeats": 2,
+  "planned_runs": 8,
+  "num_ctx": 16384,
+  "catalog_mode": "full",
+  "max_attempts": 1,
+  "example_version": "synthetic_v1",
+  "expert_approved": false,
+  "note": "Synthetic transfer examples; not proof of unseen-capability generalization."
+}

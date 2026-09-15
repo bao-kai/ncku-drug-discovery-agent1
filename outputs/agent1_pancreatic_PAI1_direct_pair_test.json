@@ -1,0 +1,50 @@
+{
+  "producer": "agent1",
+  "run_id": "0aae50c4-e6e2-430e-a063-46bf8bfbedab",
+  "generated_at": "2026-08-21T12:34:05.939124Z",
+  "expert_review_view": {
+    "schema_version": "1.0",
+    "purpose": "Human-readable inventory for domain experts to decide future database classification. It does not replace raw evidence.",
+    "disease": "exocrine pancreatic carcinoma",
+    "disease_id": "MONDO_0005192",
+    "target": "SERPINE1",
+    "target_id": "ENSG00000106366",
+    "datasource_reviews": []
+  },
+  "model_interpretation": null,
+  "agent_1_evidence": {
+    "schema_version": "1.1",
+    "disease_query": "Pancreatic cancer",
+    "target_query": "PAI-1",
+    "disease_id": "MONDO_0005192",
+    "disease_name": "exocrine pancreatic carcinoma",
+    "target_id": "ENSG00000106366",
+    "target_symbol": "SERPINE1",
+    "target_name": "serpin family E member 1",
+    "overall_association_score": 0.09136039591803091,
+    "datasource_scores": [
+      {
+        "datasource_id": "europepmc",
+        "score": 0.7399592256178349
+      },
+      {
+        "datasource_id": "expression_atlas",
+        "score": 0.045781377667079994
+      },
+      {
+        "datasource_id": "eva",
+        "score": 0.0
+      }
+    ],
+    "datasource_evidence": [],
+    "rank_within_fetched_targets": null,
+    "fetched_target_count": 1,
+    "source": "Open Targets Platform GraphQL API",
+    "source_url": "https://platform.opentargets.org/",
+    "retrieved_at": "2026-08-21T12:34:05.939124+00:00",
+    "limitations": [
+      "The verified disease ID and target ID were queried as an exact pair.",
+      "Datasource scores are Open Targets association scores, not clinical confidence scores."
+    ]
+  }
+}

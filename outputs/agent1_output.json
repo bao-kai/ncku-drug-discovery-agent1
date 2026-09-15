@@ -1,0 +1,68 @@
+{
+  "producer": "agent1",
+  "run_id": "794fc0f0-8d99-461a-8420-330b0641a43f",
+  "generated_at": "2026-08-06T13:14:40.965144Z",
+  "agent_1_evidence": {
+    "schema_version": "1.0",
+    "disease_query": "Alzheimer's disease",
+    "target_query": "APP",
+    "disease_id": "MONDO_0004975",
+    "disease_name": "Alzheimer disease",
+    "target_id": "ENSG00000142192",
+    "target_symbol": "APP",
+    "target_name": "amyloid beta precursor protein",
+    "overall_association_score": 0.8722092478154398,
+    "datasource_scores": [
+      {
+        "datasource_id": "clinical_precedence",
+        "score": 0.9774319311654196
+      },
+      {
+        "datasource_id": "uniprot_variants",
+        "score": 0.9580964074361958
+      },
+      {
+        "datasource_id": "eva",
+        "score": 0.9321245387537039
+      },
+      {
+        "datasource_id": "gwas_credible_sets",
+        "score": 0.7627149221552061
+      },
+      {
+        "datasource_id": "orphanet",
+        "score": 0.607930797611621
+      },
+      {
+        "datasource_id": "uniprot_literature",
+        "score": 0.607930797611621
+      },
+      {
+        "datasource_id": "genomics_england",
+        "score": 0.607930797611621
+      },
+      {
+        "datasource_id": "reactome",
+        "score": 0.607930797611621
+      },
+      {
+        "datasource_id": "europepmc",
+        "score": 0.9972044799896909
+      },
+      {
+        "datasource_id": "impc",
+        "score": 0.47538638787264004
+      }
+    ],
+    "rank_within_fetched_targets": 1,
+    "fetched_target_count": 100,
+    "source": "Open Targets Platform GraphQL API",
+    "source_url": "https://platform.opentargets.org/",
+    "retrieved_at": "2026-08-06T13:14:40.965144+00:00",
+    "limitations": [
+      "Only the first 100 disease-associated targets were fetched.",
+      "Datasource scores are Open Targets association scores, not clinical confidence scores.",
+      "A missing pair may mean it falls outside the fetched rank window."
+    ]
+  }
+}

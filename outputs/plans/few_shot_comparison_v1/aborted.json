@@ -1,0 +1,10 @@
+{
+  "status": "aborted_context_budget_invalid",
+  "scored": false,
+  "completed_comparisons": 0,
+  "observed_context_length": 4096,
+  "observed_prompt_tokens": 3737,
+  "server_log_observation": "Context shift after approximately 355 generated tokens; n_discard=2045; final truncated=1 after cancellation.",
+  "model_cleanup_succeeded": true,
+  "reason": "Do not compare few-shot quality while baseline already loses context. Rerun both modes at identical larger capacity."
+}

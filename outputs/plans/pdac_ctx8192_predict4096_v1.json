@@ -1,0 +1,210 @@
+{
+  "schema_version": "2.0",
+  "manifest_id": "491f4b9e-3f78-4823-a8a0-c3acd9c6149a",
+  "original_question": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）目前有哪些已知的治療標的？",
+  "research_objective": "識別與胰臟癌（PDAC）相關的已知治療標的",
+  "entities": [
+    {
+      "entity_ref": "pdac_disease",
+      "entity_type": "disease",
+      "mention": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）",
+      "entity_id": null,
+      "canonical_name": null,
+      "resolution_status": "unresolved"
+    }
+  ],
+  "plan_steps": [
+    {
+      "step_id": "resolve_pdac",
+      "operation": "resolve_disease",
+      "operation_status": "approved",
+      "proposed_operation_name": null,
+      "proposal_reason": null,
+      "description": "解析胰臟癌（PDAC）的標準疾病實體",
+      "depends_on": [],
+      "entity_refs": [
+        "pdac_disease"
+      ],
+      "sources": [
+        "open_targets"
+      ],
+      "outputs": [
+        "pdac_entity"
+      ],
+      "filters": {},
+      "ranking": null,
+      "aggregation": null,
+      "safeguards": [
+        "preserve_mention_for_reconciliation"
+      ]
+    },
+    {
+      "step_id": "discover_targets",
+      "operation": "discover_targets_per_disease",
+      "operation_status": "approved",
+      "proposed_operation_name": null,
+      "proposal_reason": null,
+      "description": "取得與PDAC相關的治療標的清單",
+      "depends_on": [
+        "resolve_pdac"
+      ],
+      "entity_refs": [
+        "pdac_disease"
+      ],
+      "sources": [
+        "open_targets"
+      ],
+      "outputs": [
+        "pdac_targets"
+      ],
+      "filters": {
+        "min_evidence_score": 0.5
+      },
+      "ranking": {
+        "primary_metric": "association_confidence",
+        "direction": "descending",
+        "secondary_metrics": [
+          "tractability_score"
+        ]
+      },
+      "aggregation": null,
+      "safeguards": []
+    },
+    {
+      "step_id": "retrieve_target_drugs",
+      "operation": "retrieve_target_drugs",
+      "operation_status": "approved",
+      "proposed_operation_name": null,
+      "proposal_reason": null,
+      "description": "获取与PDAC相关标的的药物信息",
+      "depends_on": [
+        "discover_targets"
+      ],
+      "entity_refs": [],
+      "sources": [
+        "open_targets",
+        "chembl"
+      ],
+      "outputs": [
+        "target_drugs"
+      ],
+      "filters": {},
+      "ranking": null,
+      "aggregation": null,
+      "safeguards": [
+        "association_does_not_imply_efficacy",
+        "provenance_pagination_truncation"
+      ]
+    },
+    {
+      "step_id": "retrieve_tractability",
+      "operation": "retrieve_tractability",
+      "operation_status": "approved",
+      "proposed_operation_name": null,
+      "proposal_reason": null,
+      "description": "获取PDAC相关标的的可成药性证据",
+      "depends_on": [
+        "discover_targets"
+      ],
+      "entity_refs": [],
+      "sources": [
+        "open_targets"
+      ],
+      "outputs": [
+        "tractability_evidence"
+      ],
+      "filters": {},
+      "ranking": null,
+      "aggregation": null,
+      "safeguards": [
+        "tractability_not_efficacy"
+      ]
+    },
+    {
+      "step_id": "stratify_target_evidence_layers",
+      "operation": "stratify_target_evidence_layers",
+      "operation_status": "approved",
+      "proposed_operation_name": null,
+      "proposal_reason": null,
+      "description": "分层整合疾病关联、药物及可成药性证据",
+      "depends_on": [
+        "retrieve_target_drugs",
+        "retrieve_tractability"
+      ],
+      "entity_refs": [],
+      "sources": [],
+      "outputs": [
+        "stratified_targets"
+      ],
+      "filters": {},
+      "ranking": null,
+      "aggregation": {
+        "target_translation_layer": {
+          "group_by": "target_id",
+          "metrics": [
+            "drug_count",
+            "tractability_score"
+          ]
+        }
+      },
+      "safeguards": []
+    },
+    {
+      "step_id": "rank_targets",
+      "operation": "rank_targets",
+      "operation_status": "approved",
+      "proposed_operation_name": null,
+      "proposal_reason": null,
+      "description": "根据证据强度排序治疗标的",
+      "depends_on": [
+        "stratify_target_evidence_layers"
+      ],
+      "entity_refs": [],
+      "sources": [],
+      "outputs": [
+        "ranked_targets"
+      ],
+      "filters": {},
+      "ranking": {
+        "primary_metric": "overall_association_score",
+        "direction": "descending",
+        "secondary_metrics": [
+          "tractability_score"
+        ]
+      },
+      "aggregation": null,
+      "safeguards": [
+        "association_score_not_probability"
+      ]
+    }
+  ],
+  "evidence_requirements": [
+    "disease_target_association",
+    "target_tractability",
+    "target_drug_relationship"
+  ],
+  "completion_criteria": [
+    "成功取得PDAC相关标的清单",
+    "完成证据层级分层",
+    "完成治疗标的排序"
+  ],
+  "global_safeguards": [
+    "避免将关联误认为核准适应症",
+    "保留证据来源可追溯性",
+    "association_does_not_imply_efficacy",
+    "association_score_not_probability",
+    "provenance_pagination_truncation",
+    "tractability_not_efficacy",
+    "missing_not_negative"
+  ],
+  "characteristics": {
+    "primary": "multi_hop",
+    "secondary": [
+      "evidence_directed",
+      "filter_and_rank",
+      "comparison_and_aggregation"
+    ]
+  },
+  "created_before_retrieval": true,
+  "generated_at": "2026-09-06T10:47:07.963307Z"
+}

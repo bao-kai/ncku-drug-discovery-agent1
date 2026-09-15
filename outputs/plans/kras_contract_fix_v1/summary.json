@@ -1,0 +1,13 @@
+{
+  "created_at": "2026-09-05T14:47:11.411667+00:00",
+  "comparison": "first_attempt_only_no_repair",
+  "expert_review": "synthetic_examples_not_expert_approved",
+  "runs": [
+    {
+      "run": "kras_variant_drugs_r1_off",
+      "status": "failed",
+      "seconds": 1290.651180200046,
+      "first_attempt_passed": false
+    }
+  ]
+}

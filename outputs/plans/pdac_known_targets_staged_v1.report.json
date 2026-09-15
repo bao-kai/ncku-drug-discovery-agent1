@@ -1,0 +1,232 @@
+{
+  "schema_version": "1.0",
+  "planner_mode": "staged",
+  "question": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）目前有哪些已知的治療標的？",
+  "acceptance_case_id": "pdac_known_targets",
+  "status": "failed",
+  "strategy": {
+    "research_objective": "胰臟癌（pancreatic ductal adenocarcinoma, PDAC）目前有哪些已知的治療標的？",
+    "entities": [
+      {
+        "entity_ref": "pancreatic ductal adenocarcinoma",
+        "entity_type": "disease",
+        "mention": "胰臟癌",
+        "entity_id": null,
+        "canonical_name": null,
+        "resolution_status": "unresolved"
+      }
+    ],
+    "needs": [
+      {
+        "need_id": "target_discovery",
+        "purpose": "識別PDAC相關的潛在治療標的",
+        "operation_search_query": "PDAC therapeutic targets discovery",
+        "depends_on": [],
+        "entity_refs": [],
+        "required_inputs": [],
+        "outputs": [
+          "candidate_targets"
+        ],
+        "sources": [
+          "open_targets",
+          "europe_pmc"
+        ],
+        "filters": {
+          "entity_type": "target"
+        },
+        "ranking": {
+          "primary_metric": "research_interest",
+          "direction": "descending",
+          "secondary_metrics": []
+        },
+        "aggregation": null,
+        "safeguards": []
+      },
+      {
+        "need_id": "target_validation",
+        "purpose": "驗證治療標的的臨床相關性",
+        "operation_search_query": "PDAC target validation clinical evidence",
+        "depends_on": [],
+        "entity_refs": [],
+        "required_inputs": [
+          "candidate_targets"
+        ],
+        "outputs": [
+          "validated_targets"
+        ],
+        "sources": [
+          "clinicaltrials_gov",
+          "chembl"
+        ],
+        "filters": {
+          "entity_ref": "target_id",
+          "entity_type": "target"
+        },
+        "ranking": null,
+        "aggregation": null,
+        "safeguards": [
+          "exclude_unverified_targets"
+        ]
+      },
+      {
+        "need_id": "tractability_assessment",
+        "purpose": "評估治療標的的可成藥性",
+        "operation_search_query": "target tractability PDAC drug development",
+        "depends_on": [],
+        "entity_refs": [],
+        "required_inputs": [
+          "validated_targets"
+        ],
+        "outputs": [
+          "tractable_targets"
+        ],
+        "sources": [
+          "open_targets",
+          "chembl"
+        ],
+        "filters": {
+          "entity_ref": "target_id",
+          "entity_type": "target"
+        },
+        "ranking": {
+          "primary_metric": "drugability_score",
+          "direction": "descending",
+          "secondary_metrics": []
+        },
+        "aggregation": null,
+        "safeguards": []
+      }
+    ],
+    "evidence_requirements": [
+      "target_discovery_evidence",
+      "target_validation_evidence",
+      "tractability_evidence"
+    ],
+    "completion_criteria": [
+      "identified_candidate_targets",
+      "validated_clinical_targets",
+      "assessed_tractability"
+    ],
+    "global_safeguards": [
+      "exclude_off_label_targets",
+      "prioritize_well_characterized_targets"
+    ],
+    "characteristics": {
+      "primary": "multi_hop",
+      "secondary": []
+    }
+  },
+  "operation_candidates": {
+    "target_discovery": [
+      "discover_targets_per_disease",
+      "discover_targets",
+      "resolve_targets",
+      "intersect_targets",
+      "rank_targets"
+    ],
+    "target_validation": [
+      "stratify_target_evidence_layers",
+      "retrieve_exact_pair",
+      "retrieve_exact_pairs",
+      "resolve_target_variants",
+      "compare_evidence_types"
+    ],
+    "tractability_assessment": [
+      "join_disease_target_drug",
+      "retrieve_tractability",
+      "retrieve_drug_targets",
+      "retrieve_target_drugs",
+      "retrieve_exact_pair"
+    ]
+  },
+  "mapping": {
+    "matches": [
+      {
+        "need_id": "target_discovery",
+        "match_status": "matched",
+        "canonical_operation": "discover_targets",
+        "proposed_operation_name": null,
+        "proposal_reason": null
+      },
+      {
+        "need_id": "target_validation",
+        "match_status": "matched",
+        "canonical_operation": "stratify_target_evidence_layers",
+        "proposed_operation_name": null,
+        "proposal_reason": null
+      },
+      {
+        "need_id": "tractability_assessment",
+        "match_status": "matched",
+        "canonical_operation": "retrieve_tractability",
+        "proposed_operation_name": null,
+        "proposal_reason": null
+      }
+    ]
+  },
+  "final_plan": null,
+  "semantic_acceptance": {
+    "case_id": "pdac_known_targets",
+    "passed": false,
+    "missing_entities": [],
+    "missing_capabilities": [
+      "resolve_disease",
+      "retrieve_target_drugs",
+      "rank_targets"
+    ],
+    "missing_operations": [
+      "resolve_disease",
+      "retrieve_target_drugs",
+      "rank_targets"
+    ],
+    "missing_dependencies": [
+      "resolve_disease->discover_targets",
+      "discover_targets->retrieve_target_drugs",
+      "discover_targets->retrieve_tractability",
+      "retrieve_target_drugs->stratify_target_evidence_layers",
+      "retrieve_tractability->stratify_target_evidence_layers",
+      "stratify_target_evidence_layers->rank_targets"
+    ],
+    "missing_sources": [],
+    "missing_safeguards": [
+      "association_does_not_imply_efficacy",
+      "association_score_not_probability",
+      "provenance_pagination_truncation",
+      "tractability_not_efficacy"
+    ],
+    "missing_filters": [],
+    "missing_ranking": [
+      "overall_association_score"
+    ],
+    "missing_aggregation": [
+      "target_translation_layer"
+    ],
+    "forbidden_findings": [],
+    "optional_capabilities_present": [],
+    "accepted_capabilities": [
+      "discover_targets",
+      "retrieve_tractability",
+      "stratify_target_evidence_layers"
+    ],
+    "actual_operations": [
+      "discover_targets",
+      "retrieve_tractability",
+      "stratify_target_evidence_layers"
+    ],
+    "unrecognized_operations": [],
+    "proposed_operations": []
+  },
+  "strategy_duration_seconds": 387.0587321999483,
+  "mapping_duration_seconds": 231.720958000049,
+  "total_duration_seconds": 618.8063994999975,
+  "errors": [
+    "compiled plan failed hidden semantic acceptance"
+  ],
+  "corrected_model_claims": [
+    "pancreatic ductal adenocarcinoma: removed unverified identity authority"
+  ],
+  "timeout_cleanup": {},
+  "evidence_collection_started": false,
+  "executed_retrieval_tools": [],
+  "generated_at": "2026-09-03T13:24:49.831911Z"
+}

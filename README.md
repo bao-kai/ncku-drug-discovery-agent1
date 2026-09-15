@@ -18,6 +18,19 @@ The first two research agents are implemented:
 The original ChEMBL drug-properties worker remains available and unchanged in
 scope. Outputs are for research use and are not clinical recommendations.
 
+## Contributor handoff
+
+Before changing Agent 1, read:
+
+- [Project status](PROJECT_STATUS.md)
+- [Agent 1 handoff](docs/AGENT1_HANDOFF.md)
+- [Architecture](docs/ARCHITECTURE.md)
+- [Improvement backlog](docs/IMPROVEMENT_BACKLOG.md)
+- [Research-team decisions](docs/DECISIONS_REQUIRED.md)
+- [Acceptance criteria](docs/ACCEPTANCE_CRITERIA.md)
+
+The GitHub repository is the shared canonical source. Generated files under
+`outputs/` are run artifacts and Planner diagnostics, not source code.
 ## Architecture
 
 ```text

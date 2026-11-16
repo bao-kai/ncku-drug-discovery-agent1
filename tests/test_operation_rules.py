@@ -117,7 +117,7 @@ def test_ranking_cannot_use_evidence_retrieved_only_by_a_later_step():
     payload["plan_steps"][1]["ranking"] = {
         "primary_metric": "overall_association_score",
         "direction": "descending",
-        "secondary_metrics": ["tractability_score"],
+        "secondary_metrics": ["known_drug_count"],
     }
     result = _evaluate(payload)
     finding = next(
@@ -125,14 +125,14 @@ def test_ranking_cannot_use_evidence_retrieved_only_by_a_later_step():
         if item.rule_id == "analysis_metric_requires_available_evidence"
     )
     assert finding.step_id == "step_2"
-    assert finding.missing == ["tractability_evidence"]
+    assert finding.missing == ["target_drug_evidence"]
     assert result.passed is False
 
 
 def test_ranking_may_use_metrics_provided_by_ancestor_steps():
     payload = _valid_payload()
     payload["plan_steps"][5]["ranking"]["secondary_metrics"] = [
-        "tractability_score", "drug_count"
+        "known_drug_count"
     ]
     result = _evaluate(payload)
     assert "analysis_metric_requires_available_evidence" not in _rule_ids(result)

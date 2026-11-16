@@ -3,12 +3,15 @@ from unittest.mock import patch
 from query_opentargets import EntityResolutionError, resolve_entity
 
 
+@patch("query_opentargets._graphql")
 @patch("query_opentargets.search_entity_candidates")
-def test_ambiguous_disease_requires_explicit_id(search):
+def test_ambiguous_disease_requires_explicit_id(search, graphql):
     search.return_value = [
         {"id": "MONDO_0005192", "name": "exocrine pancreatic carcinoma"},
         {"id": "EFO_OTHER", "name": "pancreatic neoplasm"},
     ]
+    graphql.side_effect = lambda query, variables: {'disease': {
+        'id': variables['efoId'], 'name': 'Nonmatching disease', 'synonyms': []}}
     try:
         resolve_entity("pancreatic cancer", "disease")
     except EntityResolutionError as exc:

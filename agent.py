@@ -446,11 +446,72 @@ def parse_args() -> argparse.Namespace:
     evidence.add_argument("--target", required=True)
     evidence.add_argument("--output", help="Optional UTF-8 JSON output path")
 
+    execute_plan = subparsers.add_parser(
+        "execute-plan", help="Execute a saved QueryManifestV2 using deterministic source bindings"
+    )
+    execute_plan.add_argument("--plan", required=True)
+    execute_plan.add_argument("--output", required=True)
+    execute_plan.add_argument("--organize", action="store_true", help="Organize collected source material with hosted NIM")
+    organize = subparsers.add_parser("organize-evidence", help="Organize a saved V2 execution without re-fetching tools")
+    organize.add_argument("--execution", required=True)
+    organize.add_argument("--output", required=True)
+    run_query = subparsers.add_parser("run-query", help="Hosted NIM natural language -> executable Plan -> tools -> organization and one-round follow-up")
+    run_query.add_argument("--question", required=True)
+    run_query.add_argument("--output-dir", required=True)
     return parser.parse_args()
+
+
+def _organize_execution_with_nim(execution, output_path, execution_path):
+    import os
+    from openai import OpenAI
+    from execution_organization import organize_execution
+    from nim_inference import BASE_URL
+    key = os.getenv('NVIDIA_API_KEY', '').strip()
+    if not key:
+        raise ValueError('Set NVIDIA_API_KEY in the project .env')
+    with OpenAI(base_url=BASE_URL, api_key=key, max_retries=0, timeout=1200) as client:
+        result = organize_execution(execution, client, output_path, execution_path=execution_path)
+    console.print(f"Organization: {result['status']}; {len(result['groups'])} groups; {output_path}")
+    if result['status'] not in {'references_validated', 'no_material'}:
+        raise SystemExit(1)
 
 
 def main() -> None:
     args = parse_args()
+    if args.command == 'run-query':
+        import os
+        from openai import OpenAI
+        from agent1_workflow import run_query
+        from nim_inference import BASE_URL
+        key = os.getenv('NVIDIA_API_KEY', '').strip()
+        if not key:
+            raise ValueError('Set NVIDIA_API_KEY in the project .env')
+        with OpenAI(base_url=BASE_URL, api_key=key, max_retries=0, timeout=1200) as client:
+            result = run_query(args.question, client, args.output_dir)
+        console.print(f"{result['status']}; {args.output_dir}")
+        if result['status'] != 'references_validated':
+            raise SystemExit(1)
+        return
+    if args.command == "organize-evidence":
+        if Path(args.execution).resolve() == Path(args.output).resolve():
+            raise ValueError("Execution and organization report must use different files")
+        execution = json.loads(Path(args.execution).read_text(encoding="utf-8"))
+        _organize_execution_with_nim(execution, args.output, args.execution)
+        return
+    if args.command == "execute-plan":
+        from plan_execution import PlanExecutor
+        if Path(args.plan).resolve() == Path(args.output).resolve():
+            raise ValueError("Plan and execution report must use different files")
+        plan = QueryManifestV2.model_validate_json(Path(args.plan).read_text(encoding="utf-8"))
+        report = PlanExecutor().run(plan, args.output)
+        console.print(f"{report['status']}: {len(report['calls'])} calls; {args.output}")
+        for issue in report['preflight_issues']:
+            console.print(issue)
+        if report['status'] != "completed":
+            raise SystemExit(1)
+        if args.organize:
+            _organize_execution_with_nim(report, str(Path(args.output).with_suffix('.organization.json')), args.output)
+        return
     if args.command == "plan-query-staged":
         checkpoint_path = (
             Path(args.output).with_suffix(".report.json") if args.output else None

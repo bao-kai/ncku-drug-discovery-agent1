@@ -168,8 +168,7 @@ def _alternate_stratification_shape(payload):
 
 def _rank_with_available_metrics(payload):
     payload["plan_steps"][5]["ranking"]["secondary_metrics"] = [
-        "tractability_score",
-        "drug_count",
+        "known_drug_count",
     ]
 
 
@@ -201,3 +200,52 @@ def test_catalog_cases_are_unique_and_classified():
         "case_specific_acceptance",
         "model_capability",
     }
+
+
+@pytest.mark.parametrize("disease", ["胰臟癌", "肺癌"])
+def test_layer_output_does_not_authorize_a_filter_and_feedback_keeps_all_candidates(disease):
+    payload = _valid_payload(question=f"{disease}目前有哪些已知的治療標的？")
+    payload["entities"][0]["mention"] = disease
+    payload["plan_steps"][4]["aggregation"] = {
+        "target_translation_layer": {
+            "join_on": "target_id",
+            "membership": {
+                "disease_association": "保留疾病關聯紀錄與分數",
+                "drug_evidence": "記錄已取得的藥物關係及其適應症範圍",
+                "tractability": "保留來源的可成藥性分類",
+            },
+            "overlap": "同一標的可有多種證據",
+            "missing": "缺失標為未知並保留候選",
+        }
+    }
+    payload["plan_steps"][5]["filters"] = {"translation_layer": "translational_support"}
+    rejected = evaluate_operation_rules(QueryManifestV2.model_validate(payload))
+    finding = next(f for f in rejected.blocking_findings if "translation_layer" in f.missing)
+    assert "filters 必須為 {}" in finding.required_correction
+    assert "保留候選" in finding.required_correction
+    payload["plan_steps"][5]["filters"] = {}
+    assert evaluate_operation_rules(QueryManifestV2.model_validate(payload)).passed
+
+
+def test_live_nim_failure_stays_rejected_after_prompt_contract_clarification():
+    # Updating instructions must not weaken the validator to accept the old error.
+    from pathlib import Path
+    from planner_acceptance import build_acceptance_rubric, evaluate_plan, load_acceptance_cases
+    root = Path(__file__).resolve().parents[1]
+    # Minimized from the saved NIM response; no generated artifact dependency.
+    payload = _valid_payload()
+    payload["plan_steps"][4]["aggregation"] = {"group_by": ["translation_layer"]}
+    payload["plan_steps"][5]["filters"] = {"translation_layer": "translational_support"}
+    plan = QueryManifestV2.model_validate(payload)
+    case = load_acceptance_cases(root / "tests/fixtures/planner_acceptance_cases.json")[0]
+    assert not evaluate_operation_rules(plan).passed
+    assert "target_translation_layer" in evaluate_plan(build_acceptance_rubric(case), plan).missing_aggregation
+
+
+def test_missing_metric_feedback_names_its_upstream_capability_without_irrelevant_filter_advice():
+    payload = _valid_payload()
+    payload["plan_steps"][5]["ranking"]["secondary_metrics"] = ["highest_clinical_stage"]
+    result = evaluate_operation_rules(QueryManifestV2.model_validate(payload))
+    finding = next(f for f in result.blocking_findings if "clinical_stage_evidence" in f.missing)
+    assert "highest_clinical_stage requires clinical_stage_evidence" in finding.required_correction
+    assert "filters 必須為" not in finding.required_correction

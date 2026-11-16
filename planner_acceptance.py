@@ -149,6 +149,7 @@ _CANONICAL_OPERATION_IDS = sorted(
         "retrieve_safety_evidence",
         "retrieve_normal_tissue_expression",
         "retrieve_negative_publications",
+        "retrieve_publications",
         "filter_targets",
         "filter_first_in_class_candidates",
         "filter_phase2_not_pdac_approved",
@@ -195,7 +196,7 @@ OPERATION_SEMANTICS: dict[str, str] = {
     "compare_pdac_rank": "檢查 PDAC 在已排序疾病中的相對位置，不重新查詢疾病清單。",
     "compare_targets": "依一致比較維度並列多個標的的證據，不把缺失值視為零。",
     "define_coverage_denominators": "在計算覆蓋率前明確定義符合資格的總體、分子與分母。",
-    "discover_targets": "輸入已解析疾病，取得 disease-associated targets；僅表示疾病關聯，不等同治療有效或可成藥。",
+    "discover_targets": "對每個已解析疾病取得首批最多 10 筆 disease-associated targets，保留疾病來源與截斷狀態；僅表示疾病關聯。",
     "discover_targets_per_disease": "對多個已解析疾病分別取得 associated targets，保留各疾病獨立結果。",
     "filter_first_in_class_candidates": "依強證據與來源限定的無已知藥物條件篩選候選，不宣稱絕對不存在藥物。",
     "filter_phase2_not_pdac_approved": "保留 Phase 2+ 且未在已查來源確認 PDAC 核准的藥物或標的。",
@@ -223,10 +224,10 @@ OPERATION_SEMANTICS: dict[str, str] = {
     "resolve_targets": "分別解析多個 target mention，不合併不同蛋白或基因。",
     "retrieve_approved_indications": "取得資料庫記錄的核准適應症；正式核准結論仍需官方來源確認。",
     "retrieve_associated_diseases": "輸入已解析 target，取得 target-associated diseases 與關聯證據。",
-    "retrieve_clinical_stage": "取得 target-drug 或 drug program 的臨床開發階段；phase 不等於核准。",
-    "retrieve_clinical_trials": "依疾病、藥物或標的條件取得臨床試驗與狀態、日期及來源。",
+    "retrieve_clinical_stage": "依同一步 entity_refs 的共同條件搜尋臨床試驗，保留原生 phase；不彙整藥物計畫最高階段，也不推論核准。",
+    "retrieve_clinical_trials": "依同一步 entity_refs 的共同條件搜尋臨床試驗與狀態、日期及來源；獨立問題使用不同步驟。",
     "retrieve_datasource_evidence": "取得 exact pair 的 datasource-level 原始證據與證據類型。",
-    "retrieve_datasource_scores": "取得 exact pair 的 datasource-level scores；score 不等於紀錄數或機率。",
+    "retrieve_datasource_scores": "對一個已解析疾病與明示的已解析標的逐一查詢 exact pairs，回傳總關聯分數與 datasource-level scores；分數不等於紀錄數或機率。",
     "retrieve_disease_drugs": "取得與疾病用途相關的藥物紀錄，並區分核准、試驗與關聯。",
     "retrieve_drug_targets": "輸入已解析藥物，取得其已知作用標的與 mechanism evidence。",
     "retrieve_evidence_by_type": "依指定 evidence type 取得可比較的證據並保留 datasource。",
@@ -237,15 +238,30 @@ OPERATION_SEMANTICS: dict[str, str] = {
     "retrieve_interventions": "從已取得臨床試驗抽取介入措施、組合與角色。",
     "retrieve_mechanisms": "取得藥物-target 作用機制；不推論疾病療效或核准。",
     "retrieve_mechanisms_and_modalities": "取得介入措施的 mechanism 與 modality，供一致分類使用。",
-    "retrieve_negative_publications": "查找明確報告負面、安全性或療效失敗的文獻；無文獻不等於成功。",
-    "retrieve_normal_tissue_expression": "取得 target 在正常組織的表現資料；高表現不直接等於毒性。",
-    "retrieve_safety_evidence": "取得 target 或藥物的已知安全性證據與來源，不以機制推測代替事實。",
+    "retrieve_negative_publications": "以同一步 entity_refs 的共同條件加上負面或失敗關鍵字搜尋文獻候選；命中仍需核對是否實際報告負面結果。",
+    "retrieve_publications": "按同一步 entity_refs 的共同條件搜尋一般文獻；描述文字不增加搜尋條件。不需先有 gene ID；命中不證實異構型身分或實驗主張。",
+    "retrieve_normal_tissue_expression": "逐標的取得正常組織表現的完整可得原生頁面；保留各標的資料，高表現不直接等於毒性。",
+    "retrieve_safety_evidence": "按同一步 entity_refs 的共同條件搜尋候選。Europe PMC 加安全性關鍵字，ClinicalTrials.gov 依實體條件搜尋試驗而未加安全關鍵字。仍需核對藥物、族群及安全性主張。",
     "retrieve_target_cancers": "輸入 target，取得其關聯癌別；關聯不代表治療適應症。",
     "retrieve_target_drugs": "輸入已解析 target，取得已知 target-drug 關係與證據；不負責 tractability、疾病療效或核准。",
     "retrieve_tractability": "輸入已解析 target，取得可成藥性與小分子 tractability 證據；不表示已有藥物或療效。",
-    "retrieve_trial_status_and_stop_reasons": "取得試驗狀態及明確停止原因，缺少結果不得推定失敗。",
-    "retrieve_trial_terminations": "取得已終止試驗及原始終止理由，不自行推測原因。",
-    "stratify_target_evidence_layers": "輸入疾病關聯、target-drug 與 tractability 證據，分層輸出疾病相關標的及具轉譯支持標的；不做類別計數。",
+    "retrieve_trial_status_and_stop_reasons": "按同一步 entity_refs 的共同條件取得試驗狀態及原生停止原因；缺少結果不得推定失敗。",
+    "retrieve_trial_terminations": "按同一步 entity_refs 的共同條件及 TERMINATED 狀態取得試驗與原始終止理由，不自行推測原因。",
+    "stratify_target_evidence_layers": (
+        "依來源整理疾病關聯、target-drug 與 tractability 等可重疊的證據維度；不評定科學支持強弱，也不做類別計數。 "
+        "Define the method in aggregation.target_translation_layer: how upstream records are linked by target identity, "
+        "which source-reported attributes assign each descriptive group, whether groups overlap, and how missing evidence is retained as unknown. "
+        "The existing target_translation_layer key names this evidence inventory, not a scientific strength scale. "
+        "An output label or group_by alone does not define how a derived layer is assigned. "
+        "Keep association, drug evidence and tractability distinguishable; preserve disease/indication scope of drug evidence. "
+        "Preserve positive, negative or inconclusive labels only when explicitly reported by the source; "
+        "otherwise retain the native observation without assigning a scientific verdict. "
+        "Keep missing data distinct and do not label all nonempty tractability records tractable. "
+        "Do not create combined support tiers or a highest-support group from the coexistence of evidence dimensions. "
+        "Scientific sufficiency and strength assessment belong to Agent 2. "
+        "Do not infer efficacy or approval for the queried disease from a drug-target relationship. "
+        "Do not silently exclude candidates with missing evidence."
+    ),
 }
 
 
@@ -283,6 +299,7 @@ _OPERATION_CONTRACTS: dict[str, dict] = {
     "discover_targets_per_disease": {"requires_all": ["resolved_disease"], "provides": ["disease_target_association", "target_candidates"], "required_safeguards": ["association_score_not_probability", "association_does_not_imply_efficacy"]},
     "retrieve_exact_pair": {"requires_all": ["resolved_disease", "resolved_target"], "provides": ["disease_target_association"], "required_safeguards": ["association_score_not_probability", "association_does_not_imply_efficacy"]},
     "retrieve_exact_pairs": {"requires_all": ["resolved_disease", "resolved_target"], "provides": ["disease_target_association"], "required_safeguards": ["association_score_not_probability", "association_does_not_imply_efficacy"]},
+    "retrieve_datasource_scores": {"requires_all": ["resolved_disease", "resolved_target"], "provides": ["disease_target_association"], "required_safeguards": ["association_score_not_probability", "association_does_not_imply_efficacy"]},
     "retrieve_target_drugs": {"requires_any": ["resolved_target", "target_candidates"], "provides": ["target_drug_evidence"]},
     "retrieve_drug_targets": {"requires_all": ["resolved_drug"], "provides": ["target_drug_evidence"]},
     "retrieve_tractability": {"requires_any": ["resolved_target", "target_candidates"], "provides": ["tractability_evidence"], "required_safeguards": ["tractability_not_efficacy"]},
@@ -290,10 +307,12 @@ _OPERATION_CONTRACTS: dict[str, dict] = {
     "retrieve_clinical_trials": {"provides": ["clinical_trial_evidence"]},
     "retrieve_clinical_stage": {"provides": ["clinical_stage_evidence"]},
     "retrieve_safety_evidence": {"provides": ["safety_evidence"]},
-    "retrieve_normal_tissue_expression": {"provides": ["normal_tissue_expression"]},
+    "retrieve_normal_tissue_expression": {"requires_any": ["resolved_target", "target_candidates"], "provides": ["normal_tissue_expression"]},
+    "retrieve_publications": {"provides": ["publication_material"]},
+    "filter_targets": {"requires_all": ["disease_target_association"], "provides": ["target_candidates"], "supported_filters": ["all"]},
     "stratify_target_evidence_layers": {"requires_all": ["disease_target_association", "target_drug_evidence", "tractability_evidence"], "provides": ["stratified_target_evidence"], "requires_aggregation": True, "reserved_outputs": ["target_translation_layer"]},
     "aggregate_category_distribution": {"requires_aggregation": True, "reserved_outputs": ["category_distribution"]},
-    "rank_targets": {"requires_any": ["target_candidates", "stratified_target_evidence"]},
+    "rank_targets": {"requires_any": ["disease_target_association", "target_candidates", "stratified_target_evidence"]},
 }
 
 
@@ -336,8 +355,10 @@ OPERATION_EQUIVALENCES: dict[str, list[str]] = {
 OPERATION_ALIAS_TO_CANONICAL = {
     alias: canonical
     for canonical, entry in OPERATION_TABLE.items()
-    for alias in [canonical, *entry.equivalent_operations]
+    for alias in entry.equivalent_operations
+    if alias not in OPERATION_TABLE
 }
+OPERATION_ALIAS_TO_CANONICAL.update({canonical: canonical for canonical in OPERATION_TABLE})
 
 
 def normalize_plan_operations(plan: QueryManifestV2) -> list[str]:

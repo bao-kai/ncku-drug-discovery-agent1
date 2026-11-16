@@ -213,7 +213,13 @@ def test_running_low_level_call_can_be_marked_timed_out():
 def test_prompt_defines_therapeutic_targets_without_leaking_a_case_answer():
     prompt = " ".join(PLAN_ONLY_PROMPT.casefold().split())
     assert "do not equate every disease-associated target" in prompt
-    assert "known drug evidence or tractability" in prompt
+    assert "known drug evidence and tractability" in prompt
+    assert "agent 2 assesses scientific sufficiency, strength, efficacy and causality" in prompt
+    assert "do not ask agent 1 operations to invent a combined support hierarchy" in prompt
+    contract = OPERATION_SEMANTICS["stratify_target_evidence_layers"]
+    assert contract in OPERATION_CATALOG_PROMPT
+    assert "not a scientific strength scale" in contract
+    assert "only when explicitly reported by the source" in contract
     assert "never put prose sentences" in prompt
     assert "PDAC" not in PLAN_ONLY_PROMPT
     assert "required_operations" not in PLAN_ONLY_PROMPT

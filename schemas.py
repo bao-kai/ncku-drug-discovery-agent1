@@ -127,12 +127,20 @@ class QueryManifest(BaseModel):
         return self
 
 
+class EntitySearchCandidateV2(BaseModel):
+    """Model-proposed search lead; never an identity or scope assertion."""
+
+    text: str = Field(min_length=1)
+    generation_basis: str = Field(min_length=1)
+
+
 class PlannedEntityV2(BaseModel):
     """Entity mentioned by the user and carried into a plan without invention."""
 
     entity_ref: str = Field(min_length=1)
     entity_type: Literal["disease", "target", "drug", "tissue", "mechanism"]
     mention: str = Field(min_length=1)
+    search_candidates: list[EntitySearchCandidateV2] = Field(default_factory=list)
     entity_id: str | None = None
     canonical_name: str | None = None
     resolution_status: Literal["verified", "ambiguous", "unresolved"]

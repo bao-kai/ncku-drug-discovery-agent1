@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import re
 import unicodedata
+from decimal import Decimal
 from typing import Any, Literal
 
 from pydantic import BaseModel, Field
@@ -33,6 +34,28 @@ class OperationRuleFinding(BaseModel):
     problem: str
     required_correction: str
     missing: list[str] = Field(default_factory=list)
+    input_entity_refs: list[str] = Field(default_factory=list)
+    requirement_origin: str | None = None
+    requirement_excerpt: str | None = None
+    requirement_status: Literal['covered', 'violated', 'unsupported', 'uncertain'] | None = None
+
+
+def evaluate_question_requirements(plan, clarification=None, confirmed=None):
+    from plan_requirements import assess_plan_requirements
+
+    return [OperationRuleFinding(
+        rule_id='question_requirement_coverage',
+        severity=('repair_required' if check.status == 'violated'
+                  else 'hard_error' if check.status == 'unsupported' and check.key == 'association_threshold'
+                  else 'warning'),
+        step_id=check.step_id,
+        operation=check.operation,
+        problem=f'{check.excerpt!r}: {check.detail}',
+        required_correction=check.correction if check.status != 'covered' else '',
+        requirement_origin=check.origin,
+        requirement_excerpt=check.excerpt,
+        requirement_status=check.status,
+    ) for check in assess_plan_requirements(plan, clarification, confirmed)]
 
 
 class OperationRuleEvaluation(BaseModel):
@@ -118,12 +141,14 @@ _METRIC_REQUIREMENTS: dict[str, str] = {
     "datasource_score": "disease_target_association",
     "drug_count": "target_drug_evidence",
     "known_drug_count": "target_drug_evidence",
-    "tractability_score": "tractability_evidence",
     "clinical_phase": "clinical_stage_evidence",
     "highest_clinical_stage": "clinical_stage_evidence",
     "safety_risk": "safety_evidence",
     "normal_tissue_expression": "normal_tissue_expression",
     "tissue_expression": "normal_tissue_expression",
+    "expression_median": "normal_tissue_expression",
+    "predicted_small_molecule_pocket": "tractability_evidence",
+    "small_molecule_pocket_evidence": "tractability_evidence",
     "drug_approval_status": "approval_evidence",
     "approval_status": "approval_evidence",
     "approved_indication_count": "approval_evidence",
@@ -375,16 +400,28 @@ def evaluate_operation_rules(plan: QueryManifestV2) -> OperationRuleEvaluation:
         if unsupported_filters or unregistered_metrics or unavailable:
             requirements = sorted({_METRIC_REQUIREMENTS[item] for item in unavailable})
             details = []
+            corrections = []
             if unsupported_filters:
                 details.append("未登記 filters：" + ", ".join(unsupported_filters))
+                corrections.append(
+                    f"本 operation 支援的 filters 為 {contract.supported_filters}；空清單表示 filters 必須為 {{}}。"
+                    "輸出欄位不會自動取得篩選權限。非必要篩選應移除並保留候選；"
+                    "使用者要求且尚不支援的篩選應提出 operation 審核，不可移到 description 或 aggregation 規避。"
+                )
             if unregistered_metrics:
                 details.append("未登記 metrics：" + ", ".join(unregistered_metrics))
+                corrections.append("只使用 metric registry 已登記的指標；必要的新指標須先審核，不能自行命名。")
             if unavailable:
                 details.append("尚未取得 metrics：" + ", ".join(unavailable))
+                corrections.append(
+                    "缺少上游資料：" + ", ".join(f"{metric} requires {_METRIC_REQUIREMENTS[metric]}" for metric in unavailable)
+                    + "。移除非必要排名指標；若研究問題需要該指標，安排提供此能力的擷取步驟及 depends_on。"
+                    "只寫在 evidence_requirements 或描述中不算取得資料。"
+                )
             findings.append(_finding(
                 "analysis_metric_requires_available_evidence", step,
                 f"{step.operation} 使用未核准或尚不可用的分析控制：{'；'.join(details)}。",
-                "只使用 operation table 支援的 filter 與 metric registry 已登記且有上游證據的指標；否則標記為待人工審核。",
+                " ".join(corrections),
                 [*unsupported_filters, *unregistered_metrics, *requirements],
             ))
 
@@ -426,8 +463,15 @@ def evaluate_operation_rules(plan: QueryManifestV2) -> OperationRuleEvaluation:
                 missing,
             ))
 
+    stated_numbers = {
+        Decimal(token) for token in re.findall(
+            r'(?<![\d.])[+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?(?![\d.])',
+            unicodedata.normalize('NFKC', question),
+        )
+    }
     for step in plan.plan_steps:
-        ungrounded = [value for value in _numeric_values(step.filters) if value not in question]
+        ungrounded = [value for value in _numeric_values(step.filters)
+                      if Decimal(value) not in stated_numbers]
         if ungrounded:
             findings.append(_finding(
                 "constraints_require_authority", step,

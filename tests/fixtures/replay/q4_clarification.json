@@ -1,0 +1,1 @@
+{"original_question":"列出與胰臟癌關聯分數 > 0.7、且具有已知小分子結合口袋(tractability)的標的。","confirmation_question":"第4題的已知小分子結合口袋，希望採用哪個範圍？","user_response":"納入來源明示的預測口袋，與實驗結構證據分開標示","run_id":null}

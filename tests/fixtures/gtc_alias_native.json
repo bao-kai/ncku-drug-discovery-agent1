@@ -1,0 +1,1812 @@
+{
+  "identity_calls": [
+    {
+      "query": "query DiseaseAlias($efoId:String!){disease(efoId:$efoId){id name synonyms{terms relation}}}",
+      "variables": {
+        "efoId": "MONDO_0005184"
+      },
+      "raw_response": {
+        "disease": {
+          "id": "MONDO_0005184",
+          "name": "pancreatic ductal adenocarcinoma",
+          "synonyms": [
+            {
+              "terms": [
+                "ductal adenocarcinoma of pancreas",
+                "ductal adenocarcinoma of the pancreas",
+                "pancreas ductal adenocarcinoma",
+                "pancreas tubular adenocarcinoma",
+                "pancreatic duct adenocarcinoma",
+                "pancreatic ductal adenocarcinoma",
+                "pancreatic ductal carcinoma",
+                "pancreatic tubular adenocarcinoma",
+                "PDAC"
+              ],
+              "relation": "hasExactSynonym"
+            },
+            {
+              "terms": [],
+              "relation": "hasRelatedSynonym"
+            },
+            {
+              "terms": [],
+              "relation": "hasNarrowSynonym"
+            },
+            {
+              "terms": [],
+              "relation": "hasBroadSynonym"
+            }
+          ]
+        }
+      },
+      "source_url": "https://api.platform.opentargets.org/api/v4/graphql",
+      "retrieved_at": "2026-11-09T09:31:49.665280+00:00",
+      "seconds": 0.35
+    },
+    {
+      "query": "query TargetAlias($ensemblId:String!){target(ensemblId:$ensemblId){id approvedSymbol approvedName synonyms{label source} symbolSynonyms{label source} nameSynonyms{label source}}}",
+      "variables": {
+        "ensemblId": "ENSG00000179295"
+      },
+      "raw_response": {
+        "target": {
+          "id": "ENSG00000179295",
+          "approvedSymbol": "PTPN11",
+          "approvedName": "protein tyrosine phosphatase non-receptor type 11",
+          "synonyms": [
+            {
+              "label": "Tyrosine-protein phosphatase non-receptor type 11",
+              "source": "uniprot"
+            },
+            {
+              "label": "PTP-1D",
+              "source": "uniprot"
+            },
+            {
+              "label": "PTP-2C",
+              "source": "uniprot"
+            },
+            {
+              "label": "SHP-2",
+              "source": "uniprot"
+            },
+            {
+              "label": "Shp2",
+              "source": "uniprot"
+            },
+            {
+              "label": "PTPN11",
+              "source": "uniprot"
+            },
+            {
+              "label": "PTP2C",
+              "source": "uniprot"
+            },
+            {
+              "label": "SHPTP2",
+              "source": "uniprot"
+            },
+            {
+              "label": "BPTP3",
+              "source": "HGNC"
+            },
+            {
+              "label": "SH-PTP2",
+              "source": "HGNC"
+            },
+            {
+              "label": "SHP-2",
+              "source": "HGNC"
+            },
+            {
+              "label": "PTP2C",
+              "source": "HGNC"
+            },
+            {
+              "label": "SHP2",
+              "source": "HGNC"
+            },
+            {
+              "label": "Protein-tyrosine phosphatase 1D",
+              "source": "uniprot"
+            },
+            {
+              "label": "Protein-tyrosine phosphatase 2C",
+              "source": "uniprot"
+            },
+            {
+              "label": "SH-PTP2",
+              "source": "uniprot"
+            },
+            {
+              "label": "SH-PTP3",
+              "source": "uniprot"
+            },
+            {
+              "label": "SH2 domain-containing protein tyrosine phosphatase 2",
+              "source": "HGNC"
+            },
+            {
+              "label": "BPTP3",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "CFC",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "JMML",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "METCDS",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "NS1",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "PTP-1D",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "PTP2C",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "SH-PTP2",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "SH-PTP3",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "SHP2",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "tyrosine-protein phosphatase non-receptor type 11",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "SH2 domain-containing protein tyrosine phosphatase 2",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "protein-tyrosine phosphatase 1D",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "protein-tyrosine phosphatase 2C",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "PTPN11",
+              "source": "NCBI_entrez"
+            }
+          ],
+          "symbolSynonyms": [
+            {
+              "label": "PTP-1D",
+              "source": "uniprot"
+            },
+            {
+              "label": "PTP-2C",
+              "source": "uniprot"
+            },
+            {
+              "label": "SHP-2",
+              "source": "uniprot"
+            },
+            {
+              "label": "Shp2",
+              "source": "uniprot"
+            },
+            {
+              "label": "PTPN11",
+              "source": "uniprot"
+            },
+            {
+              "label": "PTP2C",
+              "source": "uniprot"
+            },
+            {
+              "label": "SHPTP2",
+              "source": "uniprot"
+            },
+            {
+              "label": "BPTP3",
+              "source": "HGNC"
+            },
+            {
+              "label": "SH-PTP2",
+              "source": "HGNC"
+            },
+            {
+              "label": "SHP-2",
+              "source": "HGNC"
+            },
+            {
+              "label": "PTP2C",
+              "source": "HGNC"
+            },
+            {
+              "label": "SHP2",
+              "source": "HGNC"
+            },
+            {
+              "label": "BPTP3",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "CFC",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "JMML",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "METCDS",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "NS1",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "PTP-1D",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "PTP2C",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "SH-PTP2",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "SH-PTP3",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "SHP2",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "PTPN11",
+              "source": "NCBI_entrez"
+            }
+          ],
+          "nameSynonyms": [
+            {
+              "label": "Tyrosine-protein phosphatase non-receptor type 11",
+              "source": "uniprot"
+            },
+            {
+              "label": "Protein-tyrosine phosphatase 1D",
+              "source": "uniprot"
+            },
+            {
+              "label": "Protein-tyrosine phosphatase 2C",
+              "source": "uniprot"
+            },
+            {
+              "label": "SH-PTP2",
+              "source": "uniprot"
+            },
+            {
+              "label": "SH-PTP3",
+              "source": "uniprot"
+            },
+            {
+              "label": "SH2 domain-containing protein tyrosine phosphatase 2",
+              "source": "HGNC"
+            },
+            {
+              "label": "tyrosine-protein phosphatase non-receptor type 11",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "SH2 domain-containing protein tyrosine phosphatase 2",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "protein-tyrosine phosphatase 1D",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "protein-tyrosine phosphatase 2C",
+              "source": "NCBI_entrez"
+            }
+          ]
+        }
+      },
+      "source_url": "https://api.platform.opentargets.org/api/v4/graphql",
+      "retrieved_at": "2026-11-09T09:31:50.011304+00:00",
+      "seconds": 0.345
+    },
+    {
+      "query": "query TargetAlias($ensemblId:String!){target(ensemblId:$ensemblId){id approvedSymbol approvedName synonyms{label source} symbolSynonyms{label source} nameSynonyms{label source}}}",
+      "variables": {
+        "ensemblId": "ENSG00000137078"
+      },
+      "raw_response": {
+        "target": {
+          "id": "ENSG00000137078",
+          "approvedSymbol": "SIT1",
+          "approvedName": "signaling threshold regulating transmembrane adaptor 1",
+          "synonyms": [
+            {
+              "label": "Signaling threshold-regulating transmembrane adapter 1",
+              "source": "uniprot"
+            },
+            {
+              "label": "SIT1",
+              "source": "uniprot"
+            },
+            {
+              "label": "SIT",
+              "source": "uniprot"
+            },
+            {
+              "label": "SIT",
+              "source": "HGNC"
+            },
+            {
+              "label": "SHP2-interacting transmembrane adapter protein",
+              "source": "uniprot"
+            },
+            {
+              "label": "Suppression-inducing transmembrane adapter 1",
+              "source": "uniprot"
+            },
+            {
+              "label": "gp30/40",
+              "source": "uniprot"
+            },
+            {
+              "label": "SHP2 interacting transmembrane adaptor",
+              "source": "HGNC"
+            },
+            {
+              "label": "SIT",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "SIT-R",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "signaling threshold-regulating transmembrane adapter 1",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "SHP-2 interacting transmembrane adaptor protein",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "SHP2 interacting transmembrane adaptor",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "SHP2-interacting transmembrane adapter protein",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "SHP2-interacting transmembrane adaptor protein",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "gp30/40",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "suppression inducing transmembrane adaptor 1",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "suppression-inducing transmembrane adapter 1",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "SIT1",
+              "source": "NCBI_entrez"
+            }
+          ],
+          "symbolSynonyms": [
+            {
+              "label": "SIT1",
+              "source": "uniprot"
+            },
+            {
+              "label": "SIT",
+              "source": "uniprot"
+            },
+            {
+              "label": "SIT",
+              "source": "HGNC"
+            },
+            {
+              "label": "SIT",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "SIT-R",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "SIT1",
+              "source": "NCBI_entrez"
+            }
+          ],
+          "nameSynonyms": [
+            {
+              "label": "Signaling threshold-regulating transmembrane adapter 1",
+              "source": "uniprot"
+            },
+            {
+              "label": "SHP2-interacting transmembrane adapter protein",
+              "source": "uniprot"
+            },
+            {
+              "label": "Suppression-inducing transmembrane adapter 1",
+              "source": "uniprot"
+            },
+            {
+              "label": "gp30/40",
+              "source": "uniprot"
+            },
+            {
+              "label": "SHP2 interacting transmembrane adaptor",
+              "source": "HGNC"
+            },
+            {
+              "label": "signaling threshold-regulating transmembrane adapter 1",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "SHP-2 interacting transmembrane adaptor protein",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "SHP2 interacting transmembrane adaptor",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "SHP2-interacting transmembrane adapter protein",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "SHP2-interacting transmembrane adaptor protein",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "gp30/40",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "suppression inducing transmembrane adaptor 1",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "suppression-inducing transmembrane adapter 1",
+              "source": "NCBI_entrez"
+            }
+          ]
+        }
+      },
+      "source_url": "https://api.platform.opentargets.org/api/v4/graphql",
+      "retrieved_at": "2026-11-09T09:31:50.392065+00:00",
+      "seconds": 0.38
+    },
+    {
+      "query": "\nquery Search($queryString: String!, $entityNames: [String!]) {\n  search(queryString: $queryString, entityNames: $entityNames) {\n    hits { id name }\n  }\n}\n",
+      "variables": {
+        "queryString": "FAK",
+        "entityNames": [
+          "target"
+        ]
+      },
+      "raw_response": {
+        "search": {
+          "hits": [
+            {
+              "id": "ENSG00000169398",
+              "name": "PTK2"
+            },
+            {
+              "id": "ENSG00000023287",
+              "name": "RB1CC1"
+            },
+            {
+              "id": "ENSG00000120899",
+              "name": "PTK2B"
+            },
+            {
+              "id": "ENSG00000123485",
+              "name": "HJURP"
+            },
+            {
+              "id": "ENSG00000261373",
+              "name": "VPS9D1-AS1"
+            }
+          ]
+        }
+      },
+      "source_url": "https://api.platform.opentargets.org/api/v4/graphql",
+      "retrieved_at": "2026-11-09T09:31:50.860133+00:00",
+      "seconds": 0.467
+    },
+    {
+      "query": "query TargetAlias($ensemblId:String!){target(ensemblId:$ensemblId){id approvedSymbol approvedName synonyms{label source} symbolSynonyms{label source} nameSynonyms{label source}}}",
+      "variables": {
+        "ensemblId": "ENSG00000169398"
+      },
+      "raw_response": {
+        "target": {
+          "id": "ENSG00000169398",
+          "approvedSymbol": "PTK2",
+          "approvedName": "protein tyrosine kinase 2",
+          "synonyms": [
+            {
+              "label": "Focal adhesion kinase 1",
+              "source": "uniprot"
+            },
+            {
+              "label": "FADK 1",
+              "source": "uniprot"
+            },
+            {
+              "label": "FRNK",
+              "source": "uniprot"
+            },
+            {
+              "label": "PPP1R71",
+              "source": "uniprot"
+            },
+            {
+              "label": "PTK2",
+              "source": "uniprot"
+            },
+            {
+              "label": "FAK",
+              "source": "uniprot"
+            },
+            {
+              "label": "FAK1",
+              "source": "uniprot"
+            },
+            {
+              "label": "FAK",
+              "source": "HGNC"
+            },
+            {
+              "label": "FADK",
+              "source": "HGNC"
+            },
+            {
+              "label": "FAK1",
+              "source": "HGNC"
+            },
+            {
+              "label": "PPP1R71",
+              "source": "HGNC"
+            },
+            {
+              "label": "Focal adhesion kinase-related nonkinase",
+              "source": "uniprot"
+            },
+            {
+              "label": "Protein phosphatase 1 regulatory subunit 71",
+              "source": "uniprot"
+            },
+            {
+              "label": "Protein-tyrosine kinase 2",
+              "source": "uniprot"
+            },
+            {
+              "label": "p125FAK",
+              "source": "uniprot"
+            },
+            {
+              "label": "pp125FAK",
+              "source": "uniprot"
+            },
+            {
+              "label": "protein phosphatase 1, regulatory subunit 71",
+              "source": "HGNC"
+            },
+            {
+              "label": "FADK",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "FADK 1",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "FAK",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "FAK1",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "FRNK",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "PPP1R71",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "p125FAK",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "pp125FAK",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "focal adhesion kinase 1",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "FAK-related non-kinase polypeptide",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "PTK2 protein tyrosine kinase 2",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "focal adhesion kinase-related nonkinase",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "protein phosphatase 1 regulatory subunit 71",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "PTK2",
+              "source": "NCBI_entrez"
+            }
+          ],
+          "symbolSynonyms": [
+            {
+              "label": "FADK 1",
+              "source": "uniprot"
+            },
+            {
+              "label": "FRNK",
+              "source": "uniprot"
+            },
+            {
+              "label": "PPP1R71",
+              "source": "uniprot"
+            },
+            {
+              "label": "PTK2",
+              "source": "uniprot"
+            },
+            {
+              "label": "FAK",
+              "source": "uniprot"
+            },
+            {
+              "label": "FAK1",
+              "source": "uniprot"
+            },
+            {
+              "label": "FAK",
+              "source": "HGNC"
+            },
+            {
+              "label": "FADK",
+              "source": "HGNC"
+            },
+            {
+              "label": "FAK1",
+              "source": "HGNC"
+            },
+            {
+              "label": "PPP1R71",
+              "source": "HGNC"
+            },
+            {
+              "label": "FADK",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "FADK 1",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "FAK",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "FAK1",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "FRNK",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "PPP1R71",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "p125FAK",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "pp125FAK",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "PTK2",
+              "source": "NCBI_entrez"
+            }
+          ],
+          "nameSynonyms": [
+            {
+              "label": "Focal adhesion kinase 1",
+              "source": "uniprot"
+            },
+            {
+              "label": "Focal adhesion kinase-related nonkinase",
+              "source": "uniprot"
+            },
+            {
+              "label": "Protein phosphatase 1 regulatory subunit 71",
+              "source": "uniprot"
+            },
+            {
+              "label": "Protein-tyrosine kinase 2",
+              "source": "uniprot"
+            },
+            {
+              "label": "p125FAK",
+              "source": "uniprot"
+            },
+            {
+              "label": "pp125FAK",
+              "source": "uniprot"
+            },
+            {
+              "label": "protein phosphatase 1, regulatory subunit 71",
+              "source": "HGNC"
+            },
+            {
+              "label": "focal adhesion kinase 1",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "FAK-related non-kinase polypeptide",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "PTK2 protein tyrosine kinase 2",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "focal adhesion kinase-related nonkinase",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "protein phosphatase 1 regulatory subunit 71",
+              "source": "NCBI_entrez"
+            }
+          ]
+        }
+      },
+      "source_url": "https://api.platform.opentargets.org/api/v4/graphql",
+      "retrieved_at": "2026-11-09T09:31:51.195247+00:00",
+      "seconds": 0.334
+    },
+    {
+      "query": "query TargetAlias($ensemblId:String!){target(ensemblId:$ensemblId){id approvedSymbol approvedName synonyms{label source} symbolSynonyms{label source} nameSynonyms{label source}}}",
+      "variables": {
+        "ensemblId": "ENSG00000023287"
+      },
+      "raw_response": {
+        "target": {
+          "id": "ENSG00000023287",
+          "approvedSymbol": "RB1CC1",
+          "approvedName": "RB1 inducible coiled-coil 1",
+          "synonyms": [
+            {
+              "label": "RB1-inducible coiled-coil protein 1",
+              "source": "uniprot"
+            },
+            {
+              "label": "FIP200",
+              "source": "uniprot"
+            },
+            {
+              "label": "RB1CC1",
+              "source": "uniprot"
+            },
+            {
+              "label": "KIAA0203",
+              "source": "uniprot"
+            },
+            {
+              "label": "RBICC",
+              "source": "uniprot"
+            },
+            {
+              "label": "KIAA0203",
+              "source": "HGNC"
+            },
+            {
+              "label": "Cc1",
+              "source": "HGNC"
+            },
+            {
+              "label": "DRAGOU14",
+              "source": "HGNC"
+            },
+            {
+              "label": "FIP200",
+              "source": "HGNC"
+            },
+            {
+              "label": "ATG17",
+              "source": "HGNC"
+            },
+            {
+              "label": "PPP1R131",
+              "source": "HGNC"
+            },
+            {
+              "label": "FAK family kinase-interacting protein of 200 kDa",
+              "source": "uniprot"
+            },
+            {
+              "label": "200 kDa FAK family kinase-interacting protein",
+              "source": "HGNC"
+            },
+            {
+              "label": "phosphatase 1, regulatory subunit 131",
+              "source": "HGNC"
+            },
+            {
+              "label": "ATG17",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "CC1",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "FIP200",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "PPP1R131",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "RB1-inducible coiled-coil protein 1",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "200 kDa FAK family kinase-interacting protein",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "FAK family kinase-interacting protein of 200 kDa",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "phosphatase 1, regulatory subunit 131",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "RB1CC1",
+              "source": "NCBI_entrez"
+            }
+          ],
+          "symbolSynonyms": [
+            {
+              "label": "FIP200",
+              "source": "uniprot"
+            },
+            {
+              "label": "RB1CC1",
+              "source": "uniprot"
+            },
+            {
+              "label": "KIAA0203",
+              "source": "uniprot"
+            },
+            {
+              "label": "RBICC",
+              "source": "uniprot"
+            },
+            {
+              "label": "KIAA0203",
+              "source": "HGNC"
+            },
+            {
+              "label": "Cc1",
+              "source": "HGNC"
+            },
+            {
+              "label": "DRAGOU14",
+              "source": "HGNC"
+            },
+            {
+              "label": "FIP200",
+              "source": "HGNC"
+            },
+            {
+              "label": "ATG17",
+              "source": "HGNC"
+            },
+            {
+              "label": "PPP1R131",
+              "source": "HGNC"
+            },
+            {
+              "label": "ATG17",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "CC1",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "FIP200",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "PPP1R131",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "RB1CC1",
+              "source": "NCBI_entrez"
+            }
+          ],
+          "nameSynonyms": [
+            {
+              "label": "RB1-inducible coiled-coil protein 1",
+              "source": "uniprot"
+            },
+            {
+              "label": "FAK family kinase-interacting protein of 200 kDa",
+              "source": "uniprot"
+            },
+            {
+              "label": "200 kDa FAK family kinase-interacting protein",
+              "source": "HGNC"
+            },
+            {
+              "label": "phosphatase 1, regulatory subunit 131",
+              "source": "HGNC"
+            },
+            {
+              "label": "RB1-inducible coiled-coil protein 1",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "200 kDa FAK family kinase-interacting protein",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "FAK family kinase-interacting protein of 200 kDa",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "phosphatase 1, regulatory subunit 131",
+              "source": "NCBI_entrez"
+            }
+          ]
+        }
+      },
+      "source_url": "https://api.platform.opentargets.org/api/v4/graphql",
+      "retrieved_at": "2026-11-09T09:31:51.560782+00:00",
+      "seconds": 0.362
+    },
+    {
+      "query": "query TargetAlias($ensemblId:String!){target(ensemblId:$ensemblId){id approvedSymbol approvedName synonyms{label source} symbolSynonyms{label source} nameSynonyms{label source}}}",
+      "variables": {
+        "ensemblId": "ENSG00000120899"
+      },
+      "raw_response": {
+        "target": {
+          "id": "ENSG00000120899",
+          "approvedSymbol": "PTK2B",
+          "approvedName": "protein tyrosine kinase 2 beta",
+          "synonyms": [
+            {
+              "label": "Protein-tyrosine kinase 2-beta",
+              "source": "uniprot"
+            },
+            {
+              "label": "CADTK",
+              "source": "uniprot"
+            },
+            {
+              "label": "CAK-beta",
+              "source": "uniprot"
+            },
+            {
+              "label": "CAKB",
+              "source": "uniprot"
+            },
+            {
+              "label": "FADK 2",
+              "source": "uniprot"
+            },
+            {
+              "label": "RAFTK",
+              "source": "uniprot"
+            },
+            {
+              "label": "PTK2B",
+              "source": "uniprot"
+            },
+            {
+              "label": "FAK2",
+              "source": "uniprot"
+            },
+            {
+              "label": "PYK2",
+              "source": "uniprot"
+            },
+            {
+              "label": "CAKB",
+              "source": "HGNC"
+            },
+            {
+              "label": "PYK2",
+              "source": "HGNC"
+            },
+            {
+              "label": "RAFTK",
+              "source": "HGNC"
+            },
+            {
+              "label": "PTK",
+              "source": "HGNC"
+            },
+            {
+              "label": "CADTK",
+              "source": "HGNC"
+            },
+            {
+              "label": "Calcium-dependent tyrosine kinase",
+              "source": "uniprot"
+            },
+            {
+              "label": "Calcium-regulated non-receptor proline-rich tyrosine kinase",
+              "source": "uniprot"
+            },
+            {
+              "label": "Cell adhesion kinase beta",
+              "source": "uniprot"
+            },
+            {
+              "label": "Focal adhesion kinase 2",
+              "source": "uniprot"
+            },
+            {
+              "label": "Proline-rich tyrosine kinase 2",
+              "source": "uniprot"
+            },
+            {
+              "label": "Related adhesion focal tyrosine kinase",
+              "source": "uniprot"
+            },
+            {
+              "label": "CADTK",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "CAKB",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "FADK2",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "FAK2",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "PKB",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "PTK",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "PYK2",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "RAFTK",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "protein-tyrosine kinase 2-beta",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "CAK-beta",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "FADK 2",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "PTK2B protein tyrosine kinase 2 beta",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "calcium-dependent tyrosine kinase",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "calcium-regulated non-receptor proline-rich tyrosine kinase",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "cell adhesion kinase beta",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "focal adhesion kinase 2",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "proline-rich tyrosine kinase 2",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "protein kinase B",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "related adhesion focal tyrosine kinase",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "PTK2B",
+              "source": "NCBI_entrez"
+            }
+          ],
+          "symbolSynonyms": [
+            {
+              "label": "CADTK",
+              "source": "uniprot"
+            },
+            {
+              "label": "CAK-beta",
+              "source": "uniprot"
+            },
+            {
+              "label": "CAKB",
+              "source": "uniprot"
+            },
+            {
+              "label": "FADK 2",
+              "source": "uniprot"
+            },
+            {
+              "label": "RAFTK",
+              "source": "uniprot"
+            },
+            {
+              "label": "PTK2B",
+              "source": "uniprot"
+            },
+            {
+              "label": "FAK2",
+              "source": "uniprot"
+            },
+            {
+              "label": "PYK2",
+              "source": "uniprot"
+            },
+            {
+              "label": "CAKB",
+              "source": "HGNC"
+            },
+            {
+              "label": "PYK2",
+              "source": "HGNC"
+            },
+            {
+              "label": "RAFTK",
+              "source": "HGNC"
+            },
+            {
+              "label": "PTK",
+              "source": "HGNC"
+            },
+            {
+              "label": "CADTK",
+              "source": "HGNC"
+            },
+            {
+              "label": "CADTK",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "CAKB",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "FADK2",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "FAK2",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "PKB",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "PTK",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "PYK2",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "RAFTK",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "PTK2B",
+              "source": "NCBI_entrez"
+            }
+          ],
+          "nameSynonyms": [
+            {
+              "label": "Protein-tyrosine kinase 2-beta",
+              "source": "uniprot"
+            },
+            {
+              "label": "Calcium-dependent tyrosine kinase",
+              "source": "uniprot"
+            },
+            {
+              "label": "Calcium-regulated non-receptor proline-rich tyrosine kinase",
+              "source": "uniprot"
+            },
+            {
+              "label": "Cell adhesion kinase beta",
+              "source": "uniprot"
+            },
+            {
+              "label": "Focal adhesion kinase 2",
+              "source": "uniprot"
+            },
+            {
+              "label": "Proline-rich tyrosine kinase 2",
+              "source": "uniprot"
+            },
+            {
+              "label": "Related adhesion focal tyrosine kinase",
+              "source": "uniprot"
+            },
+            {
+              "label": "protein-tyrosine kinase 2-beta",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "CAK-beta",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "FADK 2",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "PTK2B protein tyrosine kinase 2 beta",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "calcium-dependent tyrosine kinase",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "calcium-regulated non-receptor proline-rich tyrosine kinase",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "cell adhesion kinase beta",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "focal adhesion kinase 2",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "proline-rich tyrosine kinase 2",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "protein kinase B",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "related adhesion focal tyrosine kinase",
+              "source": "NCBI_entrez"
+            }
+          ]
+        }
+      },
+      "source_url": "https://api.platform.opentargets.org/api/v4/graphql",
+      "retrieved_at": "2026-11-09T09:31:51.945063+00:00",
+      "seconds": 0.382
+    },
+    {
+      "query": "query TargetAlias($ensemblId:String!){target(ensemblId:$ensemblId){id approvedSymbol approvedName synonyms{label source} symbolSynonyms{label source} nameSynonyms{label source}}}",
+      "variables": {
+        "ensemblId": "ENSG00000123485"
+      },
+      "raw_response": {
+        "target": {
+          "id": "ENSG00000123485",
+          "approvedSymbol": "HJURP",
+          "approvedName": "Holliday junction recognition protein",
+          "synonyms": [
+            {
+              "label": "Holliday junction recognition protein",
+              "source": "uniprot"
+            },
+            {
+              "label": "HJURP",
+              "source": "uniprot"
+            },
+            {
+              "label": "FAKTS",
+              "source": "uniprot"
+            },
+            {
+              "label": "FLEG1",
+              "source": "uniprot"
+            },
+            {
+              "label": "URLC9",
+              "source": "uniprot"
+            },
+            {
+              "label": "DKFZp762E1312",
+              "source": "HGNC"
+            },
+            {
+              "label": "URLC9",
+              "source": "HGNC"
+            },
+            {
+              "label": "hFLEG1",
+              "source": "HGNC"
+            },
+            {
+              "label": "FAKTS",
+              "source": "HGNC"
+            },
+            {
+              "label": "14-3-3-associated AKT substrate",
+              "source": "uniprot"
+            },
+            {
+              "label": "Fetal liver-expressing gene 1 protein",
+              "source": "uniprot"
+            },
+            {
+              "label": "Up-regulated in lung cancer 9",
+              "source": "uniprot"
+            },
+            {
+              "label": "FAKTS",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "URLC9",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "hFLEG1",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "Holliday junction recognition protein",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "14-3-3-associated AKT substrate",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "fetal liver expressing gene 1",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "fetal liver-expressing gene 1 protein",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "up-regulated in lung cancer 9",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "HJURP",
+              "source": "NCBI_entrez"
+            }
+          ],
+          "symbolSynonyms": [
+            {
+              "label": "HJURP",
+              "source": "uniprot"
+            },
+            {
+              "label": "FAKTS",
+              "source": "uniprot"
+            },
+            {
+              "label": "FLEG1",
+              "source": "uniprot"
+            },
+            {
+              "label": "URLC9",
+              "source": "uniprot"
+            },
+            {
+              "label": "DKFZp762E1312",
+              "source": "HGNC"
+            },
+            {
+              "label": "URLC9",
+              "source": "HGNC"
+            },
+            {
+              "label": "hFLEG1",
+              "source": "HGNC"
+            },
+            {
+              "label": "FAKTS",
+              "source": "HGNC"
+            },
+            {
+              "label": "FAKTS",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "URLC9",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "hFLEG1",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "HJURP",
+              "source": "NCBI_entrez"
+            }
+          ],
+          "nameSynonyms": [
+            {
+              "label": "Holliday junction recognition protein",
+              "source": "uniprot"
+            },
+            {
+              "label": "14-3-3-associated AKT substrate",
+              "source": "uniprot"
+            },
+            {
+              "label": "Fetal liver-expressing gene 1 protein",
+              "source": "uniprot"
+            },
+            {
+              "label": "Up-regulated in lung cancer 9",
+              "source": "uniprot"
+            },
+            {
+              "label": "Holliday junction recognition protein",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "14-3-3-associated AKT substrate",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "fetal liver expressing gene 1",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "fetal liver-expressing gene 1 protein",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "up-regulated in lung cancer 9",
+              "source": "NCBI_entrez"
+            }
+          ]
+        }
+      },
+      "source_url": "https://api.platform.opentargets.org/api/v4/graphql",
+      "retrieved_at": "2026-11-09T09:31:52.287863+00:00",
+      "seconds": 0.342
+    },
+    {
+      "query": "query TargetAlias($ensemblId:String!){target(ensemblId:$ensemblId){id approvedSymbol approvedName synonyms{label source} symbolSynonyms{label source} nameSynonyms{label source}}}",
+      "variables": {
+        "ensemblId": "ENSG00000261373"
+      },
+      "raw_response": {
+        "target": {
+          "id": "ENSG00000261373",
+          "approvedSymbol": "VPS9D1-AS1",
+          "approvedName": "VPS9D1 antisense RNA 1",
+          "synonyms": [
+            {
+              "label": "MYU",
+              "source": "HGNC"
+            },
+            {
+              "label": "FAISL",
+              "source": "HGNC"
+            },
+            {
+              "label": "FAK-interacting lncRNA",
+              "source": "HGNC"
+            },
+            {
+              "label": "c-Myc-upregulated lncRNA",
+              "source": "HGNC"
+            },
+            {
+              "label": "FAISL",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "MYU",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "FAK-interacting lncRNA",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "c-Myc-upregulated lncRNA",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "VPS9D1-AS1",
+              "source": "NCBI_entrez"
+            }
+          ],
+          "symbolSynonyms": [
+            {
+              "label": "MYU",
+              "source": "HGNC"
+            },
+            {
+              "label": "FAISL",
+              "source": "HGNC"
+            },
+            {
+              "label": "FAISL",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "MYU",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "VPS9D1-AS1",
+              "source": "NCBI_entrez"
+            }
+          ],
+          "nameSynonyms": [
+            {
+              "label": "FAK-interacting lncRNA",
+              "source": "HGNC"
+            },
+            {
+              "label": "c-Myc-upregulated lncRNA",
+              "source": "HGNC"
+            },
+            {
+              "label": "FAK-interacting lncRNA",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "c-Myc-upregulated lncRNA",
+              "source": "NCBI_entrez"
+            }
+          ]
+        }
+      },
+      "source_url": "https://api.platform.opentargets.org/api/v4/graphql",
+      "retrieved_at": "2026-11-09T09:31:52.644783+00:00",
+      "seconds": 0.356
+    },
+    {
+      "query": "\nquery Search($queryString: String!, $entityNames: [String!]) {\n  search(queryString: $queryString, entityNames: $entityNames) {\n    hits { id name }\n  }\n}\n",
+      "variables": {
+        "queryString": "CLDN18",
+        "entityNames": [
+          "target"
+        ]
+      },
+      "raw_response": {
+        "search": {
+          "hits": [
+            {
+              "id": "ENSG00000066405",
+              "name": "CLDN18"
+            },
+            {
+              "id": "ENSG00000272609",
+              "name": "ENSG00000272609"
+            }
+          ]
+        }
+      },
+      "source_url": "https://api.platform.opentargets.org/api/v4/graphql",
+      "retrieved_at": "2026-11-09T09:31:53.025985+00:00",
+      "seconds": 0.38
+    },
+    {
+      "query": "query TargetAlias($ensemblId:String!){target(ensemblId:$ensemblId){id approvedSymbol approvedName synonyms{label source} symbolSynonyms{label source} nameSynonyms{label source}}}",
+      "variables": {
+        "ensemblId": "ENSG00000066405"
+      },
+      "raw_response": {
+        "target": {
+          "id": "ENSG00000066405",
+          "approvedSymbol": "CLDN18",
+          "approvedName": "claudin 18",
+          "synonyms": [
+            {
+              "label": "Claudin-18",
+              "source": "uniprot"
+            },
+            {
+              "label": "CLDN18",
+              "source": "uniprot"
+            },
+            {
+              "label": "UNQ778/PRO1572",
+              "source": "uniprot"
+            },
+            {
+              "label": "SFTA5",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "SFTPJ",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "claudin-18",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "surfactant associated 5",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "surfactant associated protein J",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "surfactant, pulmonary associated protein J",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "CLDN18",
+              "source": "NCBI_entrez"
+            }
+          ],
+          "symbolSynonyms": [
+            {
+              "label": "CLDN18",
+              "source": "uniprot"
+            },
+            {
+              "label": "UNQ778/PRO1572",
+              "source": "uniprot"
+            },
+            {
+              "label": "SFTA5",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "SFTPJ",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "CLDN18",
+              "source": "NCBI_entrez"
+            }
+          ],
+          "nameSynonyms": [
+            {
+              "label": "Claudin-18",
+              "source": "uniprot"
+            },
+            {
+              "label": "claudin-18",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "surfactant associated 5",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "surfactant associated protein J",
+              "source": "NCBI_entrez"
+            },
+            {
+              "label": "surfactant, pulmonary associated protein J",
+              "source": "NCBI_entrez"
+            }
+          ]
+        }
+      },
+      "source_url": "https://api.platform.opentargets.org/api/v4/graphql",
+      "retrieved_at": "2026-11-09T09:31:53.372379+00:00",
+      "seconds": 0.345
+    },
+    {
+      "query": "query TargetAlias($ensemblId:String!){target(ensemblId:$ensemblId){id approvedSymbol approvedName synonyms{label source} symbolSynonyms{label source} nameSynonyms{label source}}}",
+      "variables": {
+        "ensemblId": "ENSG00000272609"
+      },
+      "raw_response": {
+        "target": {
+          "id": "ENSG00000272609",
+          "approvedSymbol": "ENSG00000272609",
+          "approvedName": "novel transcript, antisense to CLDN18",
+          "synonyms": [],
+          "symbolSynonyms": [],
+          "nameSynonyms": []
+        }
+      },
+      "source_url": "https://api.platform.opentargets.org/api/v4/graphql",
+      "retrieved_at": "2026-11-09T09:31:53.732471+00:00",
+      "seconds": 0.358
+    }
+  ],
+  "saved_candidates": {
+    "PDAC": [
+      {
+        "id": "MONDO_0005184",
+        "name": "pancreatic ductal adenocarcinoma"
+      }
+    ],
+    "SHP2": [
+      {
+        "id": "ENSG00000179295",
+        "name": "PTPN11"
+      },
+      {
+        "id": "ENSG00000137078",
+        "name": "SIT1"
+      }
+    ]
+  }
+}

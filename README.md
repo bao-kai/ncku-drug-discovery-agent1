@@ -34,6 +34,19 @@ Before changing Agent 1, read:
 
 The GitHub repository is the shared canonical source. Generated files under
 `outputs/` are run artifacts and Planner diagnostics, not source code.
+
+To rerun the hosted Agent 1 workflow, install `requirements.txt`, copy
+`.env.example` to `.env`, and set your own `NVIDIA_API_KEY`. Run from the repository root:
+
+```shell
+python agent.py run-query --question "List targets associated with asthma." --output-dir outputs/asthma
+```
+
+This command calls NVIDIA NIM and the sources selected by the Plan. The local
+output directory receives the Plan, retrieval and organization records. To
+run the offline regression suite, install pytest and run `python -m pytest tests`.
+Replay fixtures live in `tests/fixtures/`.
+
 ## Architecture
 
 ```text

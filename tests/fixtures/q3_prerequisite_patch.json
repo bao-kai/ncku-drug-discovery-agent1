@@ -1,0 +1,307 @@
+{
+  "provenance": "outputs\\gtc_capability_implementation_20261110\\fresh_publication_workflows\\q3_initial\\planner.report.json",
+  "scope": "Saved model Plan/patch for offline transport regression, not biomedical evidence or a fresh model run.",
+  "base_plan": {
+    "schema_version": "2.0",
+    "manifest_id": "a1f2b3c4-d5e6-7890-abcd-ef1234567890",
+    "original_question": "CLDN18.2 與胰臟癌的關聯，主要來自哪類證據?體細胞突變、表現量資料還是文獻?",
+    "research_objective": "識別 CLDN18.2 與胰臟導管腺癌 (PDAC) 關聯的主要證據來源類型，區分體細胞突變、表現量資料與文獻證據的相對貢獻",
+    "entities": [
+      {
+        "entity_ref": "disease_pdac",
+        "entity_type": "disease",
+        "mention": "胰臟癌",
+        "search_candidates": [
+          {
+            "text": "pancreatic ductal adenocarcinoma",
+            "generation_basis": "使用者已確認胰臟癌指 PDAC，採 MONDO_0005184 研究範圍"
+          }
+        ],
+        "entity_id": "MONDO_0005184",
+        "canonical_name": null,
+        "resolution_status": "unresolved"
+      },
+      {
+        "entity_ref": "target_cldn18_2",
+        "entity_type": "target",
+        "mention": "CLDN18.2",
+        "search_candidates": [
+          {
+            "text": "CLDN18",
+            "generation_basis": "CLDN18.2 為 CLDN18 基因的第 2 種剪接變體，常以 CLDN18 為基因符號檢索"
+          },
+          {
+            "text": "Claudin 18.2",
+            "generation_basis": "蛋白質常用名稱，文獻檢索常用"
+          }
+        ],
+        "entity_id": null,
+        "canonical_name": null,
+        "resolution_status": "unresolved"
+      }
+    ],
+    "plan_steps": [
+      {
+        "step_id": "resolve_target_cldn18_2",
+        "operation": "resolve_target",
+        "operation_status": "approved",
+        "proposed_operation_name": null,
+        "proposal_reason": null,
+        "description": "解析 CLDN18.2 為標準目標實體，取得 Ensembl ID 供後續精確配對查詢",
+        "depends_on": [],
+        "entity_refs": [
+          "target_cldn18_2"
+        ],
+        "sources": [
+          "open_targets"
+        ],
+        "outputs": [
+          "resolved_target_cldn18_2"
+        ],
+        "filters": {},
+        "ranking": null,
+        "aggregation": null,
+        "safeguards": [
+          "missing_not_negative",
+          "provenance_pagination_truncation"
+        ]
+      },
+      {
+        "step_id": "retrieve_exact_pair_cldn18_2_pdac",
+        "operation": "retrieve_exact_pair",
+        "operation_status": "approved",
+        "proposed_operation_name": null,
+        "proposal_reason": null,
+        "description": "以已解析的 CLDN18.2 與 PDAC (MONDO_0005184) 執行精確疾病-目標關聯查詢，取得整體關聯分數與基礎資料來源",
+        "depends_on": [
+          "resolve_target_cldn18_2"
+        ],
+        "entity_refs": [
+          "disease_pdac",
+          "target_cldn18_2"
+        ],
+        "sources": [
+          "open_targets"
+        ],
+        "outputs": [
+          "exact_pair_association"
+        ],
+        "filters": {},
+        "ranking": null,
+        "aggregation": null,
+        "safeguards": [
+          "association_does_not_imply_efficacy",
+          "association_score_not_probability",
+          "missing_not_negative",
+          "provenance_pagination_truncation"
+        ]
+      },
+      {
+        "step_id": "retrieve_datasource_scores_cldn18_2_pdac",
+        "operation": "retrieve_datasource_scores",
+        "operation_status": "approved",
+        "proposed_operation_name": null,
+        "proposal_reason": null,
+        "description": "取得 CLDN18.2-PDAC 精確配對的資料來源層級分數，區分遺傳學(體細胞突變)、RNA 表現量、文獻等證據類型的貢獻",
+        "depends_on": [
+          "resolve_target_cldn18_2"
+        ],
+        "entity_refs": [
+          "disease_pdac",
+          "target_cldn18_2"
+        ],
+        "sources": [
+          "open_targets"
+        ],
+        "outputs": [
+          "datasource_scores"
+        ],
+        "filters": {},
+        "ranking": null,
+        "aggregation": null,
+        "safeguards": [
+          "missing_not_negative",
+          "provenance_pagination_truncation"
+        ]
+      },
+      {
+        "step_id": "retrieve_publications_cldn18_2_pdac",
+        "operation": "retrieve_publications",
+        "operation_status": "approved",
+        "proposed_operation_name": null,
+        "proposal_reason": null,
+        "description": "檢索 CLDN18.2 與胰臟導管腺癌相關文獻，直接觀察文獻證據的數量與主題分布",
+        "depends_on": [],
+        "entity_refs": [
+          "disease_pdac",
+          "target_cldn18_2"
+        ],
+        "sources": [
+          "europe_pmc"
+        ],
+        "outputs": [
+          "publication_evidence"
+        ],
+        "filters": {},
+        "ranking": null,
+        "aggregation": null,
+        "safeguards": [
+          "missing_not_negative",
+          "provenance_pagination_truncation"
+        ]
+      }
+    ],
+    "evidence_requirements": [
+      "CLDN18.2-PDAC 關聯的整體分數與資料來源構成",
+      "各資料來源(遺傳學/體細胞突變、RNA 表現量、文獻、其他)的分數貢獻",
+      "相關文獻的主題與數量概況"
+    ],
+    "completion_criteria": [
+      "完成 CLDN18.2 目標解析",
+      "取得 CLDN18.2-PDAC 精確配對關聯與資料來源分數",
+      "取得相關文獻檢索結果",
+      "能比較體細胞突變、表現量資料、文獻三類證據的相對權重"
+    ],
+    "global_safeguards": [
+      "association_does_not_imply_efficacy",
+      "association_score_not_probability",
+      "missing_not_negative",
+      "provenance_pagination_truncation"
+    ],
+    "characteristics": {
+      "primary": "evidence_directed",
+      "secondary": [
+        "filter_and_rank",
+        "comparison_and_aggregation"
+      ]
+    },
+    "created_before_retrieval": true,
+    "generated_at": "2026-11-10T06:12:32.834174Z"
+  },
+  "failed_patch": {
+    "remove_entity_refs": [],
+    "upsert_entities": [],
+    "remove_step_ids": [],
+    "upsert_steps": [
+      {
+        "step_id": "resolve_disease_pdac",
+        "operation": "resolve_disease",
+        "operation_status": "approved",
+        "proposed_operation_name": null,
+        "proposal_reason": null,
+        "description": "解析胰臟癌 (PDAC) 為標準疾病實體，取得 MONDO ID 供後續精確配對查詢",
+        "depends_on": [],
+        "entity_refs": [
+          "disease_pdac"
+        ],
+        "sources": [
+          "open_targets"
+        ],
+        "outputs": [
+          "resolved_disease_pdac"
+        ],
+        "filters": {},
+        "ranking": null,
+        "aggregation": null,
+        "safeguards": [
+          "missing_not_negative",
+          "provenance_pagination_truncation"
+        ]
+      },
+      {
+        "step_id": "retrieve_exact_pair_cldn18_2_pdac",
+        "operation": "retrieve_exact_pair",
+        "operation_status": "approved",
+        "proposed_operation_name": null,
+        "proposal_reason": null,
+        "description": "以已解析的 CLDN18.2 與 PDAC (MONDO_0005184) 執行精確疾病-目標關聯查詢，取得整體關聯分數與基礎資料來源",
+        "depends_on": [
+          "resolve_target_cldn18_2",
+          "resolve_disease_pdac"
+        ],
+        "entity_refs": [
+          "disease_pdac",
+          "target_cldn18_2"
+        ],
+        "sources": [
+          "open_targets"
+        ],
+        "outputs": [
+          "exact_pair_association"
+        ],
+        "filters": {},
+        "ranking": null,
+        "aggregation": null,
+        "safeguards": [
+          "association_does_not_imply_efficacy",
+          "association_score_not_probability",
+          "missing_not_negative",
+          "provenance_pagination_truncation"
+        ]
+      },
+      {
+        "step_id": "retrieve_datasource_scores_cldn18_2_pdac",
+        "operation": "retrieve_datasource_scores",
+        "operation_status": "approved",
+        "proposed_operation_name": null,
+        "proposal_reason": null,
+        "description": "取得 CLDN18.2-PDAC 精確配對的資料來源層級分數，區分遺傳學(體細胞突變)、RNA 表現量、文獻等證據類型的貢獻",
+        "depends_on": [
+          "resolve_target_cldn18_2",
+          "resolve_disease_pdac"
+        ],
+        "entity_refs": [
+          "disease_pdac",
+          "target_cldn18_2"
+        ],
+        "sources": [
+          "open_targets"
+        ],
+        "outputs": [
+          "datasource_scores"
+        ],
+        "filters": {},
+        "ranking": null,
+        "aggregation": null,
+        "safeguards": [
+          "missing_not_negative",
+          "provenance_pagination_truncation"
+        ]
+      }
+    ],
+    "step_order": null,
+    "research_objective": null,
+    "evidence_requirements": null,
+    "completion_criteria": null,
+    "global_safeguards": null,
+    "characteristics": null
+  },
+  "historical_scope": {
+    "entity_refs": [],
+    "step_ids": [
+      "retrieve_exact_pair_cldn18_2_pdac"
+    ],
+    "entity_reference_step_ids": [],
+    "new_operations": [],
+    "top_level_fields": [],
+    "allow_new_entities": false,
+    "allow_step_order": false
+  },
+  "human_context": {
+    "original_question": "CLDN18.2 與胰臟癌的關聯，主要來自哪類證據?體細胞突變、表現量資料還是文獻?",
+    "confirmation_question": "統籌轉述的確認事項（非原始問句逐字）：本題「胰臟癌」指 PDAC（胰臟導管腺癌），採 MONDO_0005184 研究範圍。",
+    "user_response": "統籌轉述：使用者已明確確認本題「胰臟癌」為上述 PDAC 範圍。原題其餘條件不變。",
+    "approval_basis": "explicit_user_scope_confirmation",
+    "entities": [
+      {
+        "entity_type": "disease",
+        "mentions": [
+          "胰臟癌"
+        ],
+        "entity_id": "MONDO_0005184",
+        "source_name": "pancreatic ductal adenocarcinoma"
+      }
+    ],
+    "run_id": "dc13b1da-9fd3-4021-a3c3-7d94a42bd4c4"
+  }
+}

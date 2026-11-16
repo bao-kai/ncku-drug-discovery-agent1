@@ -34,6 +34,42 @@ query TargetIdentity($ensemblId: String!) {
 }
 """
 
+BASELINE_EXPRESSION_QUERY = """
+query TargetBaselineExpression($ensemblId:String!, $rowOffset:Int!, $pageSize:Int!) {
+  target(ensemblId:$ensemblId) { id approvedSymbol
+    baselineExpression(page:{index:$rowOffset,size:$pageSize}) { count rows {
+      targetId targetFromSourceId datatypeId datasourceId unit
+      min q1 median q3 max qualityControls specificity_score distribution_score
+      tissueBiosampleFromSource celltypeBiosampleFromSource
+      tissueBiosample { biosampleId biosampleName }
+      tissueBiosampleParent { biosampleId biosampleName }
+      celltypeBiosample { biosampleId biosampleName }
+      celltypeBiosampleParent { biosampleId biosampleName }
+    } }
+  }
+}
+"""
+
+DISEASE_ALIAS_QUERY = """
+query DiseaseIdentityAliases($efoId: String!) {
+  disease(efoId: $efoId) { id name synonyms { terms relation } }
+}
+"""
+
+TARGET_ALIAS_QUERY = """
+query TargetIdentityAliases($ensemblId: String!) {
+  target(ensemblId: $ensemblId) { id approvedSymbol approvedName synonyms { label source } }
+}
+"""
+
+DISEASE_SCOPE_QUERY = """
+query DiseaseIdentityScope($efoId: String!) {
+  disease(efoId: $efoId) {
+    id name description parents { id name } ancestors synonyms { terms relation }
+  }
+}
+"""
+
 DISEASE_TARGET_ASSOCIATION_QUERY = """
 query DiseaseAssociatedTargets($efoId: String!, $pageSize: Int!) {
   disease(efoId: $efoId) {
@@ -331,9 +367,51 @@ def search_entity_candidates(name: str, entity: str, limit: int = 5) -> list[dic
     return [{"id": hit["id"], "name": hit["name"]} for hit in hits[:limit]]
 
 
+def _identity_alias_terms(record, entity):
+    for field in ('name',) if entity == 'disease' else ('approvedSymbol', 'approvedName'):
+        if record.get(field):
+            yield record[field], '/' + field, 'open_targets'
+    for i, alias in enumerate(record.get('synonyms') or []):
+        if entity == 'disease':
+            if alias.get('relation') == 'hasExactSynonym':
+                for j, term in enumerate(alias['terms']):
+                    yield term, f'/synonyms/{i}/terms/{j}', 'open_targets'
+        elif alias.get('label') and alias.get('source'):
+            yield alias['label'], f'/synonyms/{i}/label', alias['source']
+
+
+def choose_source_candidate(names, entity, candidates, fetch_identity):
+    """Select only a unique exact source name/alias among returned candidates.
+
+    fetch_identity is injected so the executor records every candidate lookup.
+    Related/broad/narrow disease synonyms and fuzzy search rank are not identity.
+    """
+    normalized = {_normalized_entity_name(name) for name in names}
+    candidates = list({c['id']: c for c in candidates}.values())
+    exact = [c for c in candidates if _normalized_entity_name(c['name']) in normalized]
+    if len(exact) == 1:
+        return exact[0], dict(basis='source_search_name', matched_term=exact[0]['name']), None
+    if len(exact) > 1:
+        raise EntityResolutionError(names[0], entity, candidates)
+    matches = []
+    for candidate in candidates:
+        record = fetch_identity(candidate['id'])
+        if not record or record.get('id') != candidate['id']:
+            raise OpenTargetsError(f'Candidate identity mismatch or unavailable: {candidate["id"]}')
+        match = next(((term, pointer, source) for term, pointer, source in _identity_alias_terms(record, entity)
+                      if _normalized_entity_name(term) in normalized), None)
+        if match:
+            term, pointer, source = match
+            matches.append((candidate, dict(basis='source_identity_alias', matched_term=term,
+                                           json_pointer=pointer, source=source), record))
+    if len(matches) != 1:
+        raise EntityResolutionError(names[0], entity, candidates)
+    return matches[0]
+
+
 def resolve_entity(
     name: str, entity: str, entity_id: str | None = None
-) -> dict[str, str]:
+) -> dict[str, Any]:
     """Resolve a disease or target before any LLM planning occurs."""
     if entity not in {"disease", "target"}:
         raise ValueError("entity must be 'disease' or 'target'")
@@ -352,17 +430,18 @@ def resolve_entity(
             "symbol": record.get("approvedSymbol") or "",
         }
     candidates = search_entity_candidates(name, entity)
-    normalized_query = _normalized_entity_name(name)
-    exact = [
-        candidate
-        for candidate in candidates
-        if _normalized_entity_name(candidate["name"]) == normalized_query
-    ]
-    if len(exact) != 1:
-        if not candidates:
-            raise OpenTargetsError(f"{entity.title()} not found: {name}")
-        raise EntityResolutionError(name, entity, candidates)
-    return {**exact[0], "symbol": name if entity == "target" else ""}
+    if not candidates:
+        raise OpenTargetsError(f"{entity.title()} not found: {name}")
+    query = DISEASE_ALIAS_QUERY if entity == 'disease' else TARGET_ALIAS_QUERY
+    key = 'efoId' if entity == 'disease' else 'ensemblId'
+    candidate, proof, identity = choose_source_candidate(
+        [name], entity, candidates, lambda eid: _graphql(query, {key: eid}).get(entity))
+    result = {**candidate, 'symbol': (identity or {}).get('approvedSymbol', name) if entity == 'target' else ''}
+    if identity is not None:
+        result['name'] = identity.get('name') or identity.get('approvedName') or candidate['name']
+        result['resolution_evidence'] = dict(source_url=ENDPOINT, query=query,
+            variables={key: candidate['id']}, native_identity=identity, match=proof)
+    return result
 
 
 def get_efo_id(disease_name: str) -> str | None:

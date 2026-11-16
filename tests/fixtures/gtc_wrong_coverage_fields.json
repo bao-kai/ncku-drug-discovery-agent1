@@ -1,0 +1,421 @@
+{
+  "origin": "outputs\\gtc_generic_repairs_20261109\\coverage_q1\\organization.json",
+  "sha256": "b1d2d6441ba53faee2590c78f2b0701cc343af2866a45101b3e26d6d87b1f86c",
+  "cases": [
+    {
+      "group_id": "16e7714c-49da-5be3-8d84-be028591f816",
+      "flag_index": 0,
+      "original_flag": {
+        "question_id": "Q1",
+        "evidence_ids": [
+          "E14"
+        ],
+        "missing_material": "Open Targets 中胰臟癌 (PDAC) 的完整疾病-標的關聯集合（僅擷取 10 筆，共 7656 筆）",
+        "coverage_refs": [
+          {
+            "coverage_id": "2c12f45a-3768-54ce-a027-8de525ad6ba1",
+            "subject_ref": "disease:MONDO_0005184",
+            "source": "open_targets",
+            "material_kind": "association_collection",
+            "required_pointer": "/disease/associatedTargets"
+          }
+        ],
+        "subject_ref": null
+      },
+      "state": "typed_coverage",
+      "references": [
+        {
+          "coverage_id": "2c12f45a-3768-54ce-a027-8de525ad6ba1",
+          "subject_ref": "disease:MONDO_0005184",
+          "source": "open_targets",
+          "material_kind": "association_collection",
+          "state": "partial",
+          "collection_state": "partial",
+          "call_id": "discover_targets_1:call_3",
+          "json_pointer": "/disease/associatedTargets",
+          "required_pointer": "/disease/associatedTargets",
+          "detail_state": "missing_or_partial",
+          "matched_snapshot_ids": [],
+          "missing_detail_snapshot_ids": [
+            "17ac2f6d-6b13-5720-967d-a9b3c6ea2a84",
+            "f4d161ae-f55b-54b3-b92a-6c36bdc01b1c",
+            "e86a1138-85e5-5707-9081-475dfba87c06",
+            "e1a981ba-eac5-54f2-88bb-5ce66b927ac2",
+            "64430d13-56c7-575b-b789-5491e26f9878",
+            "8ae14aa3-6e74-5aac-8e60-26961b0b6163",
+            "66f16703-90ff-54a4-91bf-f4197fc0d98f",
+            "4688e968-ea0e-517f-9760-0158ab65ebd8",
+            "bb673d60-8d34-5d04-bb1f-4338558b4bc6",
+            "b18ee805-0f39-5117-aec9-02035e303627"
+          ],
+          "reuse_snapshot_ids": [],
+          "judgment": "Collection/field availability only; requested conditions and scientific sufficiency require review."
+        }
+      ]
+    },
+    {
+      "group_id": "258a004c-f142-5dcc-9b06-fce3ba33c71f",
+      "flag_index": 0,
+      "original_flag": {
+        "question_id": "Q1",
+        "evidence_ids": [],
+        "missing_material": "PDAC (MONDO_0005184) 完整的疾病-標的關聯集合：Open Targets 顯示共 7,656 個關聯標的，本次僅擷取前 10 筆（CDKN2A 為第 3 筆），其餘 7,646 筆未獲取。",
+        "coverage_refs": [
+          {
+            "coverage_id": "2c12f45a-3768-54ce-a027-8de525ad6ba1",
+            "subject_ref": "disease:MONDO_0005184",
+            "source": "open_targets",
+            "material_kind": "association_collection",
+            "required_pointer": "/disease/associatedTargets"
+          }
+        ],
+        "subject_ref": null
+      },
+      "state": "typed_coverage",
+      "references": [
+        {
+          "coverage_id": "2c12f45a-3768-54ce-a027-8de525ad6ba1",
+          "subject_ref": "disease:MONDO_0005184",
+          "source": "open_targets",
+          "material_kind": "association_collection",
+          "state": "partial",
+          "collection_state": "partial",
+          "call_id": "discover_targets_1:call_3",
+          "json_pointer": "/disease/associatedTargets",
+          "required_pointer": "/disease/associatedTargets",
+          "detail_state": "missing_or_partial",
+          "matched_snapshot_ids": [],
+          "missing_detail_snapshot_ids": [
+            "17ac2f6d-6b13-5720-967d-a9b3c6ea2a84",
+            "f4d161ae-f55b-54b3-b92a-6c36bdc01b1c",
+            "e86a1138-85e5-5707-9081-475dfba87c06",
+            "e1a981ba-eac5-54f2-88bb-5ce66b927ac2",
+            "64430d13-56c7-575b-b789-5491e26f9878",
+            "8ae14aa3-6e74-5aac-8e60-26961b0b6163",
+            "66f16703-90ff-54a4-91bf-f4197fc0d98f",
+            "4688e968-ea0e-517f-9760-0158ab65ebd8",
+            "bb673d60-8d34-5d04-bb1f-4338558b4bc6",
+            "b18ee805-0f39-5117-aec9-02035e303627"
+          ],
+          "reuse_snapshot_ids": [],
+          "judgment": "Collection/field availability only; requested conditions and scientific sufficiency require review."
+        }
+      ]
+    },
+    {
+      "group_id": "258a004c-f142-5dcc-9b06-fce3ba33c71f",
+      "flag_index": 1,
+      "original_flag": {
+        "question_id": "Q1",
+        "evidence_ids": [],
+        "missing_material": "標的 CDKN2A (ENSG00000147889) 的已知藥物證據：Open Targets target/drugAndClinicalCandidates 查詢回傳空結果（0 筆），無法提供該標的的藥物關係與機制資訊。",
+        "coverage_refs": [
+          {
+            "coverage_id": "0a789d31-5809-574a-a642-ca3f207f8f95",
+            "subject_ref": "target:ENSG00000147889",
+            "source": "open_targets",
+            "material_kind": "target_drugs",
+            "required_pointer": "/target/drugAndClinicalCandidates"
+          }
+        ],
+        "subject_ref": null
+      },
+      "state": "typed_coverage",
+      "references": [
+        {
+          "coverage_id": "0a789d31-5809-574a-a642-ca3f207f8f95",
+          "subject_ref": "target:ENSG00000147889",
+          "source": "open_targets",
+          "material_kind": "target_drugs",
+          "state": "empty_result",
+          "collection_state": "empty_result",
+          "call_id": "retrieve_target_drugs_1:call_6",
+          "json_pointer": "/target/drugAndClinicalCandidates",
+          "required_pointer": "/target/drugAndClinicalCandidates",
+          "detail_state": "missing_or_partial",
+          "matched_snapshot_ids": [],
+          "missing_detail_snapshot_ids": [],
+          "reuse_snapshot_ids": [],
+          "judgment": "Collection/field availability only; requested conditions and scientific sufficiency require review."
+        }
+      ]
+    },
+    {
+      "group_id": "4f3ecc01-b8f3-5cc4-9d74-65e2dee58853",
+      "flag_index": 0,
+      "original_flag": {
+        "question_id": "Q1",
+        "evidence_ids": [],
+        "missing_material": "Open Targets 疾病-標的關聯完整集合：PDAC (MONDO_0005184) 共有 7,656 個關聯標的，僅擷取前 10 筆，其餘 7,646 筆未獲取。",
+        "coverage_refs": [
+          {
+            "coverage_id": "2c12f45a-3768-54ce-a027-8de525ad6ba1",
+            "subject_ref": "disease:MONDO_0005184",
+            "source": "open_targets",
+            "material_kind": "association_collection",
+            "required_pointer": "/disease/associatedTargets"
+          }
+        ],
+        "subject_ref": null
+      },
+      "state": "typed_coverage",
+      "references": [
+        {
+          "coverage_id": "2c12f45a-3768-54ce-a027-8de525ad6ba1",
+          "subject_ref": "disease:MONDO_0005184",
+          "source": "open_targets",
+          "material_kind": "association_collection",
+          "state": "partial",
+          "collection_state": "partial",
+          "call_id": "discover_targets_1:call_3",
+          "json_pointer": "/disease/associatedTargets",
+          "required_pointer": "/disease/associatedTargets",
+          "detail_state": "missing_or_partial",
+          "matched_snapshot_ids": [],
+          "missing_detail_snapshot_ids": [
+            "17ac2f6d-6b13-5720-967d-a9b3c6ea2a84",
+            "f4d161ae-f55b-54b3-b92a-6c36bdc01b1c",
+            "e86a1138-85e5-5707-9081-475dfba87c06",
+            "e1a981ba-eac5-54f2-88bb-5ce66b927ac2",
+            "64430d13-56c7-575b-b789-5491e26f9878",
+            "8ae14aa3-6e74-5aac-8e60-26961b0b6163",
+            "66f16703-90ff-54a4-91bf-f4197fc0d98f",
+            "4688e968-ea0e-517f-9760-0158ab65ebd8",
+            "bb673d60-8d34-5d04-bb1f-4338558b4bc6",
+            "b18ee805-0f39-5117-aec9-02035e303627"
+          ],
+          "reuse_snapshot_ids": [],
+          "judgment": "Collection/field availability only; requested conditions and scientific sufficiency require review."
+        }
+      ]
+    },
+    {
+      "group_id": "4f3ecc01-b8f3-5cc4-9d74-65e2dee58853",
+      "flag_index": 1,
+      "original_flag": {
+        "question_id": "Q1",
+        "evidence_ids": [],
+        "missing_material": "ChEMBL 機制資料完整集合：針對 19 個標的的 ChEMBL ID 查詢共 126 筆機制記錄，僅擷取前 20 筆，其餘 106 筆未獲取。",
+        "coverage_refs": [
+          {
+            "coverage_id": "603be746-2a17-5107-8dfb-1e7bba1b4245",
+            "subject_ref": "call:retrieve_target_drugs_1:call_25",
+            "source": "chembl",
+            "material_kind": "chembl_mechanisms",
+            "required_pointer": "/mechanisms"
+          }
+        ],
+        "subject_ref": null
+      },
+      "state": "typed_coverage",
+      "references": [
+        {
+          "coverage_id": "603be746-2a17-5107-8dfb-1e7bba1b4245",
+          "subject_ref": "call:retrieve_target_drugs_1:call_25",
+          "source": "chembl",
+          "material_kind": "chembl_mechanisms",
+          "state": "partial",
+          "collection_state": "partial",
+          "call_id": "retrieve_target_drugs_1:call_25",
+          "json_pointer": "/mechanisms",
+          "required_pointer": "/mechanisms",
+          "detail_state": "missing_or_partial",
+          "matched_snapshot_ids": [],
+          "missing_detail_snapshot_ids": [
+            "c9bf43f9-d6e0-5b81-b063-12b7db131238",
+            "13f9b1b2-f555-52dd-b5f8-56a0bab46522",
+            "4d90f289-dc1b-5e77-83a3-411fbe6dcafe",
+            "c3bdbd74-26a1-52b6-8cf6-b3a6451f4752",
+            "ceaf3562-737c-502d-ae6e-38cfdaed5efe",
+            "78ff400c-5bda-5f49-a079-c995467350a8",
+            "054b1c9b-283e-5d40-8312-2beb761cefaf",
+            "754373e6-c194-58bf-a68e-7114b9bf75da",
+            "d99ce999-69b4-565d-b549-0391111147b7",
+            "a1615f87-a539-579a-a3d5-e877d3d38d2b",
+            "90855f23-cd36-5691-8616-fd039d1891cb",
+            "9fa4e183-08dc-5169-8f9b-f6a0358f9e69",
+            "c29e04b2-f259-5c17-9fc1-3277171ed3f8",
+            "0d016b04-ab05-52fe-b65e-d0a39a27c385",
+            "5d756b7e-1029-5e2d-bb66-fef330e268e5",
+            "45072773-cda1-5762-b462-5e1ad1b3823b",
+            "ddaa3c79-8455-5ad8-83c8-8ca13e4100d4",
+            "30c03990-a2f0-5007-8677-b147e00d8d2f",
+            "7909c3ab-313d-5365-82a7-791c2251ef39",
+            "88d47ac1-dfe4-549f-a666-dab9fc6ca577"
+          ],
+          "reuse_snapshot_ids": [],
+          "judgment": "Collection/field availability only; requested conditions and scientific sufficiency require review."
+        }
+      ]
+    },
+    {
+      "group_id": "50bffa4d-3a91-5284-9b90-dfbd8f9c2670",
+      "flag_index": 0,
+      "original_flag": {
+        "question_id": "Q1",
+        "evidence_ids": [],
+        "missing_material": "Open Targets 疾病-標的關聯集合僅回傳前 10 筆（共 7656 筆），其餘 7646 筆關聯未擷取",
+        "coverage_refs": [
+          {
+            "coverage_id": "2c12f45a-3768-54ce-a027-8de525ad6ba1",
+            "subject_ref": "disease:MONDO_0005184",
+            "source": "open_targets",
+            "material_kind": "association_collection",
+            "required_pointer": "/disease/associatedTargets"
+          }
+        ],
+        "subject_ref": null
+      },
+      "state": "typed_coverage",
+      "references": [
+        {
+          "coverage_id": "2c12f45a-3768-54ce-a027-8de525ad6ba1",
+          "subject_ref": "disease:MONDO_0005184",
+          "source": "open_targets",
+          "material_kind": "association_collection",
+          "state": "partial",
+          "collection_state": "partial",
+          "call_id": "discover_targets_1:call_3",
+          "json_pointer": "/disease/associatedTargets",
+          "required_pointer": "/disease/associatedTargets",
+          "detail_state": "missing_or_partial",
+          "matched_snapshot_ids": [],
+          "missing_detail_snapshot_ids": [
+            "17ac2f6d-6b13-5720-967d-a9b3c6ea2a84",
+            "f4d161ae-f55b-54b3-b92a-6c36bdc01b1c",
+            "e86a1138-85e5-5707-9081-475dfba87c06",
+            "e1a981ba-eac5-54f2-88bb-5ce66b927ac2",
+            "64430d13-56c7-575b-b789-5491e26f9878",
+            "8ae14aa3-6e74-5aac-8e60-26961b0b6163",
+            "66f16703-90ff-54a4-91bf-f4197fc0d98f",
+            "4688e968-ea0e-517f-9760-0158ab65ebd8",
+            "bb673d60-8d34-5d04-bb1f-4338558b4bc6",
+            "b18ee805-0f39-5117-aec9-02035e303627"
+          ],
+          "reuse_snapshot_ids": [],
+          "judgment": "Collection/field availability only; requested conditions and scientific sufficiency require review."
+        }
+      ]
+    },
+    {
+      "group_id": "50bffa4d-3a91-5284-9b90-dfbd8f9c2670",
+      "flag_index": 1,
+      "original_flag": {
+        "question_id": "Q1",
+        "evidence_ids": [],
+        "missing_material": "ChEMBL 機制資料僅回傳前 20 筆（共 126 筆），其餘 106 筆機制未擷取",
+        "coverage_refs": [
+          {
+            "coverage_id": "603be746-2a17-5107-8dfb-1e7bba1b4245",
+            "subject_ref": "call:retrieve_target_drugs_1:call_25",
+            "source": "chembl",
+            "material_kind": "chembl_mechanisms",
+            "required_pointer": "/mechanisms"
+          }
+        ],
+        "subject_ref": null
+      },
+      "state": "typed_coverage",
+      "references": [
+        {
+          "coverage_id": "603be746-2a17-5107-8dfb-1e7bba1b4245",
+          "subject_ref": "call:retrieve_target_drugs_1:call_25",
+          "source": "chembl",
+          "material_kind": "chembl_mechanisms",
+          "state": "partial",
+          "collection_state": "partial",
+          "call_id": "retrieve_target_drugs_1:call_25",
+          "json_pointer": "/mechanisms",
+          "required_pointer": "/mechanisms",
+          "detail_state": "missing_or_partial",
+          "matched_snapshot_ids": [],
+          "missing_detail_snapshot_ids": [
+            "c9bf43f9-d6e0-5b81-b063-12b7db131238",
+            "13f9b1b2-f555-52dd-b5f8-56a0bab46522",
+            "4d90f289-dc1b-5e77-83a3-411fbe6dcafe",
+            "c3bdbd74-26a1-52b6-8cf6-b3a6451f4752",
+            "ceaf3562-737c-502d-ae6e-38cfdaed5efe",
+            "78ff400c-5bda-5f49-a079-c995467350a8",
+            "054b1c9b-283e-5d40-8312-2beb761cefaf",
+            "754373e6-c194-58bf-a68e-7114b9bf75da",
+            "d99ce999-69b4-565d-b549-0391111147b7",
+            "a1615f87-a539-579a-a3d5-e877d3d38d2b",
+            "90855f23-cd36-5691-8616-fd039d1891cb",
+            "9fa4e183-08dc-5169-8f9b-f6a0358f9e69",
+            "c29e04b2-f259-5c17-9fc1-3277171ed3f8",
+            "0d016b04-ab05-52fe-b65e-d0a39a27c385",
+            "5d756b7e-1029-5e2d-bb66-fef330e268e5",
+            "45072773-cda1-5762-b462-5e1ad1b3823b",
+            "ddaa3c79-8455-5ad8-83c8-8ca13e4100d4",
+            "30c03990-a2f0-5007-8677-b147e00d8d2f",
+            "7909c3ab-313d-5365-82a7-791c2251ef39",
+            "88d47ac1-dfe4-549f-a666-dab9fc6ca577"
+          ],
+          "reuse_snapshot_ids": [],
+          "judgment": "Collection/field availability only; requested conditions and scientific sufficiency require review."
+        }
+      ]
+    },
+    {
+      "group_id": "1bd650dc-b598-56be-a7a9-bbe1679227ff",
+      "flag_index": 0,
+      "original_flag": {
+        "question_id": "Q1",
+        "evidence_ids": [
+          "E132"
+        ],
+        "missing_material": "ChEMBL機制資料僅擷取20筆（limit=20），總計126筆，尚有106筆未擷取的機制記錄",
+        "coverage_refs": [
+          {
+            "coverage_id": "603be746-2a17-5107-8dfb-1e7bba1b4245",
+            "subject_ref": "call:retrieve_target_drugs_1:call_25",
+            "source": "chembl",
+            "material_kind": "chembl_mechanisms",
+            "required_pointer": "/mechanisms"
+          }
+        ],
+        "subject_ref": null
+      },
+      "state": "typed_coverage",
+      "references": [
+        {
+          "coverage_id": "603be746-2a17-5107-8dfb-1e7bba1b4245",
+          "subject_ref": "call:retrieve_target_drugs_1:call_25",
+          "source": "chembl",
+          "material_kind": "chembl_mechanisms",
+          "state": "partial",
+          "collection_state": "partial",
+          "call_id": "retrieve_target_drugs_1:call_25",
+          "json_pointer": "/mechanisms",
+          "required_pointer": "/mechanisms",
+          "detail_state": "missing_or_partial",
+          "matched_snapshot_ids": [],
+          "missing_detail_snapshot_ids": [
+            "c9bf43f9-d6e0-5b81-b063-12b7db131238",
+            "13f9b1b2-f555-52dd-b5f8-56a0bab46522",
+            "4d90f289-dc1b-5e77-83a3-411fbe6dcafe",
+            "c3bdbd74-26a1-52b6-8cf6-b3a6451f4752",
+            "ceaf3562-737c-502d-ae6e-38cfdaed5efe",
+            "78ff400c-5bda-5f49-a079-c995467350a8",
+            "054b1c9b-283e-5d40-8312-2beb761cefaf",
+            "754373e6-c194-58bf-a68e-7114b9bf75da",
+            "d99ce999-69b4-565d-b549-0391111147b7",
+            "a1615f87-a539-579a-a3d5-e877d3d38d2b",
+            "90855f23-cd36-5691-8616-fd039d1891cb",
+            "9fa4e183-08dc-5169-8f9b-f6a0358f9e69",
+            "c29e04b2-f259-5c17-9fc1-3277171ed3f8",
+            "0d016b04-ab05-52fe-b65e-d0a39a27c385",
+            "5d756b7e-1029-5e2d-bb66-fef330e268e5",
+            "45072773-cda1-5762-b462-5e1ad1b3823b",
+            "ddaa3c79-8455-5ad8-83c8-8ca13e4100d4",
+            "30c03990-a2f0-5007-8677-b147e00d8d2f",
+            "7909c3ab-313d-5365-82a7-791c2251ef39",
+            "88d47ac1-dfe4-549f-a666-dab9fc6ca577"
+          ],
+          "reuse_snapshot_ids": [],
+          "judgment": "Collection/field availability only; requested conditions and scientific sufficiency require review."
+        }
+      ]
+    }
+  ]
+}
